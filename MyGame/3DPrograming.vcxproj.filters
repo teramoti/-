@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Common">
+      <UniqueIdentifier>c2d376cd-01d3-4161-ae70-8caf697a9abf</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assets">
+      <UniqueIdentifier>33d27b96-0970-45dd-ba5c-04a726dfdc18</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dds;dlg;fbx;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{d5aae16e-bdc4-417b-8dcb-e89007e9684e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utillity">
+      <UniqueIdentifier>{d108a6ec-13ab-47aa-b985-a5ceba804569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{df4e2af9-7d78-4b71-9f2f-063be8f9105d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Result">
+      <UniqueIdentifier>{a824c3b6-448f-464c-bc6d-dd13fb1b0b48}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ADX2L">
+      <UniqueIdentifier>{17fb4a8c-25c8-46f2-888b-8f10bf3e536c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{7e4124af-8913-4e0f-90db-71e7bb290bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\Title">
+      <UniqueIdentifier>{9214e2cb-b9dd-4d53-a3fd-ca675578a2af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameScene">
+      <UniqueIdentifier>{5e4b012a-28aa-4635-8b70-f437f24efdb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameScene\Player">
+      <UniqueIdentifier>{a555bf65-38ef-428c-b3f9-9e7f93c40308}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\GameScene\Cource">
+      <UniqueIdentifier>{86c3720f-1e67-4b8a-b1d9-02dc5121ac15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="StepTimer.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DeviceResources.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugCamera.h" />
+    <ClInclude Include="GridFloor.h" />
+    <ClInclude Include="CollisionMesh.h" />
+    <ClInclude Include="Collision.h" />
+    <ClInclude Include="MyGame\Utillity\Flag.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\Math.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\SingletonBase.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\Object.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\InputManager.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\DrawManager.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\Camera.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollisionManager.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollisionNode.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollision.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultBackGorund.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultHighTime.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultKeyDown.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultRank.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultRecord.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultScene.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultTime.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultTimeComma.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultWordTime.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\Time.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\TimeComma.h">
+      <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\GameSabe.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\GameSaveData.h">
+      <Filter>NewFilter1</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\ADX2Le.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_adx2le.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_asr.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_ex.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_ex_monitor.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_pc.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_wasapi.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_error.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_file_system.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\ADX2\include\cri_le_xpt.h">
+      <Filter>ADX2L</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitlePlayer.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleAroow.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleBackGround.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleBackPicture.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleGoEnd.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleGoGame.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleKeyDown.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleLogo.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleScene.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleStarEffect.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\CheckPoint.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\CountDown.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\GameReadyWord.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\GameScene.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\GameScore.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\GameTime.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\Base\SceneBase.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\SceneManager\SceneManager.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\TpsCamera.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\Shadow.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\TestPlayer.h">
+      <Filter>Scene\GameScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\Cource.h">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\DirectX11.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="DeviceResources.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugCamera.cpp" />
+    <ClCompile Include="GridFloor.cpp" />
+    <ClCompile Include="CollisionMesh.cpp" />
+    <ClCompile Include="MyGame\Utillity\Math.cpp">
+      <Filter>Utillity</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\Object.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\DrawManager.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\InputManager.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\Camera.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollisionManager.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollisionNode.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollision.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultBackGorund.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultHighTime.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultKeyDown.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultRank.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultRecord.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultScene.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultTime.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultTimeComma.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultWordTime.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Time.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\TimeComma.cpp">
+      <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\GameSaveData.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\ADX2\ADX2Le.cpp">
+      <Filter>ADX2L</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\GameSabe.cpp">
+      <Filter>NewFilter1</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitlePlayer.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleAroow.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleBackGround.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleBackPicture.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleGoEnd.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleGoGame.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleKeyDown.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleLogo.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleScene.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleStarEffect.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\CheckPoint.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\CountDown.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\GameReadyWord.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\GameScene.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\GameScore.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\Base\SceneBase.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\SceneManager\SceneManager.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\TpsCamera.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Shadow.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\TestPlayer.cpp">
+      <Filter>Scene\GameScene\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Cource.cpp">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Utillity\DirectX11.cpp">
+      <Filter>Utillity</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="directx.ico">
+      <Filter>Assets</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="settings.manifest">
+      <Filter>Assets</Filter>
+    </Manifest>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="FBX\ball2.FBX">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\Floor.FBX">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\Coin.fbx">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\CircleCource.FBX">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\SkyDome.FBX">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+</Project>
