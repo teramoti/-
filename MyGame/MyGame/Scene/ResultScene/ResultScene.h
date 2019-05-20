@@ -17,9 +17,9 @@ public:
 	~ResultScene();
 public:
 	// <‰Šú‰»ŠÖ”>
-	virtual void Initialize(int width, int height,ID3D11Device* device, ID3D11DeviceContext* context);
+	virtual void Initialize();
 	// <XVŠÖ”>
-	virtual void Update(DX::StepTimer step);
+	virtual void Update(DX::StepTimer& stepTimer);
 	// <•`‰æŠÖ”>
 	virtual void Render();
 	// <I—¹ŠÖ”>

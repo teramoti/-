@@ -14,9 +14,9 @@
 #include "Cource.h"
 #include "CheckPoint.h"
 #include "Time.h"
-//#include "Cource.h"
-#include "../../../CollisionMesh.h"
+#include "../../Collison/CollisionMesh.h"
 #include "../../Collison/MyCollisionManager.h"
+#include "../../Utillity/DirectX11.h"
 class GameScene : public SceneBase
 {
 public:
@@ -24,9 +24,9 @@ public:
 	~GameScene();
 public:
 	// <初期化関数>
-	void Initialize(int width, int height, ID3D11Device* device, ID3D11DeviceContext* context) override;
+	void Initialize() override;
 	// <更新関数>
-	void Update(DX::StepTimer step)override;
+	void Update(DX::StepTimer& stemTimer)override;
 	// <描画関数>
 	void Render()override;
 	// <終了関数>
@@ -35,14 +35,13 @@ public:
 public:
 	void HitManager();
 	void SpriteRender();
-	void StageCheck();//ステージのチェック
 
 	void FileLoad();
 	void StageCheckPoint();//1ステージのチェックポイント
 	void StageCollision();//1ステージのチェックポイント
 
 private:
-
+	const float PLAYER_RISE = 5.0f;
 	//カメラ
 	ID3D11Device* m_device;//デバイス取得用変数
 	ID3D11DeviceContext* m_context;//コンテキスト取得変数
@@ -89,5 +88,7 @@ private:
 
 
 	CriAtomExPlaybackId m_criAtomExPlaybackId;	// 音楽情報記憶用変数
+
+	DirectX11& m_directX = DirectX11::Get();
 
 };

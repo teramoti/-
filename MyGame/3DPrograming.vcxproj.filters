@@ -14,9 +14,6 @@
     <Filter Include="Utillity">
       <UniqueIdentifier>{d108a6ec-13ab-47aa-b985-a5ceba804569}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{df4e2af9-7d78-4b71-9f2f-063be8f9105d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scene\Result">
       <UniqueIdentifier>{a824c3b6-448f-464c-bc6d-dd13fb1b0b48}</UniqueIdentifier>
     </Filter>
@@ -38,20 +35,27 @@
     <Filter Include="Scene\GameScene\Cource">
       <UniqueIdentifier>{86c3720f-1e67-4b8a-b1d9-02dc5121ac15}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utillity\DirectX">
+      <UniqueIdentifier>{8b7777ce-508b-4cc4-9abb-0b01fd60b4ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyGameSystem">
+      <UniqueIdentifier>{2da9610f-c154-46c1-81b0-94a95ed059c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{8add83b9-ce89-4f61-a279-baa19954e2c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameData">
+      <UniqueIdentifier>{df4e2af9-7d78-4b71-9f2f-063be8f9105d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene\SceneManager">
+      <UniqueIdentifier>{0d24e6ad-d83a-4be8-94b0-c9173cf8165c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="StepTimer.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="DeviceResources.h">
-      <Filter>Common</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugCamera.h" />
-    <ClInclude Include="GridFloor.h" />
-    <ClInclude Include="CollisionMesh.h" />
-    <ClInclude Include="Collision.h" />
     <ClInclude Include="MyGame\Utillity\Flag.h">
       <Filter>Utillity</Filter>
     </ClInclude>
@@ -60,27 +64,6 @@
     </ClInclude>
     <ClInclude Include="MyGame\Utillity\SingletonBase.h">
       <Filter>Utillity</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GameSystem\Object.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GameSystem\InputManager.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GameSystem\DrawManager.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GameSystem\Camera.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollisionManager.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollisionNode.h">
-      <Filter>NewFilter1</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollision.h">
-      <Filter>NewFilter1</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\Scene\ResultScene\ResultBackGorund.h">
       <Filter>Scene\Result</Filter>
@@ -116,10 +99,10 @@
       <Filter>Scene\Result</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\GameSystem\GameSabe.h">
-      <Filter>NewFilter1</Filter>
+      <Filter>GameData</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\GameSystem\GameSaveData.h">
-      <Filter>NewFilter1</Filter>
+      <Filter>GameData</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\ADX2\ADX2Le.h">
       <Filter>ADX2L</Filter>
@@ -153,9 +136,6 @@
     </ClInclude>
     <ClInclude Include="MyGame\ADX2\include\cri_le_xpt.h">
       <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Scene\TitleScene\TitlePlayer.h">
-      <Filter>Scene\Title</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\Scene\TitleScene\TitleAroow.h">
       <Filter>Scene\Title</Filter>
@@ -202,12 +182,6 @@
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Scene\Base\SceneBase.h">
-      <Filter>Scene\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Scene\SceneManager\SceneManager.h">
-      <Filter>Scene\GameScene</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
@@ -223,43 +197,52 @@
     <ClInclude Include="MyGame\Scene\GameScene\Cource.h">
       <Filter>Scene\GameScene\Cource</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Utillity\dx.h">
+      <Filter>Utillity\DirectX</Filter>
+    </ClInclude>
     <ClInclude Include="MyGame\Utillity\DirectX11.h">
-      <Filter>Utillity</Filter>
+      <Filter>Utillity\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="MyGame\GameSystem\Object.h">
+      <Filter>MyGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\InputManager.h">
+      <Filter>MyGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\Camera.h">
+      <Filter>MyGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\GameSystem\DrawManager.h">
+      <Filter>MyGameSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\Base\SceneBase.h">
+      <Filter>Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\SceneManager\SceneManager.h">
+      <Filter>Scene\SceneManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollisionManager.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollisionNode.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\MyCollision.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\CollisionMesh.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\Collision.h">
+      <Filter>Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="DeviceResources.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugCamera.cpp" />
-    <ClCompile Include="GridFloor.cpp" />
-    <ClCompile Include="CollisionMesh.cpp" />
     <ClCompile Include="MyGame\Utillity\Math.cpp">
       <Filter>Utillity</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\Object.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\DrawManager.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\InputManager.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\Camera.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollisionManager.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollisionNode.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollision.cpp">
-      <Filter>NewFilter1</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\ResultScene\ResultBackGorund.cpp">
       <Filter>Scene\Result</Filter>
@@ -295,16 +278,13 @@
       <Filter>Scene\Result</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\GameSystem\GameSaveData.cpp">
-      <Filter>NewFilter1</Filter>
+      <Filter>GameData</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\ADX2\ADX2Le.cpp">
       <Filter>ADX2L</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\GameSystem\GameSabe.cpp">
-      <Filter>NewFilter1</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Scene\TitleScene\TitlePlayer.cpp">
-      <Filter>Scene\Title</Filter>
+      <Filter>GameData</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\TitleScene\TitleAroow.cpp">
       <Filter>Scene\Title</Filter>
@@ -351,12 +331,6 @@
     <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Scene\Base\SceneBase.cpp">
-      <Filter>Scene\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Scene\SceneManager\SceneManager.cpp">
-      <Filter>Scene\GameScene</Filter>
-    </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
@@ -373,7 +347,38 @@
       <Filter>Scene\GameScene\Cource</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Utillity\DirectX11.cpp">
-      <Filter>Utillity</Filter>
+      <Filter>Utillity\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="MyGame\GameSystem\Object.cpp">
+      <Filter>MyGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\InputManager.cpp">
+      <Filter>MyGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\Camera.cpp">
+      <Filter>MyGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\GameSystem\DrawManager.cpp">
+      <Filter>MyGameSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\Base\SceneBase.cpp">
+      <Filter>Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\SceneManager\SceneManager.cpp">
+      <Filter>Scene\SceneManager</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollisionManager.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollisionNode.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\MyCollision.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\CollisionMesh.cpp">
+      <Filter>Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -403,6 +408,9 @@
       <Filter>Models</Filter>
     </MeshContentTask>
     <MeshContentTask Include="FBX\SkyDome.FBX">
+      <Filter>Models</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\PlayerMark2.FBX">
       <Filter>Models</Filter>
     </MeshContentTask>
   </ItemGroup>

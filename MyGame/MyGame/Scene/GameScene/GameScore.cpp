@@ -5,7 +5,7 @@
 //内容	:	　GameScore(リザルトのスコア表示)のタスク
 //--------------------------------------------
 
-#include "../../pch.h"
+//#include "../../pch.h"
 #include "GameScore.h"
 #include "../../GameSystem/GameSabe.h"
 

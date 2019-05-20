@@ -31,7 +31,7 @@ TitleScene::~TitleScene()
 }
 
 
-void TitleScene::Initialize(int width, int height, ID3D11Device* device, ID3D11DeviceContext* context)
+void TitleScene::Initialize()
 {
 
 	m_TitleLogo = new TitleLogo();
@@ -67,29 +67,12 @@ void TitleScene::Initialize(int width, int height, ID3D11Device* device, ID3D11D
 	}
 }
 
-void TitleScene::Update(DX::StepTimer step)
+void TitleScene::Update(DX::StepTimer& stepTimer)
 {
-	m_Aroow->Update(m_num);
 	m_Star->Update();
-	switch (m_num)
-	{
-		case SERECT_ENUM::UP:
-		{
-			m_StartFrame += 1;
-			m_EndFrame = 0;
-			m_EndframeB = true;
-			break;
-		}
-
-		case SERECT_ENUM::DOWN:
-		{
-
-			m_EndFrame += 1;
-			m_StartFrame =0;
-			m_StartframeB = true;
-			break;
-		}
-	}
+	m_StartFrame += 1;
+	m_EndFrame = 0;
+	m_EndframeB = true;
 
 	if (m_StartFrame > 30)
 	{
@@ -106,25 +89,11 @@ void TitleScene::Update(DX::StepTimer step)
 	}
 	if (System::InputManager::GetInstance().GetKeyboardTracker().pressed.Z)
 	{
-		switch (m_num)
-		{
-		case SERECT_ENUM::UP:
-			{
 
-				m_SceneFlag = true;
-				m_num = SERECT_ENUM::NONE;//‰½‚à‚È‚µ‚É‰Šú‰»‚·‚é.
-				// Œø‰Ê‰¹‚ÌÄ¶
-				m_criAtomExPlaybackId = m_adx2le->Play(1);
-				break;
-			}
-		
-			case SERECT_ENUM::DOWN:
-			{
-				ExitGame();
-				m_num = SERECT_ENUM::NONE;//‰½‚à‚È‚µ‚É‰Šú‰»‚·‚é.
-				break;
-			}
-		}
+		m_SceneFlag = true;
+		m_num = SERECT_ENUM::NONE;//‰½‚à‚È‚µ‚É‰Šú‰»‚·‚é.
+		// Œø‰Ê‰¹‚ÌÄ¶
+		m_criAtomExPlaybackId = m_adx2le->Play(1);
 	}
 
 
@@ -132,7 +101,7 @@ void TitleScene::Update(DX::StepTimer step)
 	{	
 		m_adx2le->Stop();
 
-		m_sceneManager->SetScene(GAME_SCENE, 800, 600);
+		m_sceneManager->SetScene(GAME_SCENE);
 		return;
 
 	}
@@ -148,10 +117,8 @@ void TitleScene::Render()
 
 	m_TitleLogo->Draw();
 	m_KeyDown->Draw();
-	m_Aroow->Draw();
 
 	if (m_StartframeB == true)m_GoGame->Draw();
-	if (m_EndframeB == true)  m_GoEnd->Draw();
 
 	System::DrawManager::GetInstance().End();
 }

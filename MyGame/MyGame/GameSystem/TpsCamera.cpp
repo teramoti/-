@@ -27,9 +27,9 @@ void TpsCamera::Update()
 	SetAngle(Object->GetAngle());
 
 	//TPSÉJÉÅÉâ
-	refpos = Vector3(m_TargetPos.x,m_TargetPos.y, m_TargetPos.z) + Vector3(0, 2, 0);
+	refpos = Vector3(m_TargetPos.x,m_TargetPos.y, m_TargetPos.z) + Vector3(0, 1, 0);
 
-	Vector3 cameraV(0.0f, 2.0f, -5.0f);
+	Vector3 cameraV(0.0f, 0.0f, -3.0f);
 
 	Matrix rot = Matrix::CreateRotationY(m_TargetRot);
 	cameraV = Vector3::TransformNormal(cameraV, rot);

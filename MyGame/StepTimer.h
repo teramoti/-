@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include<Windows.h>
+#include <stdexcept>
 #include <exception>
 #include <stdint.h>
 

@@ -1,5 +1,13 @@
-#include <d3d11.h>
+//------------------------//------------------------
+// Contents(処理内容) Game.cppの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
 
+//インクルードファイルの宣言
+#include <d3d11.h>
 #include <SimpleMath.h>
 #include <Keyboard.h>
 #include "Gamescene.h"
@@ -8,11 +16,16 @@
 #include "../../GameSystem/InputManager.h"
 #include "../SceneManager/SceneManager.h"
 
+
 #define MIN(a,b) ((a>b) ? (b):(a));
 #define MAX(a,b) ((a>b) ? (a):(b));
-
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+//----------------------------------------------------------------------
+//! @brief ゲームシーンクラスのコンストラクタ
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 
 GameScene::GameScene(SceneManager* scenemaneger)
 	: SceneBase(scenemaneger, m_SceneFlag), m_GameTimer(0),
@@ -22,6 +35,13 @@ GameScene::GameScene(SceneManager* scenemaneger)
 
 }
 
+//----------------------------------------------------------------------
+//! @brief ゲームシーンのデストラクタ
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 GameScene::~GameScene()
 {
 	m_Camera.reset();
@@ -36,17 +56,21 @@ GameScene::~GameScene()
 	delete m_GameTime;
 }
 
-void GameScene::Initialize(int width, int height, ID3D11Device* device, ID3D11DeviceContext* context)
+//----------------------------------------------------------------------
+//! @brief ゲームシーンの初期化処理
+//!
+//! @param windth,height,devive,context
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void GameScene::Initialize()
 {
 
 	m_adx2le = MyLibrary::ADX2Le::GetInstance();
 	// サウンドの読み込み
 	m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
 	//コースのステージメッシュの初期化
-	m_stageMesh = std::make_unique<CollisionMesh>(device, L"CircleCource.obj");
-	//壁のステージメッシュの初期化
-	m_stageMesh2 = std::make_unique<CollisionMesh>(device, L"CircleCourceOutSide.obj");
-
+	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/CircleCource.obj");
 
 	if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
 	{
@@ -54,51 +78,72 @@ void GameScene::Initialize(int width, int height, ID3D11Device* device, ID3D11De
 		m_criAtomExPlaybackId = m_adx2le->Play(0);
 	}
 
-	m_Camera = std::make_unique<TpsCamera>(width, height);//カメラの初期化
-	MyLib::Object3D::InitielizeStatic(device, context, m_Camera.get());//Objectクラスの初期化
+	//Cameraクラスの初期化
+	m_Camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
 
-	m_device = device;
-	m_context = context;
+	//Objectクラスの初期化
+	MyLib::Object3D::InitielizeStatic(m_directX.GetDevice(), m_directX.GetContext(), m_Camera.get());
 
 	//プレイヤーの生成
 	m_player = std::make_unique<TestPlayer>();
+	//Playerの初期化処理
 	m_player->Initilize();
 
-	//カメラの作成
+	//カメラのTargetの設定
 	m_Camera->SetObject3D(m_player.get());
 
-	m_CheckPoint = std::make_unique<CheckPoint>();	//チェックポイントの作成
-
+	//チェックポイントの作成
+	m_CheckPoint = std::make_unique<CheckPoint>();
+	//チェックポイントの初期化処理
 	m_CheckPoint->Initilize();
 
-	m_cource = std::make_unique<Cource>();//コースの作成
+
+	//コースクラスの作成
+	m_cource = std::make_unique<Cource>();
+	//コースクラスの初期化処理
 	m_cource->Initilize();
 
-	m_skyDome = std::make_unique<SkyDome>();	//スカイドームクラスの作成
-
+	//スカイドームクラスの作成
+	m_skyDome = std::make_unique<SkyDome>();
+	//スカイドームクラスの初期化処理
 	m_skyDome->Initilize();
 
-	m_time = std::make_unique<Time>();	//時間クラスの作成
+	//時間クラスの作成
+	m_time = std::make_unique<Time>();
 
 
-	m_Count = new CountDown();//カウントダウン用クラスの初期化
+	//カウントダウンクラスの作成
+	m_Count = new CountDown();
+	//カウントダウンクラスの初期化
 	m_Count->Initilize();
 
-	m_GameTime = new GameTime();//ゲーム時間クラスの初期化
+
+	//ゲーム時間クラスの作成
+	m_GameTime = new GameTime();
+	//ゲーム時間クラスの初期化
 	m_GameTime->Initilize();
 
-	m_GoalNum = 0;//ゴール時の止める時間の初期化
+//ゴール時の止める時間の初期化
+	m_GoalNum = 0;
 }
 
-void GameScene::Update(DX::StepTimer step)
+//----------------------------------------------------------------------
+//! @brief ゲームシーンの更新処理
+//!
+//! @param steptimer
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void GameScene::Update(DX::StepTimer& stepTimer)
 {
 
-	int startTime = (int)step.GetTotalSeconds();//
- 	float elapsedTime = float(step.GetElapsedSeconds());
+	int startTime = (int)stepTimer.GetTotalSeconds();//
+ 	float elapsedTime = float(stepTimer.GetElapsedSeconds());
 	//時間の情報
 	m_GameTimer = m_time->GetTime();//タイムクラスの時間を取得
 	counter--;//始まる前のＣｏｕｎｔを引く
 	m_CheckPoint->Update();//チェックポイントの更新
+	m_skyDome->Update();//スカイドームの更新
 
 	if (counter < 0)
 	{
@@ -123,6 +168,7 @@ void GameScene::Update(DX::StepTimer step)
 		m_goalFlag = true;
 
 	}
+	//60秒たったら強制的にリザルトに行く処理
 	if (m_GameTimer >= 6000)
 	{
 		m_time->SetFlag(false);
@@ -147,7 +193,7 @@ void GameScene::Update(DX::StepTimer step)
 	{
 		//Resultをセットする
 		m_adx2le->Stop();
-		m_sceneManager->SetScene(RESULT_SCENE, 600, 800);//シーンをリザルトにする。
+		m_sceneManager->SetScene(RESULT_SCENE);//シーンをリザルトにする。
 		return;
 	}
 
@@ -157,52 +203,77 @@ void GameScene::Update(DX::StepTimer step)
 	m_player->Update(m_startFlag);//プレイヤーの更新
 	HitManager();//当たり判定の更新用関数
 
-	m_skyDome->Update();//スカイドームの更新
 }
+//----------------------------------------------------------------------
+//! @brief ゲームシーンの描画用関数
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void GameScene::Render()
 {
 	m_player->Render();//プレイヤーの描画
 	m_skyDome->Render();//すかいどーむの描画
-	m_cource->Render();//コースの描画	SpriteRender();//画像の描画	
-	SpriteRender();
-	m_stageMesh->DrawCollision(m_context, m_Camera->GetView(), m_Camera->GetProj());//メッシュの描画
-	m_stageMesh2->DrawCollision(m_context, m_Camera->GetView(), m_Camera->GetProj());//壁メッシュの描画
-
-	// m_CheckPoint->Render();
+	m_cource->Render();//コースの描画
+	SpriteRender();	//画像の描画	
+	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());//メッシュの描画
 }
+//----------------------------------------------------------------------
+//! @brief ゲームシーンの終了処理
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
+
 void GameScene::Finalize()
 {
 
 }
 
+//----------------------------------------------------------------------
+//! @brief あたり判定をまとめるよう関数
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void GameScene::HitManager()
 {
-	StageCheck();
+	StageCheckPoint();
+	StageCollision();
 
 }
 
+//----------------------------------------------------------------------
+//! @brief 画像の描画用関数
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void GameScene::SpriteRender()
 {
 	System::DrawManager::GetInstance().Begin();
-	m_Count->Draw();
+	m_Count->Draw();//カウントを描画する
 	m_GameTime->Draw(m_startFlag);
 	if (m_goalFlag)
 	{
+		//ゴールの文字を出す
 
 	}
 
 	System::DrawManager::GetInstance().End();
 }
 
-void GameScene::StageCheck()
-{
-	StageCheckPoint();
-	StageCollision();
-}
-
-void GameScene::FileLoad()
-{
-}
+//----------------------------------------------------------------------
+//! @brief ステージのチェックポイント関数
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 
 void GameScene::StageCheckPoint()
 {
@@ -220,42 +291,37 @@ void GameScene::StageCheckPoint()
 	}
 
 }
+//----------------------------------------------------------------------
+//! @brief ステージのあたり判定
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 
 void GameScene::StageCollision()
 {
-	// ボールを床の上に乗せる
-	Vector3 playerrot = m_player->GetRotation();
-	float playerVelY = m_player->GetVel().y;
-	Vector3 playerPos = m_player->GetTranslation();
+	DirectX::SimpleMath::Vector3 playerVel = m_player->GetVel();
+	DirectX::SimpleMath::Vector3 playerPos = m_player->GetTranslation();
 
 
 	// ボールの真下に向かう線分
-	Vector3 v[2] =
+	DirectX::SimpleMath::Vector3 v[2] =
 	{
-		Vector3(playerPos.x, 100.0f, playerPos.z),
-			Vector3(playerPos.x, -100.0f, playerPos.z),
+		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
+		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
 		};
 
 		//線分と床の交差判定を行う
 		int id;
-		Vector3 s;
+		DirectX::SimpleMath::Vector3 s;
 		if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
 		{
-			// 地面より低い位置の場合は補正する
-			playerPos.y = MAX(s.y + 0.5f, playerPos.y);
-
-			if (s.y + 0.5f > playerPos.y)
-			{
-				playerPos.y = s.y + 0.5f;
-				playerVelY = 0.0f;
-
-			}
-
+				playerPos.y = s.y + PLAYER_RISE;
+				playerVel.y = 0.0f;
 		}
 
-
-
-	m_player->SetTranslation(Vector3(playerPos.x, playerPos.y, playerPos.z));//プレイヤーの場所の更新
-	m_player->SetVel(Vector3(m_player->GetVel().x, playerVelY, m_player->GetVel().z));//playerの速度を設定する。
+	m_player->SetTranslation(playerPos);//プレイヤーの場所の更新
+	m_player->SetVel(playerVel);//プレイヤーの速度を設定する。
 }
 

@@ -6,7 +6,7 @@ public:
 	CollisionManager();
 	~CollisionManager();
 public:
-	bool CollisionBox2Box(Box box1, Box box2);
+	bool CollisionBox2Box(MyCollision::Box box1, MyCollision::Box box2);
 
 
 	//“à‘¤‚Ì“–‚½‚è”»’è
@@ -50,7 +50,7 @@ public:
 		}
 		return sqDist;
 	}
-	static float Plane_Length(const Planar& plane, const DirectX::SimpleMath::Vector3& q)
+	static float Plane_Length(const MyCollision::Planar& plane, const DirectX::SimpleMath::Vector3& q)
 	{
 		float l;
 		l = plane.p.x*q.x + plane.p.y*q.y + plane.p.z*q.z + plane.p.w;
@@ -58,7 +58,7 @@ public:
 		return l;
 	}
 
-	static bool HitCheckSphere(Sphere& sphere, const Planar & plane,DirectX::SimpleMath::Vector3* p)
+	static bool HitCheckSphere(MyCollision::Sphere& sphere, const  MyCollision::Planar & plane,DirectX::SimpleMath::Vector3* p)
 	{
 		if (!&sphere || !& plane)return false;
 

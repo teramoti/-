@@ -7,11 +7,11 @@
 namespace DX
 {
     // Provides an interface for an application that owns DeviceResources to be notified of the device being lost or created.
-    interface IDeviceNotify
+    /*interface IDeviceNotify
     {
         virtual void OnDeviceLost() = 0;
         virtual void OnDeviceRestored() = 0;
-    };
+    };*/
 
     // Controls all the DirectX device resources.
     class DeviceResources
@@ -27,7 +27,7 @@ namespace DX
         void SetWindow(HWND window, int width, int height);
         bool WindowSizeChanged(int width, int height);
         void HandleDeviceLost();
-        void RegisterDeviceNotify(IDeviceNotify* deviceNotify) { m_deviceNotify = deviceNotify; }
+        //void RegisterDeviceNotify(IDeviceNotify* deviceNotify) { m_deviceNotify = deviceNotify; }
         void Present();
 
         // Device Accessors.
@@ -106,6 +106,6 @@ namespace DX
         RECT                                            m_outputSize;
 
         // The IDeviceNotify can be held directly as it owns the DeviceResources.
-        IDeviceNotify*                                  m_deviceNotify;
+        //IDeviceNotify*                                  m_deviceNotify;
     };
 }

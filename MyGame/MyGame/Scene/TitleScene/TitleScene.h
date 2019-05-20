@@ -24,9 +24,9 @@ public:
 	~TitleScene();
 public:
 	// <‰Šú‰»ŠÖ”>
-	 void Initialize(int width, int height,ID3D11Device* device, ID3D11DeviceContext* context)override;
+	 void Initialize()override;
 	// <XVŠÖ”>
-	void Update(DX::StepTimer step)override;
+	void Update(DX::StepTimer& stepTimer)override;
 	// <•`‰æŠÖ”>
 	void Render()override;
 	// <I—¹ŠÖ”>

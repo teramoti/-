@@ -1,154 +1,112 @@
-﻿//------------------------//------------------------
-// Contents(処理内容) Game.cppの内容を書く
-//------------------------//------------------------
-// user(作成者) Keishi Teramoto
-// Created date(作成日) 2018 / 07 / 13
-// last updated (最終更新日) 2018 / 11 / 05
-//------------------------//------------------------
-
-//インクルードファイルの宣言
-#include "pch.h"
-#include "Game.h"
-#include "MyGame\GameSystem\DrawManager.h"
+﻿#include "Game.h"
 #include "MyGame\GameSystem\InputManager.h"
-#include "MyGame\ADX2\ADX2Le.h"
+#include "MyGame\GameSystem\DrawManager.h"
 
-// 名前空間の使用 ==========================================================
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
-using Microsoft::WRL::ComPtr;
+void ExitGame();
 
+// コンストラクタ
+Game::Game(int width, int height)
+	: m_hWnd(0), m_width(width), m_height(height) {
 
-#pragma region Game
-#pragma region Frame Initialize
-#pragma region Game Constructor
-//----------------------------------------------------------------------
-//! @brief ゲームのコンストラクタ
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-Game::Game()
-{
-	// デバイスリソースの作成
-	m_deviceResources = std::make_unique<DX::DeviceResources>();
+	// スタートアップ情報
+	STARTUPINFO si{};
+	// インスタンスハンドルを取得する
+	m_hInstance = ::GetModuleHandle(NULL);
 
-	// デバイス登録通知
-	m_deviceResources->RegisterDeviceNotify(this);
-
-	// スクリーンの横幅の設定
-	m_screenWidth = 800;
-	// スクリーンの縦幅の設定
-	m_screenHeight = 600;
-	m_acf = L"MyGame.acf";//ファイル名を入れる
+	// STARTUPINFO構造体の内容を取得する
+	::GetStartupInfo(&si);
+	m_nCmdShow = si.dwFlags & STARTF_USESHOWWINDOW ? si.wShowWindow : SW_SHOWDEFAULT;
+	// Windowオブジェクトを生成する
+	m_window = std::make_unique<Window>(m_hInstance, m_nCmdShow);
 }
-#pragma endregion
 
-#pragma region Game Initialize
-//----------------------------------------------------------------------
-//! @brief ゲームの初期化処理
-//!
-//! @param [HWND window, int width, int height]
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::Initialize(HWND window, int width, int height)
+// 実行に必要となるDirect3Dリソースを初期化する
+void Game::Initialize()
 {
-#pragma region Initialization Processing
+	// Windowオブジェクトを初期化する
+	m_window->Initialize(m_width, m_height);
+	// Windowオブジェクトの生成後にウィンドウハンドルを取得する
+	m_hWnd = m_window->GetHWnd();
 
+	// DirectXの初期化のためウィンドウハンドルを設定する
+	m_directX.SetHWnd(m_hWnd);
+	// DirectXの初期化のためウィンドウ幅を設定する
+	m_directX.SetWidth(m_width);
+	// DirectXの初期化のためウィンドウ高を設定する
+	m_directX.SetHeight(m_height);
 
-	//----------------------------------------------------------------------
-	// ここからゲームの初期化処理を記述する
-	//----------------------------------------------------------------------
+	// デバイスを生成する Create Device
+	m_directX.CreateDevice();
+	// リソースを生成する Create Resources
+	m_directX.CreateResources();
+
+	// TODO: デフォルト変数timestepモード以外のものが必要な場合タイマー設定を変更する
+	// 例えば 60 FPS固定タイムステップ更新ロジックに対しては以下を呼び出す
+	// Change the timer settings if you want something other than the default variable timestep mode.
+	// e.g. for 60 FPS fixed timestep update logic, call:
+
+	// timer.SetFixedTimeStep(true);
+	// timer.SetTargetElapsedSeconds(1.0 / 60);
+
+	// TODO: 初期化コードを追加する 
+
 	// キーボードの作成
-	m_keyboard = std::make_unique<Keyboard>();
+	m_keyboard = std::make_unique<DirectX::Keyboard>();
 
-	// ウィンドウの設定
-	m_deviceResources->SetWindow(window, width, height);
-
-	// デバイスリソースの作成
-	m_deviceResources->CreateDeviceResources();
-
-	// デバイス依存リソースの作成
-	CreateDeviceDependentResources();
-
-	// ウィンドウサイズに依存するリソースを作成する
-	m_deviceResources->CreateWindowSizeDependentResources();
-
-	// ウィンドウサイズに依存するリソースを作成する
-	CreateWindowSizeDependentResources();
-
-	//音の設定をする
-	MyLibrary::ADX2Le::GetInstance()->Initialize(m_acf);
-
+	// SpriteBatchオブジェクトを生成する
+	m_spriteBatch = std::make_unique<DirectX::SpriteBatch>(m_directX.GetContext().Get());
+	// Fontオブジェクトを生成する
+	m_font = std::make_unique<DirectX::SpriteFont>(m_directX.GetDevice().Get(), L"SegoeUI_18.spritefont");
 	//描画用のマネージャーのイニシャライズ
-	System::DrawManager::GetInstance().Initialize(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
-	//シーンマネージャーを作る
-	m_SceneManager = std::make_unique<SceneManager>(m_deviceResources->GetD3DDevice(), m_deviceResources->GetD3DDeviceContext());
-	//シーンマネージャーのイニシャライズを呼ぶ
-	m_SceneManager->InitilizeActiveScene(m_screenWidth, m_screenHeight);
-	//シーンマネージャーにシーンをセットする
-	m_SceneManager->SetScene(TITLE_SCENE, m_screenWidth, m_screenHeight);
+	System::DrawManager::GetInstance().Initialize(m_directX.GetDevice().Get(), m_directX.GetContext().Get());
 
+	//SceneManagerを生成する
+	m_sceneManager = std::make_unique<SceneManager>();
+	//SceneManagerの初期化処理
+	m_sceneManager->InitilizeActiveScene();
+	//SceneManagerの設定処理
+	m_sceneManager->SetScene(TITLE_SCENE);
 
-	//マウスを消す
-	//ShowCursor(false);
-
-	// サウンドの読み込み
-
-	//----------------------------------------------------------------------
-	// ここまで
-	//----------------------------------------------------------------------
-#pragma endregion
 }
-#pragma endregion
-#pragma endregion
 
-#pragma region Frame Update
-#pragma region Game Loop
-//----------------------------------------------------------------------
-//! @brief ゲームループ処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::Tick()
+// 基本ゲームループを実行する 
+MSG Game::Tick()
 {
-	// ループタイマーの更新
-	m_timer.Tick([&]()
+	// メッセージ 
+	MSG msg = {};
+
+	// Gameオブジェクトを初期化する
+	Initialize();
+	// ゲームループ
+	while (WM_QUIT != msg.message)
 	{
-		// ゲームの更新
-		Update(m_timer);
-	});
-
-	// 描画
-	Render();
+		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
+		{
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			// ゲームを更新する 
+			m_timer.Tick([&]() { Update(m_timer); });
+			// シーンを描画する 
+			Render();
+		}
+	}
+	// 終了処理をおこなう
+	Finalize();
+	return msg;
 }
-#pragma endregion
 
-#pragma region Game Update
-//----------------------------------------------------------------------
-//! @brief ゲームの更新処理
-//!
-//! @param [DX::StepTimer const& timer]
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::Update(DX::StepTimer const& timer)
+// ワールドを更新する 
+void Game::Update(const DX::StepTimer& timer)
 {
 	float elapsedTime = float(timer.GetElapsedSeconds());
 
-#pragma region Game Logic
-	//----------------------------------------------------------------------
-	// ここからゲームロジックを記述する
-	//----------------------------------------------------------------------
-
-	elapsedTime;
+	// TODO: ゲームロジックを追加する Add your game logic here
 
 	// キーボードの作成
-	Keyboard::State kb = m_keyboard->GetState();
+	DirectX::Keyboard::State kb = m_keyboard->GetState();
 
 	// キーボードトラッカーの更新
 	m_keyboardTracker.Update(kb);
@@ -156,303 +114,129 @@ void Game::Update(DX::StepTimer const& timer)
 	// 入力クラスの更新
 	System::InputManager::GetInstance().Update(&kb, &m_keyboardTracker);
 
-	// タスクマネージャの更新
-	m_SceneManager->UpdateActiveScene(timer);
-
-	//----------------------------------------------------------------------
-	// ここまで
-	//----------------------------------------------------------------------
-#pragma endregion
+	//SceneManagerの更新用処理
+	m_sceneManager->UpdateActiveScene(timer);
 }
-#pragma endregion
-#pragma endregion
 
-#pragma region Frame Render
-#pragma region Game Render
-//----------------------------------------------------------------------
-//! @brief ゲームの描画処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
+// シーンを描画する
 void Game::Render()
 {
-	// 最初の更新の前に何かを描画しないでください
+	// 最初の更新の前は何も描画しないようにする
 	if (m_timer.GetFrameCount() == 0)
 	{
 		return;
 	}
+	// 画面をクリアする
 	Clear();
 
-	// 描画開始処理
-	m_deviceResources->PIXBeginEvent(L"Render");
+	// TODO: レンダリングコードを追加する
+	m_spriteBatch->Begin();
 
-	//----------------------------------------------------------------------
-	// ここから描画処理を記述する
-	//----------------------------------------------------------------------
-	auto context = m_deviceResources->GetD3DDeviceContext();
-	context;
-	// タスクマネージャの描画
-	m_SceneManager->RenderActiveSceneRender();
+	// FPSを描画する
+	DrawFPS();
 
-	//----------------------------------------------------------------------
-	// 描画処理はここまで
-	//----------------------------------------------------------------------
 
-	//描画終了処理
-	m_deviceResources->PIXEndEvent();
-
-	// 新しいフレームを表示します
-	m_deviceResources->Present();
+	//SceneManagerの描画用処理
+	m_sceneManager->RenderActiveSceneRender();
+	
+	m_spriteBatch->End();
+	// バックバッファをスクリーンに送る 
+	Present();
 }
-#pragma endregion
 
-#pragma region Game Clear
-//----------------------------------------------------------------------
-//! @brief ゲームのクリア処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
+// FPSを描画する 
+void Game::DrawFPS()
+{
+	// FPS文字列を生成する
+	std::wstring fpsString = L"fps = " + std::to_wstring((unsigned int)m_timer.GetFramesPerSecond());
+	// FPSを描画する Draw FPS
+	m_font->DrawString(m_spriteBatch.get(), fpsString.c_str(), DirectX::SimpleMath::Vector2(0, 0), DirectX::Colors::White);
+}
+
+// バックバッファをクリアするためのヘルパー関数 
 void Game::Clear()
 {
-	m_deviceResources->PIXBeginEvent(L"Clear");
-
-	//----------------------------------------------------------------------
-	// ビューのクリア処理
-	//----------------------------------------------------------------------
-
-	//デバイスコンテキストの取得処理
-	auto context = m_deviceResources->GetD3DDeviceContext();
-
-	// レンダリングターゲットビューの取得処理
-	auto renderTarget = m_deviceResources->GetRenderTargetView();
-
-	// ステンシルビューの取得処理
-	auto depthStencil = m_deviceResources->GetDepthStencilView();
-
-	// 描画ターゲットビューのクリア処理
-	context->ClearRenderTargetView(renderTarget, Colors::MediumPurple);
-
-	// クリア奥行きステンシルビュー処理
-	context->ClearDepthStencilView(depthStencil, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	// OMレンダーターゲットの設定処理
-	context->OMSetRenderTargets(1, &renderTarget, depthStencil);
-
-	//----------------------------------------------------------------------
-	// ビューポートの設定処理
-	//----------------------------------------------------------------------
-
-	// スクリーンビューポートの取得処理
-	auto viewport = m_deviceResources->GetScreenViewport();
-
-	context->RSSetViewports(1, &viewport);
-	m_deviceResources->PIXEndEvent();
+	// レンダーターゲットをクリアする 
+	m_directX.GetContext()->ClearRenderTargetView(m_directX.GetRenderTargetView().Get(), DirectX::Colors::Black);
+	// デプスステンシルビューを設定する 
+	m_directX.GetContext()->ClearDepthStencilView(m_directX.GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
+	// レンダータッゲートを設定する 
+	m_directX.GetContext()->OMSetRenderTargets(1, m_directX.GetRenderTargetView().GetAddressOf(), m_directX.GetDepthStencilView().Get());
+	// ビューポートを設定する 
+	CD3D11_VIEWPORT viewport(0.0f, 0.0f, static_cast<float>(m_width), static_cast<float>(m_height));
+	m_directX.GetContext()->RSSetViewports(1, &viewport);
 }
-#pragma endregion
-#pragma endregion
 
-#pragma region Message Handlers
-//----------------------------------------------------------------------
-//! @brief ゲームの活性化処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
+// バックバッファをスクリーンに送る
+void Game::Present()
+{
+	// The first argument instructs DXGI to block until VSync, putting the application
+	// to sleep until the next VSync. This ensures we don't waste any cycles rendering
+	// frames that will never be displayed to the screen.
+
+	HRESULT hr = m_directX.GetSwapChain()->Present(1, 0);
+
+	// デバイスがリセットされた場合レンダラを再初期化する必要がある 
+	if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
+	{
+		m_directX.OnDeviceLost();
+	}
+	else {
+		DX::ThrowIfFailed(hr);
+	}
+}
+
+// 終了処理をおこなう
+void Game::Finalize()
+{
+	// Graphicsオブジェクトをリセットする
+	DirectX11::Dispose();
+	// Windowオブジェクトをリセットする
+	m_window.reset();
+}
+
+// メッセージハンドラ 
 void Game::OnActivated()
 {
-
+	// TODO: ゲームがアクティブなウィンドウになる 
 }
 
-//----------------------------------------------------------------------
-//! @brief ゲームの無効処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
 void Game::OnDeactivated()
 {
-
+	// TODO: ゲームがバックグラウンドウィンドウになる 
 }
 
-//----------------------------------------------------------------------
-//! @brief ゲームの一時停止処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
 void Game::OnSuspending()
 {
-
+	// TODO: ゲームがパワーサスペンデッドになる 
 }
 
-//----------------------------------------------------------------------
-//! @brief ゲームの再開処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
 void Game::OnResuming()
 {
-	// 経過時間のリセット処理
 	m_timer.ResetElapsedTime();
+
+	// TODO: ゲームがパワーレジュームになる 
 }
 
-//----------------------------------------------------------------------
-//! @brief ゲームのウィンドウサイズ変更処理
-//!
-//! @param [int width, int height]
-//!
-//! @return なし
-//----------------------------------------------------------------------
 void Game::OnWindowSizeChanged(int width, int height)
 {
-	if (!m_deviceResources->WindowSizeChanged(width, height))
-		return;
+	m_width = std::max(width, 1);
+	m_height = std::max(height, 1);
 
-	CreateWindowSizeDependentResources();
-
+	DirectX11::Get().CreateResources();
+	// TODO: ゲームウィンドウのサイズが再変更される 
 }
 
-//----------------------------------------------------------------------
-//! @brief ゲームのデフォルトサイズを取得処理
-//!
-//! @param [int& width, int& height]
-//!
-//! @return なし
-//----------------------------------------------------------------------
+// プロパティ Properties
 void Game::GetDefaultSize(int& width, int& height) const
 {
-	// 希望のデフォルトウィンドウサイズに変更してください (最小サイズは 320x200)
-	width = m_screenWidth;
-	height = m_screenHeight;
+	// TODO: 任意のデフォルトウィンドウサイズに変更する(最小サイズは320x200) 
+	width = 800;
+	height = 600;
 }
-#pragma endregion
 
-#pragma region Direct3D Resources
-//----------------------------------------------------------------------
-//! @brief ゲームのデバイスの依存リソースの作成処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::CreateDeviceDependentResources()
+// Exitヘルパー関数 
+void ExitGame()
 {
-
-	//----------------------------------------------------------------------
-	// 作成処理を記入する
-	//----------------------------------------------------------------------
-	ID3D11Device* device = m_deviceResources->GetD3DDevice();
-	ID3D11DeviceContext* context = m_deviceResources->GetD3DDeviceContext();
-
-	// デバイス依存のオブジェクトをここで初期化する
-	device;
-
-	// コモンステートの作成
-	m_states = std::make_unique<CommonStates>(device);
-
-	// スプライトバッチの作成
-	m_sprites = std::make_unique<SpriteBatch>(context);
-
+	PostQuitMessage(0);
 }
-
-//----------------------------------------------------------------------
-//! @brief ゲームのウィンドウサイズの依存リソースの作成処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::CreateWindowSizeDependentResources()
-{
-	// ウインドウサイズからアスペクト比を算出する
-	RECT size = m_deviceResources->GetOutputSize();
-	float aspectRatio = float(size.right) / float(size.bottom);
-
-	// 画角を設定
-	float fovAngleY = XMConvertToRadians(45.0f);
-
-	// 射影行列を作成する
-	m_projection = Matrix::CreatePerspectiveFieldOfView(
-		fovAngleY,
-		aspectRatio,
-		0.01f,
-		1000.0f
-	);
-}
-
-//----------------------------------------------------------------------
-//! @brief ゲームのフルスクリーンモードに切り替える関処理
-//!
-//! @param [BOOL flag]
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::ChangeFullScreen(BOOL flag)
-{
-
-	m_deviceResources->GetSwapChain()->SetFullscreenState(flag, NULL);
-}
-
-//----------------------------------------------------------------------
-//! @brief ゲームのデバイス解放処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::OnDeviceLost()
-{
-	//----------------------------------------------------------------------
-	// ここから解放処理を記入してください
-	//----------------------------------------------------------------------
-
-	// デバイスリソースの解放
-	m_deviceResources.reset();
-
-	// キーボードの解放
-	m_keyboard.reset();
-
-	// コモンステートの解放
-	m_states.reset();
-
-	// スプライトバッチの解放
-	m_sprites.reset();
-
-
-	// すべての作業タスクを削除	
-	//音を削除
-	MyLibrary::ADX2Le::GetInstance()->Finalize();
-	m_SceneManager->FinalizeActiveScene();
-	m_SceneManager.reset();
-	m_SceneManager = nullptr;
-
-
-
-}
-
-//----------------------------------------------------------------------
-//! @brief ゲームのデバイスの復元処理
-//!
-//! @param なし
-//!
-//! @return なし
-//----------------------------------------------------------------------
-void Game::OnDeviceRestored()
-{
-	// デバイス依存リソースの作成処理
-	CreateDeviceDependentResources();
-
-	// ウィンドウサイズに依存するリソースの作成処理
-	CreateWindowSizeDependentResources();
-}
-#pragma endregion
-#pragma endregion

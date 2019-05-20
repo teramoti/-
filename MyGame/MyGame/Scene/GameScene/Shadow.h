@@ -7,6 +7,11 @@
 // Author: Keishi Teramoto
 //--------------------------------------------------------------------------------------
 #pragma once
+#include <d3d11.h>
+#include <wrl.h>
+#include<wrl\client.h>
+#include <SimpleMath.h>
+#include <Model.h>
 
 class Shadow
 {

@@ -1,5 +1,5 @@
 #include "GameSabe.h"
-using namespace System;
+
 
 /// <summary>
 /// コンストラクタ
@@ -8,12 +8,12 @@ System::GameSabe::GameSabe()
 {
 
 }
-void GameSabe::SetGoalTime(float goalTime)
+void System::GameSabe::SetGoalTime(float goalTime)
 {
 	m_goalTime = goalTime;
 }
 
-float GameSabe::GetGoalTime()
+float System::GameSabe::GetGoalTime()
 {
 	return m_goalTime;
 }

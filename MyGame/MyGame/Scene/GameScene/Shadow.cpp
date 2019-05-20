@@ -1,4 +1,4 @@
-#include "../../../pch.h"
+//#include "../../.."
 #include "Shadow.h"
 #include "../../GameSystem/Object.h"
 #include "../../GameSystem/DrawManager.h"

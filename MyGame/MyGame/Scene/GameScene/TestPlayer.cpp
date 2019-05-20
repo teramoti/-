@@ -6,14 +6,10 @@
 
 #include "TestPlayer.h"
 
-//using namespace DirectX;
-//using namespace DirectX::SimpleMath;
-using namespace System;
+
 
 TestPlayer::TestPlayer() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity), m_velocity(DirectX::SimpleMath::Vector3::Zero),
-m_pos(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -0.0f)), m_acceleration(0.0f),
-MAX_ACCELERATION(40.0f), MIN_ACCELERATION(0.0f),GRAVITY(9.8f)
-, m_startFlag(false)
+m_pos(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -0.0f)), m_acceleration(0.0f), m_startFlag(false)
 {
 }
 
@@ -23,7 +19,7 @@ TestPlayer::~TestPlayer()
 
 void TestPlayer::Initilize()
 {
-	m_Translation = DirectX::SimpleMath::Vector3(0,4,0);
+	m_Translation = DirectX::SimpleMath::Vector3(0,0,0);
 
 	Load(L"Resources/Model/Player.cmo");
 	m_box.Initialize();
@@ -56,8 +52,6 @@ void TestPlayer::Update(bool flag)
 void TestPlayer::Render()
 {
 	MyLib::Object3D::Draw();
-	//mbox.Render();
-	//m_sphere.Render();
 }
 
 void TestPlayer::Lost()
@@ -115,7 +109,7 @@ void TestPlayer::PlayerMove()
 			m_rotation = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f), DirectX::XMConvertToRadians(-1.5f));
 			m_velocity = DirectX::SimpleMath::Vector3::Transform(m_velocity, m_rotation);
 
-			SetRot(DirectX::SimpleMath::Quaternion(m_rotation.w, m_rotation.x, m_rotation.y - 0.3f, m_rotation.z));
+			SetRot(DirectX::SimpleMath::Quaternion(m_rotation.w, m_rotation.x-100.0f, m_rotation.y - 0.3f, m_rotation.z));
 		}
 	}
 

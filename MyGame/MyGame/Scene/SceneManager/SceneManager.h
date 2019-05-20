@@ -8,6 +8,7 @@
 
 // 多重インクルードの防止 =====================================================
 #pragma once
+#include "../../Utillity/DirectX11.h"
 #include "../../../StepTimer.h"
 #include "../../Utillity/SingletonBase.h"
 // クラスの宣言 ===============================================================
@@ -44,13 +45,10 @@ class SceneManager:  public Utility::SingletonBase<SceneManager>
 
 		SceneBase* m_activeScene;           // 活動中のシーン
 		SceneBase* m_requestedScene;        // 要求されたシーン
-
-		ID3D11Device* m_device;
-		ID3D11DeviceContext* m_context;
 	// メンバ関数の宣言 ---------------------------------------------------
 	// <コンストラクタ>
 	public:
-		SceneManager(ID3D11Device* device, ID3D11DeviceContext* context);
+		SceneManager();
 
 	// <デストラクタ>
 	public:
@@ -60,17 +58,16 @@ class SceneManager:  public Utility::SingletonBase<SceneManager>
 	// <操作>
 	public:
 		//シーンのInitilize呼び出し関数
-		void InitilizeActiveScene(int width, int height);
+		void InitilizeActiveScene();
 		//シーンのUpdate呼び出し関数
 		void UpdateActiveScene(DX::StepTimer step);
 		//シーンのRederび出し関数
 		void RenderActiveSceneRender();
 		//シーンの設定用関数
-		void SetScene(SceneId startSceneId, int width, int height);
+		void SetScene(SceneId startSceneId);
 		//シーンのFinalize呼び出し関数
 		void FinalizeActiveScene();
-	private:
 		//シーンの変更用関数
-		void ChangeScene();
+		void ChangeScene(SceneBase* nextScene);
 
 };

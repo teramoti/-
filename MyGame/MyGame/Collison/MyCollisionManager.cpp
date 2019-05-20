@@ -1,4 +1,3 @@
-#include "../../pch.h"
 #include "MyCollisionManager.h"
 
 CollisionManager::CollisionManager()
@@ -9,7 +8,7 @@ CollisionManager::~CollisionManager()
 {
 }
 
-bool CollisionManager::CollisionBox2Box(Box box1, Box box2)
+bool CollisionManager::CollisionBox2Box(MyCollision::Box box1, MyCollision::Box box2)
 {
 	if (CheckBox2BoxAABB(box1, box2)==true)
 	{

@@ -10,6 +10,7 @@
 
 // 多重インクルードの防止 =====================================================
 #pragma once
+#include "../../Utillity/DirectX11.h"
 #include "../../../StepTimer.h"
 // クラスの宣言 ===============================================================
 class SceneManager;
@@ -41,9 +42,9 @@ class SceneBase
 	// <操作>
 	public:
 		// <初期化関数>
-		virtual void Initialize(int width, int height,ID3D11Device* device, ID3D11DeviceContext* context) = 0;
+		virtual void Initialize() = 0;
 		// <更新関数>
-		virtual void Update( DX::StepTimer step) = 0;
+		virtual void Update( DX::StepTimer& stepTimer) = 0;
 		// <描画関数>
 		virtual void Render() = 0;
 		// <終了関数>

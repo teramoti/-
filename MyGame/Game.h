@@ -1,118 +1,108 @@
-﻿//------------------------//------------------------
-// Contents(処理内容) Game.hの内容を書く
-//------------------------//------------------------
-// user(作成者) Keishi Teramoto
-// Created date(作成日) 2018 / 07 / 13
-// last updated (最終更新日) 2018 / 11 / 05
-//------------------------//------------------------
+﻿#ifndef GAME_DEFINED
+#define GAME_DEFINED
 
+// Use the C++ standard templated min/max
+#define NOMINMAX
 
-// 多重インクルードの防止 ==================================================
-#pragma once
+#include <windows.h>
+#include <iostream>
+#include <string>
+#include <iomanip>
 
-// ヘッダファイルの読み込み ================================================
-#include "StepTimer.h"
+#include <d3d11.h>
+#include <memory>
+#include <SimpleMath.h>
+#include <SpriteBatch.h>
+#include <SpriteFont.h>
+#include <Model.h>
+#include <Keyboard.h>
+#include <GeometricPrimitive.h>
+#include <WICTextureLoader.h>
+#include <algorithm>
 #include <CommonStates.h>
-#include "DeviceResources.h"
+#include "StepTimer.h"
+#include "MyGame\\Utillity\\dx.h"
+#include "Window.h"
+#include "MyGame\\Utillity\\DirectX11.h"
 #include "MyGame\Scene\SceneManager\SceneManager.h"
 
-//----------------------------------------------------------------------
-//!
-//! @brief D3D11デバイスを作成する基本的なゲームの実装ループをするクラス
-//!
-//----------------------------------------------------------------------
-class Game : public DX::IDeviceNotify
+class Window;
+
+// ゲームを実装する 
+class Game
 {
 public:
 	// コンストラクタ
-	Game();
+	Game(int width, int height);
+	// ゲームに必要なオブジェクトを初期する
+	void Initialize();
+	// 基本ゲームループを実行する
+	MSG Tick();
+	// 終了処理をおこなう
+	void Finalize();
 
-	// 初期化処理
-	void Initialize(HWND window, int width, int height);
-
-	// ゲームループ処理
-	void Tick();
-
-	// デバイス解放処理
-	virtual void OnDeviceLost() override;
-
-	// デバイスの復元処理
-	virtual void OnDeviceRestored() override;
-
-	// 活性化処理
+	// メッセージ Messages
 	void OnActivated();
-
-	//　無効処理
 	void OnDeactivated();
-
-	// 一時停止処理
 	void OnSuspending();
-
-	// 再開処理
 	void OnResuming();
-
-	// ウィンドウサイズ変更処理
 	void OnWindowSizeChanged(int width, int height);
 
-	// デフォルトサイズを取得処理
+	// プロパティ 
 	void GetDefaultSize(int& width, int& height) const;
 
-	// フルスクリーンモードに切り替える関処理
-	void ChangeFullScreen(BOOL flag);
-
 private:
-	// 更新処理
-	void Update(DX::StepTimer const& timer);
-
-	// 描画処理
+	// ゲームを更新する 
+	void Update(const DX::StepTimer& timer);
+	// シーンを描画する 
 	void Render();
-
-	// クリア処理
+	// 画面をクリアする 
 	void Clear();
-
-	// デバイスの依存リソースの作成処理
-	void CreateDeviceDependentResources();
-
-	// ウィンドウサイズの依存リソースの作成処理
-	void CreateWindowSizeDependentResources();
+	// バックバッファをスクリーンに送る
+	void Present();
+	// FPSを描画する 
+	void DrawFPS();
 
 private:
-	//変数宣言
+	// インスタンスハンドル
+	HINSTANCE m_hInstance;
+	// 実行時のウィンドウの大きさ
+	int m_nCmdShow;
+	// デバイスリソース 
+	HWND m_hWnd;
+	// 出力幅
+	int m_width;
+	// 出力高
+	int m_height;
 
-	// デバイスリソース
-	std::unique_ptr<DX::DeviceResources>    m_deviceResources;
+	// ウィンドウ 
+	std::unique_ptr<Window> m_window;
+	// グラフィックス 
+	std::unique_ptr<DirectX11> m_graphics;
+	// ループタイマーを描画する 
+	DX::StepTimer m_timer;
 
-	// ループタイマー
-	DX::StepTimer                           m_timer;
-
-	// キーボード
-	std::unique_ptr<DirectX::Keyboard>      m_keyboard;
-
+	// キーボード 
+	std::unique_ptr<DirectX::Keyboard> m_keyboard;
 	// キーボードトラッカー
 	DirectX::Keyboard::KeyboardStateTracker m_keyboardTracker;
 
+	// スプライトバッチ 
+	std::unique_ptr<DirectX::SpriteBatch> m_spriteBatch;
+	// フォント Font
+	std::unique_ptr<DirectX::SpriteFont> m_font;
+
+	// エフェクトファクトリインターフェース 
+	//std::unique_ptr<IEffectFactory> m_fxFactory;
 	// コモンステート
-	std::unique_ptr<DirectX::CommonStates>  m_states;
+	std::unique_ptr<DirectX::CommonStates> m_commonStates;
 
-	// スプライトバッチ
-	std::unique_ptr<DirectX::SpriteBatch>   m_sprites;
+	// Graphicsクラスのインスタンスを取得する
+	DirectX11& m_directX = DirectX11::Get();
+	//SceneManagerクラス
+	std::unique_ptr<SceneManager> m_sceneManager;
 
-	// ワールド行列
-	DirectX::SimpleMath::Matrix             m_world;
-
-	// ビュー行列
-	DirectX::SimpleMath::Matrix             m_view;
-
-	// 射影行列
-	DirectX::SimpleMath::Matrix             m_projection;
-
-	// タスクマネージャ
-	std::unique_ptr<SceneManager>			 m_SceneManager;
-	// スクリーンの横幅
-	int										m_screenWidth;
-
-	// スクリーンの縦幅
-	int										m_screenHeight;
-
-	const wchar_t* m_acf;
 };
+
+#endif	// GAME_DEFINED
+

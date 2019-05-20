@@ -28,7 +28,6 @@ public:
 		m_velocity = vel;
 	}
 
-	const float GRAVITY;//重力
 
 	BoxNode& GetBox()
 	{
@@ -47,8 +46,9 @@ private:
 	//加速度
 	float m_acceleration;
 
-	const float MAX_ACCELERATION;//最高速度
-	const float MIN_ACCELERATION;//最低速度2
+	const float GRAVITY=0.98f;//重力
+	const float MAX_ACCELERATION=45.0f;//最高速度
+	const float MIN_ACCELERATION= 0.0f; //最低速度
 
 	float m_angle = 0.0f;	//角度
 

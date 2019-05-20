@@ -1,15 +1,15 @@
-#include "../../pch.h"
+//#include "../../pch.h"
+#include "../Utillity/dx.h"
+
 #include <CommonStates.h>
 
 #include "DrawManager.h"
-
-using namespace System;
 
 /// <summary>
 /// 初期化処理
 /// </summary>
 /// <param name="devise">デバイス</param>
-void DrawManager::Initialize(ID3D11Device* pDevise, ID3D11DeviceContext* pContext)
+void System::DrawManager::Initialize(ID3D11Device* pDevise, ID3D11DeviceContext* pContext)
 {
 	SetDevise(pDevise);
 
@@ -25,7 +25,7 @@ void DrawManager::Initialize(ID3D11Device* pDevise, ID3D11DeviceContext* pContex
 /// 描画
 /// </summary>
 /// <param name="data">描画データ構造体</param>
-void DrawManager::Draw(DrawData& data)
+void System::DrawManager::Draw(DrawData& data)
 {
 	mSpriteBatch->Draw(
 		(*data.GetTexture()),
@@ -41,14 +41,14 @@ void DrawManager::Draw(DrawData& data)
 /// <summary>
 /// 描画前後処理
 /// </summary>
-void DrawManager::Begin()
+void System::DrawManager::Begin()
 {
 	DirectX::CommonStates states(mpDevice);
 
 	mSpriteBatch->Begin(DirectX::SpriteSortMode_Deferred, states.NonPremultiplied());
 
 }
-void DrawManager::End()
+void System::DrawManager::End()
 {
 	mSpriteBatch->End();
 }
@@ -59,7 +59,7 @@ void DrawManager::End()
 /// <param name="pData">描画データ構造体</param>
 /// <param name="fileName">ファイル名</param>
 /// <returns>成功かどうか</returns>
-bool DrawManager::LoadTexture(DrawData& data, wchar_t* pFileName)
+bool System::DrawManager::LoadTexture(DrawData& data, wchar_t* pFileName)
 {
 	// デバイスが無いので失敗
 	if (mpDevice == NULL)
@@ -81,7 +81,7 @@ bool DrawManager::LoadTexture(DrawData& data, wchar_t* pFileName)
 	return true;
 }
 
-bool DrawManager::LoadTexture(DxTexture& pTexture, wchar_t* pFileName)
+bool System::DrawManager::LoadTexture(DxTexture& pTexture, wchar_t* pFileName)
 {
 	// デバイスが無いので失敗
 	if (mpDevice == NULL)

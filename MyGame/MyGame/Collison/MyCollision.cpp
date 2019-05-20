@@ -1,12 +1,16 @@
-#include "../../pch.h"
+#include <algorithm>
+#include <string>
+#include <d3d11.h>
+#include <DirectXMath.h>
+#include <math.h>
+#include <Windows.h>
+#include <SimpleMath.h>
 #include"MyCollision.h"
-using namespace std;
-using namespace DirectX::SimpleMath;
 
-bool CheckSphere2Sphere(const Sphere& _sphereA, const Sphere& _sphereB)
+bool CheckSphere2Sphere(const MyCollision::Sphere& _sphereA, const MyCollision::Sphere& _sphereB)
 {	
 	//球AとBの中心座標の差を計算する
-	Vector3 sub = _sphereA.Center - _sphereB.Center;
+	DirectX::SimpleMath::Vector3 sub = _sphereA.Center - _sphereB.Center;
 
 	//三平方の定理で、ベクトルの長さを計算する
 	//差分ベクトルの長さは２点間の距離
@@ -30,15 +34,15 @@ bool CheckSphere2Sphere(const Sphere& _sphereA, const Sphere& _sphereB)
 /// <param name="_p1">点1座標</param>
 /// <param name="_p2">点2座標</param>
 /// <param name="tri">三角形（結果しゅちゅりょく用）</param>
-void ComputeTriangle(const Vector3& _p0, const Vector3& _p1, const Vector3& _p2, Triangle* _triangle)
+void ComputeTriangle(const DirectX::SimpleMath::Vector3& _p0, const DirectX::SimpleMath::Vector3& _p1, const DirectX::SimpleMath::Vector3& _p2, MyCollision::Triangle* _triangle)
 {
 	_triangle->P0 = _p0;
 	_triangle->P1 = _p1;
 	_triangle->P2 = _p2;
 
 	// 法線ベクトルを計算
-	Vector3 P0_P1 = _p1 - _p0;
-	Vector3 P1_P2 = _p2 - _p1;
+	DirectX::SimpleMath::Vector3 P0_P1 = _p1 - _p0;
+	DirectX::SimpleMath::Vector3 P1_P2 = _p2 - _p1;
 
 	// 2ベクトルに垂直なベクトルを得る
 	_triangle->Normal = P0_P1.Cross(P1_P2);
@@ -53,12 +57,12 @@ void ComputeTriangle(const Vector3& _p0, const Vector3& _p1, const Vector3& _p2,
 // 戻り値 : なし
 // メ　モ : 
 //--------------------------------------------------------------------------------------------
-void ClosestPtPoint2Triangle(const Vector3& _point, const Triangle& _triangle, Vector3* _closest)
+void ClosestPtPoint2Triangle(const DirectX::SimpleMath::Vector3& _point, const MyCollision::Triangle& _triangle, DirectX::SimpleMath::Vector3* _closest)
 {
 	// _pointがP0の外側の頂点領域の中にあるかどうかチェック
-	Vector3 P0_P1 = _triangle.P1 - _triangle.P0;
-	Vector3 P0_P2 = _triangle.P2 - _triangle.P0;
-	Vector3 P0_PT = _point - _triangle.P0;
+	DirectX::SimpleMath::Vector3 P0_P1 = _triangle.P1 - _triangle.P0;
+	DirectX::SimpleMath::Vector3 P0_P2 = _triangle.P2 - _triangle.P0;
+	DirectX::SimpleMath::Vector3 P0_PT = _point - _triangle.P0;
 
 	float d1 = P0_P1.Dot(P0_PT);
 	float d2 = P0_P2.Dot(P0_PT);
@@ -71,7 +75,7 @@ void ClosestPtPoint2Triangle(const Vector3& _point, const Triangle& _triangle, V
 	}
 
 	// _pointがP1の外側の頂点領域の中にあるかどうかチェック
-	Vector3 P1_PT = _point - _triangle.P1;
+	DirectX::SimpleMath::Vector3 P1_PT = _point - _triangle.P1;
 
 	float d3 = P0_P1.Dot(P1_PT);
 	float d4 = P0_P2.Dot(P1_PT);
@@ -94,7 +98,7 @@ void ClosestPtPoint2Triangle(const Vector3& _point, const Triangle& _triangle, V
 	}
 
 	// _pointがP2の外側の頂点領域の中にあるかどうかチェック
-	Vector3 P2_PT = _point - _triangle.P2;
+	DirectX::SimpleMath::Vector3 P2_PT = _point - _triangle.P2;
 
 	float d5 = P0_P1.Dot(P2_PT);
 	float d6 = P0_P2.Dot(P2_PT);
@@ -129,24 +133,24 @@ void ClosestPtPoint2Triangle(const Vector3& _point, const Triangle& _triangle, V
 
 }
 
-bool CheckPoint2Triangle(const Vector3& _point, const Triangle& _triangle)
+bool CheckPoint2Triangle(const DirectX::SimpleMath::Vector3& _point, const MyCollision::Triangle& _triangle)
 {
 	//点と三角形は同一平面上にあるものとしています。同一平面上に無い場合は正しい結果になりません
 	//線上は外とみなします。
 	//ABCが三角形かどうかのチェックは省略...
 
 	// 点0→1、 1→2、 2→0 のベクトルをそれぞれ計算
-	Vector3 v01 = _triangle.P1 - _triangle.P0;
-	Vector3 v12 = _triangle.P2 - _triangle.P1;
-	Vector3 v20 = _triangle.P0 - _triangle.P2;
+	DirectX::SimpleMath::Vector3 v01 = _triangle.P1 - _triangle.P0;
+	DirectX::SimpleMath::Vector3 v12 = _triangle.P2 - _triangle.P1;
+	DirectX::SimpleMath::Vector3 v20 = _triangle.P0 - _triangle.P2;
 	// 三角形の各頂点から点へのベクトルをそれぞれ計算
-	Vector3 v0p = _point - _triangle.P0;
-	Vector3 v1p = _point - _triangle.P1;
-	Vector3 v2p = _point - _triangle.P2;
+	DirectX::SimpleMath::Vector3 v0p = _point - _triangle.P0;
+	DirectX::SimpleMath::Vector3 v1p = _point - _triangle.P1;
+	DirectX::SimpleMath::Vector3 v2p = _point - _triangle.P2;
 	// 各辺ベクトルと、点へのベクトルの外積を計算
-	Vector3 c0 = v01.Cross(v0p);
-	Vector3 c1 = v12.Cross(v1p);
-	Vector3 c2 = v20.Cross(v2p);
+	DirectX::SimpleMath::Vector3 c0 = v01.Cross(v0p);
+	DirectX::SimpleMath::Vector3 c1 = v12.Cross(v1p);
+	DirectX::SimpleMath::Vector3 c2 = v20.Cross(v2p);
 	// 内積で同じ方向かどうか調べる
 	float dot01 = c0.Dot(c1);
 	float dot02 = c0.Dot(c2);
@@ -169,14 +173,14 @@ bool CheckPoint2Triangle(const Vector3& _point, const Triangle& _triangle)
 // 戻り値 : 交差しているか否か
 // メ　モ : 裏面の当たりはとらない
 //--------------------------------------------------------------------------------------------
-bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& tri, Vector3 *inter)
+bool CheckSphere2Triangle(const MyCollision::Sphere& sphere, const MyCollision::Triangle& tri, DirectX::SimpleMath::Vector3 *inter)
 {
-	Vector3 p;
+	DirectX::SimpleMath::Vector3 p;
 
 	//球の中心に一番近い点である三角形上の点Ｐをみつける
 	ClosestPtPoint2Triangle(sphere.Center, tri, &p);
 
-	Vector3 v = p - sphere.Center;
+	DirectX::SimpleMath::Vector3 v = p - sphere.Center;
 
 	// 球と三角形が交差するのは、球の中心から点pまでの距離が球の半径よりも小さい場合
 	if (v.Dot(v) <= sphere.Radius * sphere.Radius)
@@ -200,7 +204,7 @@ bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& tri, Vector3 *in
 	if (fabsf(dist) > sphere.Radius)	return false;
 	// 中心点を平面に射影したとき、三角形の内側にあれば、当たっている
 	// 射影した座標
-	Vector3 center = -dist * tri.Normal + sphere.Center;
+	DirectX::SimpleMath::Vector3 center = -dist * tri.Normal + sphere.Center;
 
 	// 三角形の外側になければ、当たっていない
 	if (!CheckPoint2Triangle(center, tri))	return false;
@@ -215,25 +219,25 @@ bool CheckSphere2Triangle(const Sphere& sphere, const Triangle& tri, Vector3 *in
 }
 
 //カプセルとの判定
-bool CheckSegment2Triangle(const Segment& _segment, const Triangle& _triangle, Vector3 *_inter)
+bool CheckSegment2Triangle(const MyCollision::Segment& _segment, const MyCollision::Triangle& _triangle, DirectX::SimpleMath::Vector3 *_inter)
 {
 	const float epsilon = -1.0e-5f;	// 誤差吸収用の微小な値
-	Vector3 	LayV;		// 線分の終点→始点
-	Vector3 	tls;		// 三角形の頂点0→線分の始点
-	Vector3 	tle;		// 三角形の頂点0→線分の終点
+	DirectX::SimpleMath::Vector3 	LayV;		// 線分の終点→始点
+	DirectX::SimpleMath::Vector3 	tls;		// 三角形の頂点0→線分の始点
+	DirectX::SimpleMath::Vector3 	tle;		// 三角形の頂点0→線分の終点
 	float 	distl0;
 	float 	distl1;
 	float 	dp;
 	float 	denom;
 	float 	t;
-	Vector3	s;			// 直線と平面との交点
-	Vector3 	st0;		// 交点→三角形の頂点0
-	Vector3 	st1;		// 交点→三角形の頂点1
-	Vector3 	st2;		// 交点→三角形の頂点2
-	Vector3 	t01;		// 三角形の頂点0→頂点1
-	Vector3 	t12;		// 三角形の頂点1→頂点2
-	Vector3 	t20;		// 三角形の頂点2→頂点0
-	Vector3	m;
+	DirectX::SimpleMath::Vector3	s;			// 直線と平面との交点
+	DirectX::SimpleMath::Vector3 	st0;		// 交点→三角形の頂点0
+	DirectX::SimpleMath::Vector3 	st1;		// 交点→三角形の頂点1
+	DirectX::SimpleMath::Vector3 	st2;		// 交点→三角形の頂点2
+	DirectX::SimpleMath::Vector3 	t01;		// 三角形の頂点0→頂点1
+	DirectX::SimpleMath::Vector3 	t12;		// 三角形の頂点1→頂点2
+	DirectX::SimpleMath::Vector3 	t20;		// 三角形の頂点2→頂点0
+	DirectX::SimpleMath::Vector3	m;
 
 	// 線分の始点が三角系の裏側にあれば、当たらない
 	tls = _segment.Start - _triangle.P0;
@@ -288,14 +292,14 @@ bool CheckSegment2Triangle(const Segment& _segment, const Triangle& _triangle, V
 // 戻り値 : 交差しているか否か
 // メ　モ : 裏面の当たりはとらない
 //--------------------------------------------------------------------------------------------
-bool CheckSphere2Triangle(const Sphere& _sphere,  Triangle& _triangle, Vector3 *_inter)
+bool CheckSphere2Triangle(const MyCollision::Sphere& _sphere, MyCollision::Triangle& _triangle, DirectX::SimpleMath::Vector3 *_inter)
 {
-	Vector3 p;
+	DirectX::SimpleMath::Vector3 p;
 
 	// 球の中心に対する最近接点である三角形上にある点pを見つける
 	ClosestPtPoint2Triangle(_sphere.Center, _triangle, &p);
 
-	Vector3 v = p - _sphere.Center;
+	DirectX::SimpleMath::Vector3 v = p - _sphere.Center;
 
 	// 球と三角形が交差するのは、球の中心から点pまでの距離が球の半径よりも小さい場合
 	if (v.Dot(v) <= _sphere.Radius * _sphere.Radius)
@@ -319,7 +323,7 @@ bool CheckSphere2Triangle(const Sphere& _sphere,  Triangle& _triangle, Vector3 *
 	if (fabsf(dist) > _sphere.Radius)	return false;
 	// 中心点を平面に射影したとき、三角形の内側にあれば、当たっている
 	// 射影した座標
-	Vector3 center = -dist * _triangle.Normal + _sphere.Center;
+	DirectX::SimpleMath::Vector3 center = -dist * _triangle.Normal + _sphere.Center;
 
 	// 三角形の外側になければ、当たっていない
 	if (!CheckPoint2Triangle(center, _triangle))	return false;
@@ -338,11 +342,11 @@ bool CheckSphere2Triangle(const Sphere& _sphere,  Triangle& _triangle, Vector3 *
 /// <param name="_box">Box：あたり判定を調べる箱</param>
 /// <param name="_inter">Inter：交点（省略可）</param>
 /// <returns></returns>
-bool CheckSphere2Box(const Sphere& _sphere, const Box& _box, Vector3* _inter)
+bool CheckSphere2Box(const MyCollision::Sphere& _sphere, const MyCollision::Box& _box, DirectX::SimpleMath::Vector3* _inter)
 {
-	Vector3 p;
+	DirectX::SimpleMath::Vector3 p;
 
-	Triangle boxTriangle[12];
+	MyCollision::Triangle boxTriangle[12];
 
 	//三角形を作成
 	ComputeTriangle(_box.Pos0, _box.Pos1, _box.Pos2, &boxTriangle[0]);
@@ -393,7 +397,7 @@ bool CheckSphere2Box(const Sphere& _sphere, const Box& _box, Vector3* _inter)
 /// <param name="_box2">BOX：2つ目の箱のあたり判定</param>
 /// <param name="_inter">Inter：交点（省略可）</param>
 /// <returns></returns>
-bool CheckBox2BoxAABB(Box _box1, Box _box2) 
+bool CheckBox2BoxAABB(MyCollision::Box _box1, MyCollision::Box _box2)
 {
 	if (_box1.Pos0.x > _box2.Pos7.x)return false;
 	if (_box1.Pos7.x < _box2.Pos0.x)return false;
@@ -405,7 +409,7 @@ bool CheckBox2BoxAABB(Box _box1, Box _box2)
 }
 
 //カプセル同士のあたり判定
-bool CheckCapsule2Capsule(Capsule _0, Capsule _1)
+bool CheckCapsule2Capsule(MyCollision::Capsule _0, MyCollision::Capsule _1)
 {
 	float disSQ = GetSqDistanceSegment2Segment(_0.Segment,_1.Segment);
 	float radiusSum = _0.Radius + _1.Radius;
@@ -416,12 +420,12 @@ bool CheckCapsule2Capsule(Capsule _0, Capsule _1)
 	return true;
 }
 
-float GetSqDistancePoint2Segment(const Vector3& _point, const Segment& _segment)
+float GetSqDistancePoint2Segment(const DirectX::SimpleMath::Vector3& _point, const MyCollision::Segment& _segment)
 {
 	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
-	Vector3 SegmentSub;
-	Vector3 SegmentPoint;
-	Vector3 CP;
+	DirectX::SimpleMath::Vector3 SegmentSub;
+	DirectX::SimpleMath::Vector3 SegmentPoint;
+	DirectX::SimpleMath::Vector3 CP;
 
 	// 線分の始点から終点へのベクトル
 	SegmentSub = _segment.Vec - _segment.Start;
@@ -447,12 +451,12 @@ float GetSqDistancePoint2Segment(const Vector3& _point, const Segment& _segment)
 	return CP.Dot(CP) / SegmentSub.Dot(SegmentSub);
 }
 
-float GetSqDistanceSegment2Segment(const Segment& _segment0, const Segment& _segment1)
+float GetSqDistanceSegment2Segment(const MyCollision::Segment& _segment0, const MyCollision::Segment& _segment1)
 {
 	const float epsilon = 1.0e-5f;	// 誤差吸収用の微小な値
-	Vector3 d0, d1, r;
-	Vector3 c0, c1;	// 二つの線分上の最接近点
-	Vector3 v;		// c1→c0ベクトル
+	DirectX::SimpleMath::Vector3 d0, d1, r;
+	DirectX::SimpleMath::Vector3 c0, c1;	// 二つの線分上の最接近点
+	DirectX::SimpleMath::Vector3 v;		// c1→c0ベクトル
 	float a, b, c, e, f;
 	float s, t;
 	float denom;
@@ -524,10 +528,10 @@ float GetSqDistanceSegment2Segment(const Segment& _segment0, const Segment& _seg
 	return v.Dot(v);
 }
 
-bool CheckPlane2box(const Planar & _planer, const Box & _box, DirectX::SimpleMath::Vector3 * _inter)
+bool CheckPlane2box(const MyCollision::Planar & _planer, const MyCollision::Box & _box, DirectX::SimpleMath::Vector3 * _inter)
 {
 	//囲う線を一時的に作成
-	Segment segment[2];
+	MyCollision::Segment segment[2];
 
 	segment[0].Start = _planer.Vertex[0];
 	segment[0].Vec = _planer.Vertex[1];
@@ -549,14 +553,14 @@ bool CheckPlane2box(const Planar & _planer, const Box & _box, DirectX::SimpleMat
 // 最小値と最大値の間にクランプする
 inline float Clamp(float _x, float _min, float _max)
 {
-	return std::min(std::max(_x, _min), _max);
+	return min(max(_x, _min), _max);
 }
 
-bool CheckCapsuleSphere2Box(const Capsule& _Capsule, const Box& _box, Vector3* _inter)
+bool CheckCapsuleSphere2Box(const MyCollision::Capsule& _Capsule, const MyCollision::Box& _box, DirectX::SimpleMath::Vector3* _inter)
 {
-	Vector3 p;
+	DirectX::SimpleMath::Vector3 p;
 
-	Triangle boxTriangle[12];
+	MyCollision::Triangle boxTriangle[12];
 
 	ComputeTriangle(_box.Pos0, _box.Pos1, _box.Pos2, &boxTriangle[0]);
 	ComputeTriangle(_box.Pos1, _box.Pos2, _box.Pos3, &boxTriangle[1]);
@@ -571,7 +575,7 @@ bool CheckCapsuleSphere2Box(const Capsule& _Capsule, const Box& _box, Vector3* _
 	ComputeTriangle(_box.Pos2, _box.Pos3, _box.Pos7, &boxTriangle[10]);
 	ComputeTriangle(_box.Pos3, _box.Pos7, _box.Pos6, &boxTriangle[11]);
 
-	Sphere CapsuleSphere;
+	MyCollision::Sphere CapsuleSphere;
 
 	CapsuleSphere.Center;
 
@@ -586,7 +590,7 @@ bool CheckCapsuleSphere2Box(const Capsule& _Capsule, const Box& _box, Vector3* _
 
 	for (int i = 0; i < h; i++)
 	{
-		CapsuleSphere.Center = Vector3(_Capsule.Segment.Vec.x, _Capsule.Segment.Vec.y + h, _Capsule.Segment.Vec.z);
+		CapsuleSphere.Center = DirectX::SimpleMath::Vector3(_Capsule.Segment.Vec.x, _Capsule.Segment.Vec.y + h, _Capsule.Segment.Vec.z);
 
 		if (CheckSphere2Triangle(CapsuleSphere, boxTriangle[0], &p) ||
 			CheckSphere2Triangle(CapsuleSphere, boxTriangle[1], &p) ||
@@ -614,7 +618,7 @@ bool CheckCapsuleSphere2Box(const Capsule& _Capsule, const Box& _box, Vector3* _
 	return false;
 }
 
-bool CheckCapsule2Sphere(const Capsule & _Capsule, const Sphere & _sphere, DirectX::SimpleMath::Vector3 * _inter)
+bool CheckCapsule2Sphere(const MyCollision::Capsule & _Capsule, const MyCollision::Sphere & _sphere, DirectX::SimpleMath::Vector3 * _inter)
 {
 	float distance2 = GetSqDistancePoint2Segment(_sphere.Center, _Capsule.Segment);
 
@@ -625,7 +629,7 @@ bool CheckCapsule2Sphere(const Capsule & _Capsule, const Sphere & _sphere, Direc
 	return true;
 }
 
-void Planar::SetPlane(DirectX::SimpleMath::Vector3 normal, DirectX::SimpleMath::Vector3 point)
+void MyCollision::Planar::SetPlane(DirectX::SimpleMath::Vector3 normal, DirectX::SimpleMath::Vector3 point)
 {
 	normal.Normalize();
 	p.x = normal.x;
@@ -635,7 +639,7 @@ void Planar::SetPlane(DirectX::SimpleMath::Vector3 normal, DirectX::SimpleMath::
 	p.w = -((normal.x*point.x) + (normal.y*point.y) + (normal.z*point.z));
 }
 
-void Planar::SetPlane(DirectX::SimpleMath::Vector3 pos1, DirectX::SimpleMath::Vector3 pos2, DirectX::SimpleMath::Vector3 pos3)
+void MyCollision::Planar::SetPlane(DirectX::SimpleMath::Vector3 pos1, DirectX::SimpleMath::Vector3 pos2, DirectX::SimpleMath::Vector3 pos3)
 {
 	DirectX::SimpleMath::Vector3 vec_a = pos2 - pos1;
 	DirectX::SimpleMath::Vector3 vec_b = pos3 - pos2;

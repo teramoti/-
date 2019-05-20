@@ -46,7 +46,7 @@ public:
 };
 
 // 球の当たり判定ノード //
-class SphereNode : public CollisionNode , public Sphere
+class SphereNode : public CollisionNode , public MyCollision::Sphere
 {
 protected:
 // メンバ変数
@@ -69,7 +69,7 @@ public:
 	DirectX::SimpleMath::Vector3 GetTrans() { return m_Trans; }
 };
 
-class BoxNode :public CollisionNode, public Box 
+class BoxNode :public CollisionNode, public MyCollision::Box
 {
 protected:
 // メンバ変数
@@ -103,7 +103,7 @@ public:
 
 };
 
-class CapsuleNode :public CollisionNode, public Capsule
+class CapsuleNode :public CollisionNode, public MyCollision::Capsule
 {
 private:
 
@@ -129,7 +129,7 @@ public:
 };
 
 //自作
-class PlanarNode :public CollisionNode, public Planar
+class PlanarNode :public CollisionNode, public MyCollision::Planar
 {
 public:
 	PlanarNode();

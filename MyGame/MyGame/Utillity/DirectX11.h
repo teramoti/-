@@ -1,156 +1,161 @@
-#pragma once
 #ifndef DIRECTX11_DEFINED
 #define DIRECTX11_DEFINED
 
+#include <windows.h>
+#include <d3d11.h>
 #include <memory>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+
 #include <algorithm>
 #include <exception>
 #include <stdexcept>
-
-#include <DirectXMath.h>
-#include <DirectXColors.h>
-#include <windows.h>
+#include <SimpleMath.h>
 #include <wrl.h>
 #include <wrl/client.h>
-#include <d3d11_1.h>
-#include <SimpleMath.h>
+#include "dx.h"
 
-#include "../../StepTimer.h"
-//#include "NonCopyable.h"
-
-using namespace std;
-
-// DirectX11クラス
-class DirectX11 //: public NonCopyable
+// Uncopyableクラス
+class Uncopyable 
 {
+protected:
+	Uncopyable() = default;
+	~Uncopyable() = default;
+private:
+	Uncopyable(const Uncopyable&) = delete;
+	Uncopyable& operator =(const Uncopyable&) = delete;
+};
+
+// Graphicsクラス
+class DirectX11 : private Uncopyable 
+{
+private:
+	// コンストラクタ
+	DirectX11() 
+	{
+	}
 
 public:
-	// DirectX11クラスのインスタンスを取得する
-	static DirectX11& Get() noexcept
+	// DirectX11 Graphicsクラスのインスタンスを取得する 
+	static DirectX11& Get() 
 	{
-		if (s_directX.get() == nullptr)
+		if (m_directX.get() == nullptr) 
 		{
-			// DirectX11オブジェクトを生成する
-			s_directX.reset(new DirectX11());
+			m_directX.reset(new DirectX11());
 		}
-		return *s_directX.get();
+		return *m_directX.get();
 	}
-
-	// DirectX11オブジェクトを破棄する
-	static void Dispose() noexcept
+	// DirectX11 Graphicsオブジェクトを破棄する 
+	static void Dispose() 
 	{
-		s_directX.reset();
+		m_directX.reset();
 	}
-
-	// ウィンドウ幅を取得する
-	int GetWidth() const
-	{
-		return m_width;
-	}
-
-	// ウィンドウ幅を設定する
-	void SetWidth(const int& width) 
-	{
-		m_width = width;
-	}
-
-	// ウィンドウ高を取得する
-	int GetHeight() const 
-	{
-		return m_height;
-	}
-
-	// ウィンドウ高を設定する
-	void SetHeight(const int& height) 
-	{
-		m_height = height;
-	}
-
-	// ウィンドウハンドルを取得する
+	// ウィンドウハンドルを取得する 
 	HWND GetHWnd() const
 	{
 		return m_hWnd;
 	}
-
-	// ウィンドウハンドルを設定する
-	void SetHWnd(const HWND& hWnd)
+	// ウィンドウハンドルを設定する 
+	void SetHWnd(HWND hWnd) 
 	{
 		m_hWnd = hWnd;
 	}
-
-	// デバイスを取得する
+	// ウィンドウ幅を取得する 
+	int GetWidth() const
+	{
+		return m_width;
+	}
+	// ウィンドウ幅を設定する 
+	void SetWidth(int width) 
+	{
+		m_width = width;
+	}
+	// ウィンドウ高を取得する 
+	int GetHeight() const
+	{
+		return m_height;
+	}
+	// ウィンドウ高を設定する 
+	void SetHeight(int height) 
+	{
+		m_height = height;
+	}
+	// デバイスを取得する Get device object
 	Microsoft::WRL::ComPtr<ID3D11Device> GetDevice() const
-	{ 
+	{
 		return m_device; 
 	}
-
-	// デバイスコンテキストを取得する
+	// デバイスを設定する Set device object
+	void SetDevice(Microsoft::WRL::ComPtr<ID3D11Device> device) 
+	{
+		m_device = device;
+	}
+	// デバイスコンテキストを取得する 
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> GetContext() const
 	{
 		return m_context;
 	}
+	// デバイスコンテキストを設定する 
+	void SetContext(Microsoft::WRL::ComPtr<ID3D11DeviceContext> context) 
+	{
+		m_context = context;
+	}
 
-	// スワップチェインを取得する
+	// スワップチェインを取得する 
 	Microsoft::WRL::ComPtr<IDXGISwapChain> GetSwapChain() const
 	{
 		return m_swapChain;
 	}
-
 	// スワップチェインを設定する
-	void SetSwapChain(const Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain) 
+	void SetSwapChain(Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain) 
 	{
 		m_swapChain = swapChain;
 	}
-
 	// レンダーターゲットビューを取得する
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> GetRenderTargetView() const
 	{
 		return m_renderTargetView;
 	}
+	// レンダーターゲットビューを設定する
+	void SetRenderTargetView(Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTargetView) {
+		m_renderTargetView = renderTargetView;
+	}
 
-	// デプスステンシルビューを取得する
+	// デプスステンシルビューを取得する 
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> GetDepthStencilView() const
 	{
 		return m_depthStencilView;
 	}
+	// デプスステンシルビューを設定する 
+	void SetDepthStencilView(Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depthStencilView) {
+		m_depthStencilView = depthStencilView;
+	}
 
-	// デバイスを生成する
-	void CreateDevice() noexcept;
+	// デバイスを生成する 
+	void CreateDevice();
+	// リソースを生成する 
+	void CreateResources();
 
-	// リソースを生成する
-	void CreateResources() noexcept;
-
-	// デバイスロストが発生した場合
+	// デバイスロストが発生した場合 
 	void OnDeviceLost();
 
 private:
-	// DirectX11オブジェクトへの静的ポインタ
-	static std::unique_ptr<DirectX11> s_directX;
+	static std::unique_ptr<DirectX11> m_directX;
 
-	// 幅
-	int  m_width;
-	// 高さ
-	int  m_height;
-	// ウィンドウハンドル
 	HWND m_hWnd;
-	// デバイス
+	int  m_width;
+	int  m_height;
 	Microsoft::WRL::ComPtr<ID3D11Device> m_device;
-	Microsoft::WRL::ComPtr<ID3D11Device1> m_device1;
-	// デバイスコンテキスト
+	Microsoft::WRL::ComPtr<ID3D11Device> m_device1;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext>	m_context;
-	Microsoft::WRL::ComPtr<ID3D11DeviceContext1> m_context1;
-	// 機能レベル
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_context1;
 	D3D_FEATURE_LEVEL  m_featureLevel;
-	// スワップチェーン
+
 	Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapChain;
 	Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain1;
-	// レンダーターゲットビュー
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
-	// デプスステンシルビュー
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
-
-
 };
 
-#endif	// DIRECTX11_DEFINED
+#endif	// DirectX11 GRAPHICS
 

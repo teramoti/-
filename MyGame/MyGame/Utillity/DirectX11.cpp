@@ -8,10 +8,10 @@ extern "C"
 }
 
 // シングルトンのためのポインタ変数を初期化する
-std::unique_ptr<DirectX11> DirectX11::s_directX(nullptr);
+std::unique_ptr<DirectX11> DirectX11::m_directX(nullptr);
 
 // デバイスを生成する
-void DirectX11::CreateDevice() noexcept
+void DirectX11::CreateDevice()
 {
 	UINT creationFlags = 0;
 
@@ -21,7 +21,7 @@ void DirectX11::CreateDevice() noexcept
 
 	static const D3D_FEATURE_LEVEL featureLevels[] = 
 	{
-		// TODO: サポートされるDirect3D機能レベルを修正する(11.1 フォルバックハンドリングに関連したコードを参考).
+		// TODO: サポートされるDirect3D機能レベルを修正する(11.1 フォルバックハンドリングに関連したコードを参考).	
 		D3D_FEATURE_LEVEL_11_1,
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
@@ -33,16 +33,16 @@ void DirectX11::CreateDevice() noexcept
 
 	// DX11 APIデバイスオブジェクトを生成し対応するコンテキストを取得する
 	HRESULT hr = D3D11CreateDevice(
-		nullptr,                 // 規定のアダプタを使用するためにnullptrを指定する
+		nullptr,                 // 規定のアダプタを使用するためにnullptrを指定する specify nullptr to use the default adapter
 		D3D_DRIVER_TYPE_HARDWARE,
 		nullptr,
 		creationFlags,
 		featureLevels,
 		_countof(featureLevels),
 		D3D11_SDK_VERSION,
-		m_device.ReleaseAndGetAddressOf(),		// 生成されたDirect3Dデバイスを返す
-		&m_featureLevel,						// 生成されたデバイスの機能レベルを返す
-		m_context.ReleaseAndGetAddressOf()		// デバイスイミディエイトコンテキストを返す
+		m_device.ReleaseAndGetAddressOf(),   // 生成されたDirect3Dデバイスを返す returns the Direct3D device created
+		&m_featureLevel,                     // 生成されたデバイスの機能レベルを返す returns feature level of device created
+		m_context.ReleaseAndGetAddressOf()   // デバイスイミディエイトコンテキストを返す returns the device immediate context
 	);
 
 	if (hr == E_INVALIDARG) 
@@ -65,18 +65,16 @@ void DirectX11::CreateDevice() noexcept
 
 #ifndef NDEBUG
 	Microsoft::WRL::ComPtr<ID3D11Debug> d3dDebug;
-	if (SUCCEEDED(this->m_device.As(&d3dDebug))) 
-	{
+	if (SUCCEEDED(m_device.As(&d3dDebug))) {
 		Microsoft::WRL::ComPtr<ID3D11InfoQueue> d3dInfoQueue;
-		if (SUCCEEDED(d3dDebug.As(&d3dInfoQueue))) 
-		{
+		if (SUCCEEDED(d3dDebug.As(&d3dInfoQueue))) {
 #ifdef _DEBUG
 			d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_CORRUPTION, true);
 			d3dInfoQueue->SetBreakOnSeverity(D3D11_MESSAGE_SEVERITY_ERROR, true);
 #endif
 			D3D11_MESSAGE_ID hide[] = {
 				D3D11_MESSAGE_ID_SETPRIVATEDATA_CHANGINGPARAMS,
-				// TODO: 必要に応じてメッセージIDを追加する
+				// TODO: 必要に応じてメッセージIDを追加する 
 			};
 			D3D11_INFO_QUEUE_FILTER filter = {};
 			filter.DenyList.NumIDs = _countof(hide);
@@ -85,17 +83,17 @@ void DirectX11::CreateDevice() noexcept
 		}
 	}
 #endif
-	// DirectX 11.1が存在する場合 DirectX 11.1
+	// DirectX 11.1が存在する場合 DirectX 11.1 if present
 	if (SUCCEEDED(m_device.As(&m_device1)))
-		(void)this->m_context.As(&m_context1);
+		(void)m_context.As(&m_context1);
 
 	// TODO: デバイスに依存したオブジェクトを初期化する 
 }
 
 // SizeChangedイベントでウィンドウを変更するすべてのメモリリソースを配置する
-void DirectX11::CreateResources() noexcept
+void DirectX11::CreateResources()
 {
-	// 直前のウィンドウサイズを指定されたコンテキストでクリアする
+	// 直前のウィンドウサイズを指定されたコンテキストでクリアする Clear the previous window size specific context.
 	ID3D11RenderTargetView* nullViews[] = { nullptr };
 	m_context->OMSetRenderTargets(_countof(nullViews), nullViews, nullptr);
 	m_renderTargetView.Reset();
@@ -117,7 +115,8 @@ void DirectX11::CreateResources() noexcept
 		{
 			// デバイスが何らかの理由で削除された場合新しいデバイスとスワップチェインを生成する必要がある
 			OnDeviceLost();
-			// すべてがセットアップされた。この関数はこれ以上継続しない
+			// すべてがセットアップされた。この関数での実行を継続しない
+			// OnDeviceLostがこの関数を再度呼び出し、正しく新デバイスの再設定を可能にする
 			return;
 		}
 		else 
@@ -125,13 +124,12 @@ void DirectX11::CreateResources() noexcept
 			DX::ThrowIfFailed(hr);
 		}
 	}
-	else 
-	{
-		// まず、D3DデバイスからDirectX Graphics Interface(DXGI)デバイスを検索する
+	else {
+		// まず、D3DデバイスからDirectX Graphics Interface(DXGI)デバイスを検索する 
 		Microsoft::WRL::ComPtr<IDXGIDevice1> dxgiDevice;
 		DX::ThrowIfFailed(m_device.As(&dxgiDevice));
 
-		// デバイスが実行中の物理アダプタ(GPUまたはカード)を識別する
+		// デバイスが実行中の物理アダプタ（GPUまたはカード）を識別する 
 		Microsoft::WRL::ComPtr<IDXGIAdapter> dxgiAdapter;
 		DX::ThrowIfFailed(dxgiDevice->GetAdapter(dxgiAdapter.GetAddressOf()));
 
@@ -142,7 +140,8 @@ void DirectX11::CreateResources() noexcept
 		Microsoft::WRL::ComPtr<IDXGIFactory2> dxgiFactory2;
 		if (SUCCEEDED(dxgiFactory.As(&dxgiFactory2))) 
 		{
-			// DirectX 11.1またはそれ以降の場合スワップチェインのためのディスクリプタを生成する
+			// DirectX 11.1またはそれ以降 DirectX 11.1 or later
+			// スワップチェインのためのディスクリプタを生成する
 			DXGI_SWAP_CHAIN_DESC1 swapChainDesc = { 0 };
 			swapChainDesc.Width = backBufferWidth;
 			swapChainDesc.Height = backBufferHeight;
@@ -155,7 +154,7 @@ void DirectX11::CreateResources() noexcept
 			DXGI_SWAP_CHAIN_FULLSCREEN_DESC fsSwapChainDesc = { 0 };
 			fsSwapChainDesc.Windowed = TRUE;
 
-			// Win32ウィンドウからスワップチェインを生成する
+			// Win32ウィンドウからスワップチェインを生成する Create a SwapChain from a Win32 window.
 			DX::ThrowIfFailed(dxgiFactory2->CreateSwapChainForHwnd(
 				m_device.Get(),
 				m_hWnd,
@@ -195,39 +194,28 @@ void DirectX11::CreateResources() noexcept
 	// バインド時に使用するレンダーターゲット上のビューインターフェースを生成する
 	DX::ThrowIfFailed(m_device->CreateRenderTargetView(backBuffer.Get(), nullptr, m_renderTargetView.ReleaseAndGetAddressOf()));
 
-	// 深度/ステンシルバッファとして2Dサーフェイスを配置し、バインド時に使用する
+	// デプス/ステンシルバッファとして2-Dサーフェイスを配置し、バインド時に使用する
 	// サーフェイス上のデプスステンシルビューを生成する
 	CD3D11_TEXTURE2D_DESC depthStencilDesc(depthBufferFormat, backBufferWidth, backBufferHeight, 1, 1, D3D11_BIND_DEPTH_STENCIL);
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> depthStencil;
-	// Texture2Dオブジェクトを生成する
 	DX::ThrowIfFailed(m_device->CreateTexture2D(&depthStencilDesc, nullptr, depthStencil.GetAddressOf()));
 
 	CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
-	// DepthStencilViewオブジェクトを生成する
 	DX::ThrowIfFailed(m_device->CreateDepthStencilView(depthStencil.Get(), &depthStencilViewDesc, m_depthStencilView.ReleaseAndGetAddressOf()));
 
-	// TODO: ウィンドウサイズに依存したオブジェクトを初期化する
+	// TODO: ウィンドウサイズに依存したオブジェクトを初期化する 
 }
 
-// デバイスロストが発生した場合に呼び出される
 void DirectX11::OnDeviceLost() 
 {
-	// DepthStencilViewオブジェクトを解放する
 	m_depthStencilView.Reset();
-	// RenderTargetViewオブジェクトを解放する
 	m_renderTargetView.Reset();
-	// SwapChain1オブジェクトを解放する
 	m_swapChain1.Reset();
-	// SwapChainオブジェクトを解放する
 	m_swapChain.Reset();
-	// DeviceContextオブジェクトを解放する
 	m_context1.Reset();
-	// DeviceContextオブジェクトを解放する
 	m_context.Reset();
-	// Device1オブジェクトを解放する
 	m_device1.Reset();
-	// Deviceオブジェクトを解放する
 	m_device.Reset();
 	// デバイスを生成する
 	CreateDevice();

@@ -1,4 +1,3 @@
-#include "../../../pch.h"
 #include "CheckPoint.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;

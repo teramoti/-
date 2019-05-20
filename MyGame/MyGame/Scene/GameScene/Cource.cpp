@@ -1,4 +1,4 @@
-#include "../../../pch.h"
+//#include "../../../pch.h"
 #include "Cource.h"
 using namespace DirectX;
 using namespace DirectX::SimpleMath;

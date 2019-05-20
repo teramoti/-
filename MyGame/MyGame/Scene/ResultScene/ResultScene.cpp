@@ -24,7 +24,7 @@ ResultScene::~ResultScene()
 	delete m_Rank;
 }
 
-void ResultScene::Initialize(int width, int height,ID3D11Device* device, ID3D11DeviceContext* context)
+void ResultScene::Initialize()
 {
 	m_score = new ResultTime();
 	m_score->Initilize();
@@ -50,7 +50,7 @@ void ResultScene::Initialize(int width, int height,ID3D11Device* device, ID3D11D
 	}
 }
 
-void ResultScene::Update(DX::StepTimer step)
+void ResultScene::Update(DX::StepTimer& step)
 {
 	m_score->Update(); 
 	m_Wscore->Update();
@@ -63,7 +63,7 @@ void ResultScene::Update(DX::StepTimer step)
 
 		if (m_SceneFlag == true)
 		{	
-			m_sceneManager->SetScene(TITLE_SCENE,800,600);
+			m_sceneManager->SetScene(TITLE_SCENE);
 		}
 }
 
