@@ -1,8 +1,11 @@
 #pragma once
+
+//インクルードファイルの宣言
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include <Mouse.h>
 #include <KeyBoard.h>
+
 #include "../Utillity/SingletonBase.h"
 namespace System
 {

@@ -1,9 +1,18 @@
-﻿#ifndef GAME_DEFINED
+﻿//------------------------//------------------------
+// Contents(処理内容) Game.hの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
+
+#ifndef GAME_DEFINED
 #define GAME_DEFINED
 
 // Use the C++ standard templated min/max
 #define NOMINMAX
 
+//インクルードファイルの宣言
 #include <windows.h>
 #include <iostream>
 #include <string>
@@ -20,6 +29,7 @@
 #include <WICTextureLoader.h>
 #include <algorithm>
 #include <CommonStates.h>
+
 #include "StepTimer.h"
 #include "MyGame\\Utillity\\dx.h"
 #include "Window.h"

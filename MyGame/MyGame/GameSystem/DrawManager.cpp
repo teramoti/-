@@ -15,10 +15,6 @@ void System::DrawManager::Initialize(ID3D11Device* pDevise, ID3D11DeviceContext*
 
 
 	mSpriteBatch = std::make_unique<DirectX::SpriteBatch>(pContext);
-
-	// スプライトフォントの作成
-	//m_font = std::make_unique<DirectX::SpriteFont>(pDevise, L"SegoeUI_18.spritefont");
-
 }
 
 /// <summary>

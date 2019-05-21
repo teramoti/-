@@ -1,5 +1,5 @@
 //------------------------//------------------------
-// Contents(処理内容) Game.cppの内容を書く
+// Contents(処理内容) GameScene.cppの内容を書く
 //------------------------//------------------------
 // user(作成者) Keishi Teramoto
 // Created date(作成日) 2018 / 07 / 13
@@ -82,7 +82,7 @@ void GameScene::Initialize()
 	m_Camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
 
 	//Objectクラスの初期化
-	MyLib::Object3D::InitielizeStatic(m_directX.GetDevice(), m_directX.GetContext(), m_Camera.get());
+	MyLib::Object3D::InitielizeStatic(m_directX.GetDevice().Get(), m_directX.GetContext().Get(), m_Camera.get());
 
 	//プレイヤーの生成
 	m_player = std::make_unique<TestPlayer>();
@@ -134,10 +134,11 @@ void GameScene::Initialize()
 //!
 //! @return なし
 //----------------------------------------------------------------------
+
 void GameScene::Update(DX::StepTimer& stepTimer)
 {
 
-	int startTime = (int)stepTimer.GetTotalSeconds();//
+	int startTime = (int)stepTimer.GetTotalSeconds();//ゲームの開始時間の取得
  	float elapsedTime = float(stepTimer.GetElapsedSeconds());
 	//時間の情報
 	m_GameTimer = m_time->GetTime();//タイムクラスの時間を取得

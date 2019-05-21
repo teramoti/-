@@ -1,10 +1,28 @@
-﻿#include "Game.h"
+﻿//------------------------//------------------------
+// Contents(処理内容) Game.cppの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
+
+
+
+//インクルードファイルの宣言
+#include "Game.h"
 #include "MyGame\GameSystem\InputManager.h"
 #include "MyGame\GameSystem\DrawManager.h"
+#include "MyGame\ADX2\ADX2Le.h"
 
 void ExitGame();
 
-// コンストラクタ
+//----------------------------------------------------------------------
+//! @brief Gameクラスのコンストラクタ
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 Game::Game(int width, int height)
 	: m_hWnd(0), m_width(width), m_height(height) {
 
@@ -20,9 +38,17 @@ Game::Game(int width, int height)
 	m_window = std::make_unique<Window>(m_hInstance, m_nCmdShow);
 }
 
-// 実行に必要となるDirect3Dリソースを初期化する
+//----------------------------------------------------------------------
+//! @brief Gameクラスの初期化処理
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void Game::Initialize()
 {
+	// 実行に必要となるDirect3Dリソースを初期化する
+
 	// Windowオブジェクトを初期化する
 	m_window->Initialize(m_width, m_height);
 	// Windowオブジェクトの生成後にウィンドウハンドルを取得する
@@ -50,6 +76,9 @@ void Game::Initialize()
 
 	// TODO: 初期化コードを追加する 
 
+	//音の作成処理
+	//MyLibrary::ADX2Le::GetInstance()->Initialize(L"a.acf");
+
 	// キーボードの作成
 	m_keyboard = std::make_unique<DirectX::Keyboard>();
 
@@ -69,7 +98,13 @@ void Game::Initialize()
 
 }
 
-// 基本ゲームループを実行する 
+//----------------------------------------------------------------------
+//! @brief Gameクラスの基本ゲームループを実行する 
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 MSG Game::Tick()
 {
 	// メッセージ 
@@ -98,7 +133,14 @@ MSG Game::Tick()
 	return msg;
 }
 
-// ワールドを更新する 
+
+//----------------------------------------------------------------------
+//! @brief Gameクラスの更新処理
+//!
+//! @param timer
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::Update(const DX::StepTimer& timer)
 {
 	float elapsedTime = float(timer.GetElapsedSeconds());
@@ -118,7 +160,13 @@ void Game::Update(const DX::StepTimer& timer)
 	m_sceneManager->UpdateActiveScene(timer);
 }
 
-// シーンを描画する
+//----------------------------------------------------------------------
+//! @brief Gameクラスの描画処理
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void Game::Render()
 {
 	// 最初の更新の前は何も描画しないようにする
@@ -133,7 +181,12 @@ void Game::Render()
 	m_spriteBatch->Begin();
 
 	// FPSを描画する
+
+	#ifdef _DEBUG
+
 	DrawFPS();
+
+	#endif
 
 
 	//SceneManagerの描画用処理
@@ -144,7 +197,13 @@ void Game::Render()
 	Present();
 }
 
-// FPSを描画する 
+//----------------------------------------------------------------------
+//! @brief GameクラスのFPS描画関数
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::DrawFPS()
 {
 	// FPS文字列を生成する
@@ -153,7 +212,13 @@ void Game::DrawFPS()
 	m_font->DrawString(m_spriteBatch.get(), fpsString.c_str(), DirectX::SimpleMath::Vector2(0, 0), DirectX::Colors::White);
 }
 
-// バックバッファをクリアするためのヘルパー関数 
+//----------------------------------------------------------------------
+//! @brief Gameクラスのバックバッファをクリアするためのヘルパー関数 
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 void Game::Clear()
 {
 	// レンダーターゲットをクリアする 
@@ -167,7 +232,13 @@ void Game::Clear()
 	m_directX.GetContext()->RSSetViewports(1, &viewport);
 }
 
-// バックバッファをスクリーンに送る
+//----------------------------------------------------------------------
+//! @brief Gameクラスの0バックバッファをスクリーンに送る
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::Present()
 {
 	// The first argument instructs DXGI to block until VSync, putting the application
@@ -186,7 +257,14 @@ void Game::Present()
 	}
 }
 
-// 終了処理をおこなう
+
+//----------------------------------------------------------------------
+//! @brief Gameクラスの終了処理
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::Finalize()
 {
 	// Graphicsオブジェクトをリセットする
@@ -195,7 +273,13 @@ void Game::Finalize()
 	m_window.reset();
 }
 
-// メッセージハンドラ 
+//----------------------------------------------------------------------
+//! @brief Gameクラスのメッセージハンドラ
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::OnActivated()
 {
 	// TODO: ゲームがアクティブなウィンドウになる 

@@ -175,8 +175,5 @@ namespace System
 
 		// スプライトバッチ
 		std::unique_ptr<DirectX::SpriteBatch> mSpriteBatch;
-
-		// スプライトフォント
-		//std::unique_ptr<DirectX::SpriteFont> m_font;
 	};
 }
