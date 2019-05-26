@@ -12,9 +12,9 @@
 #include "../../GameSystem/InputManager.h"
 #include "TitleAroow.h"
 
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -36,7 +36,7 @@ void TitleAroow::Initilize()
 {
 	// テクスチャのロード
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\Arrow.png");
-	m_Pos = Vector2(150, 300);
+	m_Pos = DirectX::SimpleMath::Vector2(150, 300);
 	m_data.SetPos(m_Pos);
 	m_data.SetOrigin(45, 45);
 	m_data.SetRect(0,0,90,90);
@@ -44,7 +44,7 @@ void TitleAroow::Initilize()
 	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 
 	// サウンドの読み込み
-	//m_adx2le->LoadAcb(L"TitleScene.acb", L"TitleScene.awb");
+	//m_adx2le->//LoadAcb(L"TitleScene.acb", L"TitleScene.awb");
 
 }
 

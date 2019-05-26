@@ -14,6 +14,7 @@
 #include "../../GameSystem/DrawManager.h"
 #include "ResultTimeComma.h"
 #include "ResultRecord.h"
+
 class ResultHighTime
 {
 public:

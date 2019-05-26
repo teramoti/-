@@ -7,9 +7,9 @@
 #include "../../GameSystem/DrawManager.h"
 #include "TitleGoEnd.h"
 
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -32,7 +32,7 @@ void TitleGoEnd::Initilize()
 {	
 	// テクスチャのロード
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\GoEnd.png");
-	m_Pos = Vector2(300, 350);
+	m_Pos = DirectX::SimpleMath::Vector2(300, 350);
 	m_data.SetPos(m_Pos);
 	m_data.SetRect(0, 0, 200,90);
 	m_data.SetOrigin(0, 0);

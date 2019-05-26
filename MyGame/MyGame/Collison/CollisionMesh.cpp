@@ -10,8 +10,8 @@
 #include "CollisionMesh.h"
 #include <fstream>
 #include <string>
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
 
 #ifdef _DEBUG
 
@@ -23,7 +23,7 @@ using namespace DirectX::SimpleMath;
 CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 {
 	// obj形式のファイル読み込み
-	std::vector<Vector3> vertexes;
+	std::vector<DirectX::SimpleMath::Vector3> vertexes;
 	std::vector<int> indexes;
 	std::ifstream ifs(fname);
 
@@ -33,7 +33,7 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 		// 頂点
 		if (str[0] == 'v')
 		{
-			Vector3 val;
+			DirectX::SimpleMath::Vector3 val;
 			sscanf_s(str.data(), "v  %f %f %f", &val.x, &val.y, &val.z);
 			vertexes.push_back(val);
 		}
@@ -60,7 +60,7 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 	}
 
 #ifdef _DEBUG
-	XMFLOAT3* v_array = new XMFLOAT3[vertexes.size()];
+	DirectX::XMFLOAT3* v_array = new DirectX::XMFLOAT3[vertexes.size()];
 	UINT* id_array = new UINT[indexes.size()];
 
 	// インデックス数
@@ -79,7 +79,7 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 	// 頂点バッファの作成
 	D3D11_BUFFER_DESC desc;
 	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.ByteWidth = sizeof(XMFLOAT3) * vertexes.size();
+	desc.ByteWidth = sizeof(DirectX::XMFLOAT3) * vertexes.size();
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	 // 頂点バッファ
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
@@ -170,7 +170,7 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 #endif
 }
 
-void CollisionMesh::Draw(ID3D11DeviceContext* context, const Matrix& world, const Matrix& view, const Matrix& projection)
+void CollisionMesh::Draw(ID3D11DeviceContext* context, const DirectX::SimpleMath::Matrix& world, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection)
 {
 
 #ifdef _DEBUG
@@ -184,7 +184,7 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const Matrix& world, cons
 	// 頂点バッファ
 	UINT vb_slot = 0;
 	ID3D11Buffer* vb[1] = { m_vertexBuffer.Get() };
-	UINT stride[1] = { sizeof(XMFLOAT3) };
+	UINT stride[1] = { sizeof(DirectX::XMFLOAT3) };
 	UINT offset[1] = { 0 };
 	context->IASetVertexBuffers(vb_slot, 1, vb, stride, offset);
 
@@ -199,7 +199,7 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const Matrix& world, cons
 
 	//-----------------------------------------------------------------------------------//
 
-	Matrix WVP = world * view * projection;
+	DirectX::SimpleMath::Matrix WVP = world * view * projection;
 	ConstantBuffer cbuff;
 	cbuff.worldViewProjection = DirectX::XMMatrixTranspose(WVP);
 	context->UpdateSubresource(m_constantBuffer.Get(), 0, NULL, &cbuff, 0, 0);
@@ -225,7 +225,7 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const Matrix& world, cons
 
 void CollisionMesh::DrawCollision(ID3D11DeviceContext * context, const DirectX::SimpleMath::Matrix & view, const DirectX::SimpleMath::Matrix & projection)
 {
-	Matrix world = Matrix::CreateFromQuaternion(m_rotation) * Matrix::CreateTranslation(m_position);
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation) * DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
 	Draw(context, world, view, projection);
 }
 
@@ -248,10 +248,10 @@ const Collision::Triangle & CollisionMesh::GetTriangle(int id)
 bool CollisionMesh::HitCheck_Segment(DirectX::SimpleMath::Vector3 p, DirectX::SimpleMath::Vector3 q, int * id, DirectX::SimpleMath::Vector3 * hit_pos)
 {
 	// 線分に逆行列を掛ける
-	Matrix world = Matrix::CreateFromQuaternion(m_rotation) * Matrix::CreateTranslation(m_position);
-	Matrix matInvert = world.Invert();
-	p = Vector3::Transform(p, matInvert);
-	q = Vector3::Transform(q, matInvert);
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation) * DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
+	DirectX::SimpleMath::Matrix matInvert = world.Invert();
+	p = DirectX::SimpleMath::Vector3::Transform(p, matInvert);
+	q = DirectX::SimpleMath::Vector3::Transform(q, matInvert);
 
 	for (int i = 0; i < m_triangles.size(); i++)
 	{

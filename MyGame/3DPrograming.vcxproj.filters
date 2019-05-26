@@ -104,39 +104,6 @@
     <ClInclude Include="MyGame\GameSystem\GameSaveData.h">
       <Filter>GameData</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\ADX2\ADX2Le.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_adx2le.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_asr.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_ex.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_ex_monitor.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_pc.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_atom_wasapi.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_error.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_file_system.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\ADX2\include\cri_le_xpt.h">
-      <Filter>ADX2L</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Scene\TitleScene\TitleAroow.h">
       <Filter>Scene\Title</Filter>
     </ClInclude>
@@ -180,12 +147,6 @@
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h">
-      <Filter>Scene\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h">
-      <Filter>Scene\GameScene</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\GameSystem\TpsCamera.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\Shadow.h">
@@ -237,6 +198,15 @@
     <ClInclude Include="MyGame\Collison\Collision.h">
       <Filter>Collision</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\TpsCamera.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\Uncopyable.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
@@ -280,9 +250,6 @@
     <ClCompile Include="MyGame\GameSystem\GameSaveData.cpp">
       <Filter>GameData</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\ADX2\ADX2Le.cpp">
-      <Filter>ADX2L</Filter>
-    </ClCompile>
     <ClCompile Include="MyGame\GameSystem\GameSabe.cpp">
       <Filter>GameData</Filter>
     </ClCompile>
@@ -313,9 +280,6 @@
     <ClCompile Include="MyGame\Scene\TitleScene\TitleStarEffect.cpp">
       <Filter>Scene\Title</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Scene\GameScene\CheckPoint.cpp">
-      <Filter>Scene\GameScene</Filter>
-    </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\CountDown.cpp">
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
@@ -329,12 +293,6 @@
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
-      <Filter>Scene\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
-      <Filter>Scene\GameScene</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\TpsCamera.cpp">
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\Shadow.cpp">
@@ -379,6 +337,15 @@
     </ClCompile>
     <ClCompile Include="MyGame\Collison\CollisionMesh.cpp">
       <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\TpsCamera.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\CheckPoint.cpp">
+      <Filter>Scene\GameScene\Cource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

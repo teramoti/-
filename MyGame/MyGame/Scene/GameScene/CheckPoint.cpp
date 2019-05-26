@@ -1,6 +1,6 @@
 #include "CheckPoint.h"
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
 
 CheckPoint::CheckPoint() 
 {
@@ -13,17 +13,17 @@ CheckPoint::~CheckPoint()
 void CheckPoint::Initilize()
 {
 	m_box[0].Initialize();
-	m_box[0].SetTrans(Vector3(0, -3, 0));
-	m_box[0].SetSize(Vector3(230, 16.5f, 230));
+	m_box[0].SetTrans(DirectX::SimpleMath::Vector3(0, -3, 0));
+	m_box[0].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
 	//CheckPoint1ÇÃê›íË
 	m_box[1].Initialize();	
-	m_box[1].SetTrans(Vector3(-290,-3, 500));
+	m_box[1].SetTrans(DirectX::SimpleMath::Vector3(-290,-3, 500));
 
-	m_box[1].SetSize(Vector3(230, 16.5f, 230));
+	m_box[1].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
 	//CheckPoint2ÇÃê›íË
 	m_box[2].Initialize();
-	m_box[2].SetTrans(Vector3(-280, -3, -520));
-	m_box[2].SetSize(Vector3(230, 16.5f, 230));
+	m_box[2].SetTrans(DirectX::SimpleMath::Vector3(-280, -3, -520));
+	m_box[2].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
 
 }
 

@@ -12,7 +12,7 @@
 #include "Game.h"
 #include "MyGame\GameSystem\InputManager.h"
 #include "MyGame\GameSystem\DrawManager.h"
-#include "MyGame\ADX2\ADX2Le.h"
+//#include "MyGame\ADX2\ADX2Le.h"
 
 void ExitGame();
 

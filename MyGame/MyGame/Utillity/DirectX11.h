@@ -13,6 +13,8 @@
 #include <SimpleMath.h>
 #include <wrl.h>
 #include <wrl/client.h>
+#include <CommonStates.h>
+#include <Effects.h>
 #include "dx.h"
 
 // Uncopyableクラス
@@ -131,6 +133,16 @@ public:
 		m_depthStencilView = depthStencilView;
 	}
 
+	// コモンステートを取得する Get CommonState object
+	DirectX::CommonStates * GetStates()
+	{
+		return m_states.get();
+	}
+	// デバイスを取得する Get device object
+	DirectX::EffectFactory * GetEffect()
+	{
+		return 	m_effect.get();
+	}
 	// デバイスを生成する 
 	void CreateDevice();
 	// リソースを生成する 
@@ -155,6 +167,11 @@ private:
 	Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain1;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_renderTargetView;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_depthStencilView;
+
+	// コモンステート
+	std::unique_ptr<DirectX::CommonStates> m_states;
+	std::unique_ptr<DirectX::EffectFactory> m_effect;
+
 };
 
 #endif	// DirectX11 GRAPHICS

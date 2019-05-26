@@ -1,6 +1,6 @@
 #include "ResultBackGorund.h"
 
-using namespace DirectX::SimpleMath;
+
 
 ResultBackGorund::ResultBackGorund()
 {

@@ -6,9 +6,9 @@
 //--------------------------------------------
 #include "TitleGoGame.h"
 
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -31,7 +31,7 @@ void TitleGoGame::Initilize()
 {// テクスチャのロード
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\GoGame.png");
 	m_data.SetRect(0, 0, 200, 90);
-	m_Pos = Vector2(300, 250);
+	m_Pos = DirectX::SimpleMath::Vector2(300, 250);
 	m_data.SetPos(m_Pos);
 	m_data.SetOrigin(0, 0);
 	

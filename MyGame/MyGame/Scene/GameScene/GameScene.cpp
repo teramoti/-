@@ -28,7 +28,7 @@
 //----------------------------------------------------------------------
 
 GameScene::GameScene(SceneManager* scenemaneger)
-	: SceneBase(scenemaneger, m_SceneFlag), m_GameTimer(0),
+	: SceneBase(scenemaneger, m_SceneFlag), m_gameTimer(0),
 	m_CouceCount(0),m_StageNum(0), m_GoalRank(0),
 	m_startFlag(false), m_SceneFlag(false) , m_goalFlag(false)
 {
@@ -50,10 +50,10 @@ GameScene::~GameScene()
 	m_states.reset();
 
 	m_time.reset();
-	m_CheckPoint.reset();
+	m_checkPoint.reset();
 
-	delete m_Count;
-	delete m_GameTime;
+	delete m_count;
+	delete m_gameTime;
 }
 
 //----------------------------------------------------------------------
@@ -66,36 +66,33 @@ GameScene::~GameScene()
 void GameScene::Initialize()
 {
 
-	m_adx2le = MyLibrary::ADX2Le::GetInstance();
+	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 	// サウンドの読み込み
-	m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
+	//m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
 	//コースのステージメッシュの初期化
 	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/CircleCource.obj");
 
-	if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
-	{
-		// 効果音の再生
-		m_criAtomExPlaybackId = m_adx2le->Play(0);
-	}
+	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
+	//{
+	//	// 効果音の再生
+	//	m_criAtomExPlaybackId = m_adx2le->Play(0);
+	//}
 
 	//Cameraクラスの初期化
 	m_Camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
-
-	//Objectクラスの初期化
-	MyLib::Object3D::InitielizeStatic(m_directX.GetDevice().Get(), m_directX.GetContext().Get(), m_Camera.get());
-
+	m_shadow = new Shadow();
 	//プレイヤーの生成
 	m_player = std::make_unique<TestPlayer>();
 	//Playerの初期化処理
-	m_player->Initilize();
+	m_player->Initilize(m_shadow);
 
 	//カメラのTargetの設定
 	m_Camera->SetObject3D(m_player.get());
 
 	//チェックポイントの作成
-	m_CheckPoint = std::make_unique<CheckPoint>();
+	m_checkPoint = std::make_unique<CheckPoint>();
 	//チェックポイントの初期化処理
-	m_CheckPoint->Initilize();
+	m_checkPoint->Initilize();
 
 
 	//コースクラスの作成
@@ -113,17 +110,18 @@ void GameScene::Initialize()
 
 
 	//カウントダウンクラスの作成
-	m_Count = new CountDown();
+	m_count = new CountDown();
 	//カウントダウンクラスの初期化
-	m_Count->Initilize();
+	m_count->Initilize();
 
 
 	//ゲーム時間クラスの作成
-	m_GameTime = new GameTime();
+	m_gameTime = new GameTime();
 	//ゲーム時間クラスの初期化
-	m_GameTime->Initilize();
+	m_gameTime->Initilize();
 
-//ゴール時の止める時間の初期化
+
+	//ゴール時の止める時間の初期化
 	m_GoalNum = 0;
 }
 
@@ -138,20 +136,26 @@ void GameScene::Initialize()
 void GameScene::Update(DX::StepTimer& stepTimer)
 {
 
-	int startTime = (int)stepTimer.GetTotalSeconds();//ゲームの開始時間の取得
+	//ゲームの開始時間の取得
+	int startTime = (int)stepTimer.GetTotalSeconds();
  	float elapsedTime = float(stepTimer.GetElapsedSeconds());
 	//時間の情報
-	m_GameTimer = m_time->GetTime();//タイムクラスの時間を取得
-	counter--;//始まる前のＣｏｕｎｔを引く
-	m_CheckPoint->Update();//チェックポイントの更新
-	m_skyDome->Update();//スカイドームの更新
+	
+	//タイムクラスの時間を取得
+	m_gameTimer = m_time->GetTime();
+	//始まる前のCountを引く
+	counter--;
+	//チェックポイントの更新
+	m_checkPoint->Update();
+	//スカイドームの更新
+	m_skyDome->Update();
 
 	if (counter < 0)
 	{
 		if (m_goalFlag == false)
 		{
-			m_time->Update(m_GameTimer);//時間の更新
-			m_GameTime->SetTime(m_GameTimer);//ゲームの時間をＣｏｕｎｔダウンする
+			m_time->Update(m_gameTimer);//時間の更新
+			m_gameTime->SetTime(m_gameTimer);//ゲームの時間をＣｏｕｎｔダウンする
 			m_startFlag = true;//始まるフラグをtrueにする
 
 		}	
@@ -159,10 +163,10 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 	}
 	else
 	{
-		m_Count->SetTime(counter);
+		m_count->SetTime(counter);
 	}
 
-	if (m_CheckPoint->GetFlag() == true)
+	if (m_checkPoint->GetFlag() == true)
 	{
 		m_time->SetFlag(false);
 		m_GoalNum += 1;
@@ -170,39 +174,41 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 
 	}
 	//60秒たったら強制的にリザルトに行く処理
-	if (m_GameTimer >= 6000)
+	if (m_gameTimer >= 6000)
 	{
 		m_time->SetFlag(false);
 
-		m_GameTimer = 6000;//ゲーム時間を60秒にする。
+		//ゲーム時間を60秒にする
+		m_gameTimer = 6000;
 
 		m_SceneFlag = true;
 
 	}
 
 	//リザルトにシーンを持っていく
-	GameSaveData::GetInstance().SetGoal1Time(m_GameTimer);
+	GameSaveData::GetInstance().SetGoal1Time(m_gameTimer);
 
-	//GameSaveData::GetInstance().SetRank(m_GoalRank);
-
-	m_cource->Update();//コースの更新処理
+	//コースの更新処理
+	m_cource->Update();
 	if (m_GoalNum > 40)
 	{
 		m_SceneFlag = true;
 	}
 	if (m_SceneFlag == true)
 	{
-		//Resultをセットする
-		m_adx2le->Stop();
-		m_sceneManager->SetScene(RESULT_SCENE);//シーンをリザルトにする。
+		//m_adx2le->Stop();
+		//シーンをリザルトにする
+		m_sceneManager->SetScene(RESULT_SCENE);
 		return;
 	}
 
 	//カメラの更新	
 	m_Camera->Update();
 
-	m_player->Update(m_startFlag);//プレイヤーの更新
-	HitManager();//当たり判定の更新用関数
+	//プレイヤーの更新
+	m_player->Update(m_startFlag);
+	//当たり判定の更新用関数
+	DetectCollisionManager();
 
 }
 //----------------------------------------------------------------------
@@ -214,11 +220,16 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 //----------------------------------------------------------------------
 void GameScene::Render()
 {
-	m_player->Render();//プレイヤーの描画
-	m_skyDome->Render();//すかいどーむの描画
-	m_cource->Render();//コースの描画
-	SpriteRender();	//画像の描画	
-	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());//メッシュの描画
+	//プレイヤーの描画
+	m_player->Render(m_Camera->GetView(),m_Camera->GetProj());
+	//スカイドームの描画
+	m_skyDome->Render();
+	//コースの描画
+	m_cource->Render();
+	//画像の描画
+	SpriteRender();		
+	//メッシュの描画
+	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理
@@ -240,10 +251,12 @@ void GameScene::Finalize()
 //!
 //! @return なし
 //----------------------------------------------------------------------
-void GameScene::HitManager()
+void GameScene::DetectCollisionManager()
 {
-	StageCheckPoint();
-	StageCollision();
+	// ステージのチェックポイントにPlayerが当たっているか
+	DetectCollisionPlayerToCheckPoint();
+	// 
+	DetectCollisionPlayerToMesh();
 
 }
 
@@ -257,8 +270,10 @@ void GameScene::HitManager()
 void GameScene::SpriteRender()
 {
 	System::DrawManager::GetInstance().Begin();
-	m_Count->Draw();//カウントを描画する
-	m_GameTime->Draw(m_startFlag);
+	//カウントを描画する
+	m_count->Draw();
+	//ゴール時間の描画
+	m_gameTime->Draw(m_startFlag);
 	if (m_goalFlag)
 	{
 		//ゴールの文字を出す
@@ -276,19 +291,19 @@ void GameScene::SpriteRender()
 //! @return なし
 //----------------------------------------------------------------------
 
-void GameScene::StageCheckPoint()
+void GameScene::DetectCollisionPlayerToCheckPoint()
 {
-	if (m_CollisionManager->CollisionBox2Box(m_player->GetBox(), m_CheckPoint->GetBoxCheckPos1()) == true)
+	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
 	{
-		m_CheckPoint->Checkhit1(true);
+		m_checkPoint->Checkhit1(true);
 	}
-	if (m_CollisionManager->CollisionBox2Box(m_player->GetBox(), m_CheckPoint->GetBoxCheckPos2()) == true)
+	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos2()) == true)
 	{
-		m_CheckPoint->Checkhit2(true);
+		m_checkPoint->Checkhit2(true);
 	}
-	if (m_CollisionManager->CollisionBox2Box(m_player->GetBox(), m_CheckPoint->GetBoxStartPos()) == true)
+	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
 	{
-		m_CheckPoint->Checkhit3(true);
+		m_checkPoint->Checkhit3(true);
 	}
 
 }
@@ -300,7 +315,7 @@ void GameScene::StageCheckPoint()
 //! @return なし
 //----------------------------------------------------------------------
 
-void GameScene::StageCollision()
+void GameScene::DetectCollisionPlayerToMesh()
 {
 	DirectX::SimpleMath::Vector3 playerVel = m_player->GetVel();
 	DirectX::SimpleMath::Vector3 playerPos = m_player->GetTranslation();
@@ -311,18 +326,25 @@ void GameScene::StageCollision()
 	{
 		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
 		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
-		};
+	};
 
-		//線分と床の交差判定を行う
-		int id;
-		DirectX::SimpleMath::Vector3 s;
-		if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
-		{
-				playerPos.y = s.y + PLAYER_RISE;
-				playerVel.y = 0.0f;
-		}
+	//線分と床の交差判定を行う
+	int id;
+	DirectX::SimpleMath::Vector3 s;
+	if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
+	{
+		//プレイヤーのポジションy軸をメッシュの判定分+プレイヤーの高さ分あげる
+		playerPos.y = s.y + PLAYER_RISE;
+		playerVel.y = 0.0f;
+	}
+	else
+	{
 
-	m_player->SetTranslation(playerPos);//プレイヤーの場所の更新
-	m_player->SetVel(playerVel);//プレイヤーの速度を設定する。
+	}
+
+	//プレイヤーの場所の更新
+	m_player->SetTranslation(playerPos);
+	//プレイヤーの速度を設定する
+	m_player->SetVel(playerVel);
 }
 

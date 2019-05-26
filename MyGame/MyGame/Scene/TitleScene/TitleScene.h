@@ -7,7 +7,7 @@
 #include "TitleBackGround.h"
 #include "TitleKeyDown.h"
 #include "TitleStarEffect.h"
-#include "../..//ADX2/ADX2Le.h"
+//#include "../..//ADX2/ADX2Le.h"
 
 class TitleScene : public SceneBase
 {
@@ -51,8 +51,8 @@ private:
 	bool m_EndframeB;
 
 	// サウンド
-	MyLibrary::ADX2Le* m_adx2le;
+	//MyLibrary::ADX2Le* m_adx2le;
 
 	// 音楽情報記憶用変数
-	CriAtomExPlaybackId m_criAtomExPlaybackId;
+	//CriAtomExPlaybackId m_criAtomExPlaybackId;
 };

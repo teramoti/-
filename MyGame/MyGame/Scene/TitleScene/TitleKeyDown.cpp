@@ -7,8 +7,8 @@
 
 
 #include "TitleKeyDown.h"
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -31,11 +31,11 @@ void TitleKeyDown::Initilize()
 {
 	// テクスチャのロード
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\Space.png");
-	m_Pos=Vector2(500, 450);
+	m_Pos=DirectX::SimpleMath::Vector2(500, 450);
 	m_data.SetPos(m_Pos);
 	m_data.SetRect(0, 0, 150,90);
 	m_data.SetOrigin(0, 0);
-	m_data.SetScale(Vector2(2,2));
+	m_data.SetScale(DirectX::SimpleMath::Vector2(2,2));
 
 	
 }

@@ -44,7 +44,7 @@ namespace System
 		DirectX::XMFLOAT2 m_Origin;
 
 		// ÉXÉPÅ[Éã
-		DirectX::XMFLOAT2 m_Scale;
+		DirectX::XMFLOAT2 m_scale;
 
 	public:
 
@@ -55,7 +55,7 @@ namespace System
 			, m_Rot(0.0f)
 			, m_Rect()
 			, m_Origin()
-			, m_Scale(1.0f, 1.0f)
+			, m_scale(1.0f, 1.0f)
 		{
 		}
 
@@ -89,7 +89,7 @@ namespace System
 
 		DirectX::XMFLOAT2 GetOrigin() { return m_Origin; }
 
-		DirectX::XMFLOAT2 GetScale() { return  m_Scale; }
+		DirectX::XMFLOAT2 GetScale() { return  m_scale; }
 
 	public: // setter
 
@@ -102,7 +102,7 @@ namespace System
 
 		void SetPos(DirectX::SimpleMath::Vector2 pos) { m_Pos = pos; }
 
-		void SetRot(float r) { m_Rot = r; }
+		void SetRotation(float r) { m_Rot = r; }
 
 		void SetRect(LONG left, LONG top, LONG right, LONG bottom) {
 			m_Rect.left = left;
@@ -115,8 +115,8 @@ namespace System
 		void SetOrigin(float x, float y) { m_Origin.x = x; m_Origin.y = y; }
 		void SetOrigin(DirectX::SimpleMath::Vector2 origin) { m_Origin = origin; }
 
-		void SetScale(float x, float y) { m_Scale.x = x; m_Scale.y = y; }
-		void SetScale(DirectX::SimpleMath::Vector2 scale) { m_Scale = scale; }
+		void SetScale(float x, float y) { m_scale.x = x; m_scale.y = y; }
+		void SetScale(DirectX::SimpleMath::Vector2 scale) { m_scale = scale; }
 	};
 
 

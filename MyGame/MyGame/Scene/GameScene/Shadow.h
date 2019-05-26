@@ -12,8 +12,12 @@
 #include<wrl\client.h>
 #include <SimpleMath.h>
 #include <Model.h>
+#include "../../GameSystem/Object.h"
 
-class Shadow
+#include "TpsCamera.h"
+#include "../../Utillity/DirectX11.h"
+
+class Shadow 
 {
 private:
 
@@ -25,17 +29,22 @@ private:
 
 	// ブレンドステート
 	Microsoft::WRL::ComPtr<ID3D11BlendState> m_blendState;
-	ID3D11Device* m_device;
+
+	DirectX11& m_directX11 = DirectX11::Get();
+	TpsCamera* m_camera;
 public:
 	// コンストラクタ
 	Shadow();
 
 	// 初期化関数
-	void Initialize(DirectX::Model* model,ID3D11Device* device);
+	void Initialize();
 
 	// 描画関数
 	void Render();
 
+	void SetModelShadow(MyLib::Object3D* object);
+
+	void ResetModelShadow(DirectX::Model model, MyLib::Object3D* object);
 	// 表示のON/OFFする関数
 	void Active(bool flag) { m_active = flag; }
 };

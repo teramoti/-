@@ -6,9 +6,9 @@
 //--------------------------------------------
 #include "TitleBackPicture.h"
 
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -36,10 +36,10 @@ void TitleBackPicture::Initilize()
 		m_data[i].SetRect(0, 30, 500, 170);
 		m_data[i].SetOrigin(0, 0);
 	}
-	m_Pos = Vector2(350, 250);
+	m_Pos = DirectX::SimpleMath::Vector2(350, 250);
 
 	m_data[0].SetPos(m_Pos);
-	m_Pos = Vector2(400, 550);
+	m_Pos = DirectX::SimpleMath::Vector2(400, 550);
 
 	m_data[1].SetPos(m_Pos);
 }

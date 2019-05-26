@@ -77,7 +77,7 @@ public:
 	void SetPosition(DirectX::SimpleMath::Vector3 position) { m_position = position; }
 
 	// 回転を設定する関数
-	void SetRotation(DirectX::SimpleMath::Quaternion rotation) { m_rotation = rotation; }
+	void SetRotationation(DirectX::SimpleMath::Quaternion rotation) { m_rotation = rotation; }
 
 	// デバッグ用コリジョン表示関数
 	void DrawCollision(ID3D11DeviceContext* context, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection);

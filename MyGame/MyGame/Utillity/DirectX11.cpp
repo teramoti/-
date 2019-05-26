@@ -107,11 +107,11 @@ void DirectX11::CreateResources()
 	UINT backBufferCount = 2;
 
 	// スワップチェインが既に存在する場合サイズを変更するかスワップチェインを生成する
-	if (m_swapChain) 
+	if (m_swapChain)
 	{
 		HRESULT hr = m_swapChain->ResizeBuffers(backBufferCount, backBufferWidth, backBufferHeight, backBufferFormat, 0);
 
-		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET) 
+		if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
 		{
 			// デバイスが何らかの理由で削除された場合新しいデバイスとスワップチェインを生成する必要がある
 			OnDeviceLost();
@@ -119,7 +119,7 @@ void DirectX11::CreateResources()
 			// OnDeviceLostがこの関数を再度呼び出し、正しく新デバイスの再設定を可能にする
 			return;
 		}
-		else 
+		else
 		{
 			DX::ThrowIfFailed(hr);
 		}
@@ -138,7 +138,7 @@ void DirectX11::CreateResources()
 		DX::ThrowIfFailed(dxgiAdapter->GetParent(IID_PPV_ARGS(dxgiFactory.GetAddressOf())));
 
 		Microsoft::WRL::ComPtr<IDXGIFactory2> dxgiFactory2;
-		if (SUCCEEDED(dxgiFactory.As(&dxgiFactory2))) 
+		if (SUCCEEDED(dxgiFactory.As(&dxgiFactory2)))
 		{
 			// DirectX 11.1またはそれ以降 DirectX 11.1 or later
 			// スワップチェインのためのディスクリプタを生成する
@@ -166,7 +166,7 @@ void DirectX11::CreateResources()
 
 			DX::ThrowIfFailed(m_swapChain1.As(&m_swapChain));
 		}
-		else 
+		else
 		{
 			DXGI_SWAP_CHAIN_DESC swapChainDesc = { 0 };
 			swapChainDesc.BufferCount = backBufferCount;
@@ -200,10 +200,13 @@ void DirectX11::CreateResources()
 
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> depthStencil;
 	DX::ThrowIfFailed(m_device->CreateTexture2D(&depthStencilDesc, nullptr, depthStencil.GetAddressOf()));
-
+	
 	CD3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc(D3D11_DSV_DIMENSION_TEXTURE2D);
 	DX::ThrowIfFailed(m_device->CreateDepthStencilView(depthStencil.Get(), &depthStencilViewDesc, m_depthStencilView.ReleaseAndGetAddressOf()));
 
+	m_states = std::make_unique<DirectX::CommonStates>(m_directX->GetDevice().Get());
+
+	m_effect = std::make_unique<DirectX::EffectFactory>(m_directX->GetDevice().Get());
 	// TODO: ウィンドウサイズに依存したオブジェクトを初期化する 
 }
 

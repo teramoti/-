@@ -6,8 +6,8 @@
 
 extern void ExitGame();
 
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
 
 ResultScene::ResultScene(SceneManager* scenemaneger): SceneBase(scenemaneger, m_SceneFlag)
 {
@@ -39,15 +39,15 @@ void ResultScene::Initialize()
 
 	m_Rank = new ResultRank();
 	m_Rank->Initilize();
-	m_adx2le = MyLibrary::ADX2Le::GetInstance();
+	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 
-	// サウンドの読み込み
-	m_adx2le->LoadAcb(L"ResultScene.acb", L"ResultScene.awb");
-	if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
-	{
-		// 効果音の再生
-		m_criAtomExPlaybackId = m_adx2le->Play(1);
-	}
+	//// サウンドの読み込み
+	//m_adx2le->//LoadAcb(L"ResultScene.acb", L"ResultScene.awb");
+	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
+	//{
+	//	// 効果音の再生
+	//	m_criAtomExPlaybackId = m_adx2le->Play(1);
+	//}
 }
 
 void ResultScene::Update(DX::StepTimer& step)

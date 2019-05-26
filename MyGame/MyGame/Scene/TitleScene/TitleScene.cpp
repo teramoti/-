@@ -7,8 +7,8 @@
 
 extern void ExitGame();
 
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
 
 TitleScene::TitleScene(SceneManager* scenemaneger)
 	: SceneBase(scenemaneger,m_SceneFlag=false),m_num(0),
@@ -55,16 +55,16 @@ void TitleScene::Initialize()
 	m_Star = new TitleStarEffect();
 	m_Star->Initilize();
 
-	m_adx2le = MyLibrary::ADX2Le::GetInstance();
+	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 
-	// サウンドの読み込み
-	m_adx2le->LoadAcb(L"TitleScene.acb", L"TitleScene.awb");
+	//// サウンドの読み込み
+	//m_adx2le->//LoadAcb(L"TitleScene.acb", L"TitleScene.awb");
 
-	if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
-	{
-		// 効果音の再生
-		m_criAtomExPlaybackId = m_adx2le->Play(2);
-	}
+	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
+	//{
+	//	// 効果音の再生
+	//	m_criAtomExPlaybackId = m_adx2le->Play(2);
+	//}
 }
 
 void TitleScene::Update(DX::StepTimer& stepTimer)
@@ -93,13 +93,13 @@ void TitleScene::Update(DX::StepTimer& stepTimer)
 		m_SceneFlag = true;
 		m_num = SERECT_ENUM::NONE;//何もなしに初期化する.
 		// 効果音の再生
-		m_criAtomExPlaybackId = m_adx2le->Play(1);
+		//m_criAtomExPlaybackId = m_adx2le->Play(1);
 	}
 
 
 	if (m_SceneFlag == true)
 	{	
-		m_adx2le->Stop();
+		//m_adx2le->Stop();
 
 		m_sceneManager->SetScene(GAME_SCENE);
 		return;

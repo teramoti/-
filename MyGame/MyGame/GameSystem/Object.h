@@ -12,9 +12,10 @@
 #include <SpriteBatch.h>
 #include <Model.h>
 #include <Keyboard.h>
-
 //仮
 #include "Camera.h"
+#include "../Utillity/DirectX11.h"
+
 #pragma once
 
 //オブジェクト3Dクラス
@@ -23,45 +24,34 @@ namespace MyLib
 	class Object3D
 	{
 	public:
-		//一番初めの初期化処理
-		static void InitielizeStatic(
-			Microsoft::WRL::ComPtr<ID3D11Device> _device,
-			Microsoft::WRL::ComPtr<ID3D11DeviceContext> _context,
-			Camera* _camera
-		);
 
 	protected:
 
 		//モデル
-		std::unique_ptr<DirectX::Model> m_ModelData;
-
-		//デバイス
-		static Microsoft::WRL::ComPtr<ID3D11Device> m_Device;
-
-		//テキスト
-		static Microsoft::WRL::ComPtr<ID3D11DeviceContext> m_Context;
+		std::unique_ptr<DirectX::Model> m_modelData;
 
 		//汎用ステート
-		static std::unique_ptr<DirectX::CommonStates> m_States;
-		static std::unique_ptr<DirectX::EffectFactory> m_Factory;
+		std::unique_ptr<DirectX::CommonStates> m_States;
+		std::unique_ptr<DirectX::EffectFactory> m_Factory;
 
 		//カメラ
-		static Camera* ccamera;
+		Camera* ccamera;
 
 		//スケーリング
-		DirectX::SimpleMath::Vector3 m_Scale;
+		DirectX::SimpleMath::Vector3 m_scale;
 		//回転角
-		DirectX::SimpleMath::Vector3 m_Rotation;
+		//DirectX::SimpleMath::Vector3 m_rotation;
 		//平行
-		DirectX::SimpleMath::Vector3 m_Translation;
+		DirectX::SimpleMath::Vector3 m_translation;
 
 		//行列
-		DirectX::SimpleMath::Matrix m_World;
+		DirectX::SimpleMath::Matrix m_world;
 
-		DirectX::SimpleMath::Vector3 m_RotatrionV;
+		DirectX::SimpleMath::Vector3 m_rotatrionV;
 
-		DirectX::SimpleMath::Quaternion m_rot;
-		MyLib::Object3D* m_Parent;
+		DirectX::SimpleMath::Quaternion m_rotation;
+
+		DirectX11& m_directX11 = DirectX11::Get();
 
 		float m_angle;//角度
 	public:
@@ -70,9 +60,6 @@ namespace MyLib
 		Object3D();
 		~Object3D();
 
-		//データをロード
-		void Load(const wchar_t* fileName);
-
 		//更新
 		void Update();
 
@@ -80,38 +67,28 @@ namespace MyLib
 		virtual void Draw();
 
 		//セット関数
-		void SetScale(DirectX::SimpleMath::Vector3& _scale)
+		void SetScale(DirectX::SimpleMath::Vector3& scale)
 		{
-			m_Scale = _scale;
+			m_scale = scale;
 		}
-		void SetRotation(DirectX::SimpleMath::Vector3& _rotation)
+		void SetTranslation(DirectX::SimpleMath::Vector3& translation)
 		{
-			m_Rotation = _rotation;
+			m_translation = translation;
 		}
-		void SetTranslation(DirectX::SimpleMath::Vector3& _translation)
+		void SetWorld(DirectX::SimpleMath::Matrix world)
 		{
-			m_Translation = _translation;
-		}
-		void SetParent(MyLib::Object3D* _parent)
-		{
-			m_Parent = _parent;
-		}
-		void SetWorld(DirectX::SimpleMath::Matrix _worlad)
-		{
-			m_World = _worlad;
+			m_world = world;
 		}
 
-		void SetRot(DirectX::SimpleMath::Quaternion a)
+		void SetRotation(DirectX::SimpleMath::Quaternion rotation)
 		{
-			m_rot = a;
+			m_rotation = rotation;
 		}
 
-		void SetAngle(float a)
+		void SetAngle(float angle)
 		{
-			m_angle = a;
+			m_angle = angle;
 		}
-		void ReUpdate();
-
 		//ゲット関数
 
 		float GetAngle()
@@ -120,30 +97,21 @@ namespace MyLib
 		}
 		DirectX::SimpleMath::Vector3& GetScale()
 		{
-			return m_Scale;
-		}
-		DirectX::SimpleMath::Vector3& GetRotation()
-		{
-			return m_Rotation;
+			return m_scale;
 		}
 		DirectX::SimpleMath::Vector3& GetTranslation()
 		{
-			return m_Translation;
+			return m_translation;
 		}
 		DirectX::SimpleMath::Matrix& GetWorld()
 		{
-			return m_World;
+			return m_world;
 		}
-		DirectX::SimpleMath::Quaternion GetRot()
+		DirectX::SimpleMath::Quaternion GetRotation()
 		{
-			return m_rot;
+			return m_rotation;
 		}
 
-		//親を設定する
-		MyLib::Object3D* GetParent()
-		{
-			return m_Parent;
-		}
 		void SetLight();
 	};
 

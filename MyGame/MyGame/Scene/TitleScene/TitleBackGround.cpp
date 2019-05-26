@@ -7,13 +7,13 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include "TitleBackGround.h"
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
-TitleBackGround::TitleBackGround() : m_data() , m_Pos(Vector2(0,0))
+TitleBackGround::TitleBackGround() : m_data() , m_Pos(DirectX::SimpleMath::Vector2(0,0))
 {
 	//何もしない
 }

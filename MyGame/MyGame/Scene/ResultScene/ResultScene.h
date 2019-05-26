@@ -8,7 +8,7 @@
 #include "ResultBackGorund.h"
 #include "ResultHighTime.h"
 #include "ResultRank.h"
-#include "../../ADX2/ADX2Le.h"
+//#include "../../ADX2/ADX2Le.h"
 
 class ResultScene : public SceneBase
 {
@@ -34,8 +34,8 @@ private:
 	ResultHighTime* m_HighTime;
 	ResultRank* m_Rank;
 	// サウンド
-	MyLibrary::ADX2Le* m_adx2le;
+	//MyLibrary::ADX2Le* m_adx2le;
 
 	// 音楽情報記憶用変数
-	CriAtomExPlaybackId m_criAtomExPlaybackId;
+	//CriAtomExPlaybackId m_criAtomExPlaybackId;
 };

@@ -5,9 +5,9 @@
 /// </summary>
 //----------------------------------------
 #include "SkyDome.h"
-using Microsoft::WRL::ComPtr;
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
+
+
+
 SkyDome::SkyDome()
 {
 	
@@ -21,20 +21,21 @@ SkyDome::~SkyDome()
 
 void SkyDome::Initilize()
 {
-	Load(L"Resources/Model/SkyDome.cmo");
+	//Load(L"Resources/Model/SkyDome.cmo");
 
-	m_Scale *= 12.0f;
-	m_World = Matrix::Identity;
-	m_Translation = Vector3(0, -300.0f, 0);
-	m_Rotation = Vector3(0, 0, 0);
+	 m_scale *= 12.0f;
+	m_world = DirectX::SimpleMath::Matrix::Identity;
+	m_translation = DirectX::SimpleMath::Vector3(0, -300.0f, 0);
+	m_rotation = DirectX::SimpleMath::Quaternion(0, 0, 0,0);
 
-	m_World = Matrix::CreateScale(m_Scale)*Matrix::CreateTranslation(m_Translation)*Matrix::CreateRotationX(m_Rotation.x)
-		*Matrix::CreateRotationY(m_Rotation.y)*Matrix::CreateRotationZ(m_Rotation.z);
+	m_world = DirectX::SimpleMath::Matrix::CreateScale( m_scale)*DirectX::SimpleMath::Matrix::CreateTranslation(m_translation)*
+		DirectX::SimpleMath::Matrix::CreateRotationX(m_rotation.x)
+		*DirectX::SimpleMath::Matrix::CreateRotationY(m_rotation.y)*DirectX::SimpleMath::Matrix::CreateRotationZ(m_rotation.z);
 }
 
 void SkyDome::Update()
 {
-	m_Rotation.y += SKYDOME_ROTATION_Y;
+	m_rotation.y += SKYDOME_ROTATION_Y;
 	MyLib::Object3D::Update();
 
 }
@@ -45,6 +46,6 @@ void SkyDome::ReUpdate()
 
 void SkyDome::Render()
 {
-	SetLight();
-	Draw();
+	//SetLight();
+	//Draw();
 }

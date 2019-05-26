@@ -3,13 +3,13 @@
 #include "SkyDome.h"
 #include "CountDown.h"
 #include "GameTime.h"
-#include "../../ADX2/ADX2Le.h"
+//#include "../../ADX2/ADX2Le.h"
 //#include "../../GameSystem/Camera.h"
 #include "TestPlayer.h"
 #include "../../GameSystem/Camera.h"
-#include "../../GameSystem/TpsCamera.h"
+#include "TpsCamera.h"
 #include <SpriteFont.h>
-
+#include "Shadow.h"
 #include "SpriteBatch.h"
 #include "Cource.h"
 #include "CheckPoint.h"
@@ -33,12 +33,12 @@ public:
 	void Finalize()override;
 
 public:
-	void HitManager();
+	void DetectCollisionManager();
 	void SpriteRender();
 
 	void FileLoad();
-	void StageCheckPoint();//1ステージのチェックポイント
-	void StageCollision();//1ステージのチェックポイント
+	void DetectCollisionPlayerToCheckPoint();//1ステージのチェックポイント
+	void DetectCollisionPlayerToMesh();//1ステージのチェックポイント
 
 private:
 	const float PLAYER_RISE = 5.0f;
@@ -57,18 +57,18 @@ private:
 
 	// コモンステート
 	std::unique_ptr<DirectX::CommonStates> m_states;
-	CollisionManager*				m_CollisionManager;
+	CollisionManager*				m_collisionManager;
 	//時間
 	std::unique_ptr<Time>			m_time;
 	//チェックポイント
-	std::unique_ptr<CheckPoint>		m_CheckPoint;
+	std::unique_ptr<CheckPoint>		m_checkPoint;
 
-	CountDown*						m_Count;
-	GameTime*						m_GameTime;
+	CountDown*						m_count;
+	GameTime*						m_gameTime;
 	//GameGoal* m_Goal;
 	bool m_Node;
 	bool m_startFlag;//ゲームが始まっているのかのフラグ用変数
-	float m_GameTimer;//ゲームの時間用変数
+	float m_gameTimer;//ゲームの時間用変数
 	int m_CouceCount;
 	bool m_start;//始まっているかのbool
 	int m_GoalNum;//ゴールした時のフレームを少し回すよう変数
@@ -84,10 +84,10 @@ private:
 	std::unique_ptr<CollisionMesh> m_stageMesh;//当たり判定用メッシュ
 	std::unique_ptr<CollisionMesh> m_stageMesh2;//外側の当たり判定用メッシュ
 	std::unique_ptr<Cource> m_cource;//コースのクラス作成用変数
-	MyLibrary::ADX2Le* m_adx2le;	// サウンド
+	//MyLibrary::ADX2Le* m_adx2le;	// サウンド
 
-
-	CriAtomExPlaybackId m_criAtomExPlaybackId;	// 音楽情報記憶用変数
+	Shadow* m_shadow;
+	//CriAtomExPlaybackId m_criAtomExPlaybackId;	// 音楽情報記憶用変数
 
 	DirectX11& m_directX = DirectX11::Get();
 

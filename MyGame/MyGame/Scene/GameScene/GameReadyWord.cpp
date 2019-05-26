@@ -8,13 +8,13 @@
 
 #include "GameReadyWord.h"
 
-using namespace DirectX;
 
-using namespace DirectX::SimpleMath;
+
+
 /// <summary>
 /// コンストラクタ
 /// </summary>
-GameReadyWord::GameReadyWord() : m_data() , m_Pos(Vector2(400, 200))
+GameReadyWord::GameReadyWord() : m_data() , m_Pos(DirectX::SimpleMath::Vector2(400, 200))
 {
 	//何もしない
 }
@@ -35,7 +35,7 @@ void GameReadyWord::Initilize()
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\Ready.png");
 
 	m_data.SetPos(m_Pos);
-	m_data.SetScale(Vector2(2, 2));
+	m_data.SetScale(DirectX::SimpleMath::Vector2(2, 2));
 	m_data.SetRect(0, 0, 150,60);
 	m_data.SetOrigin(static_cast<float>(m_data.GetRect().right), static_cast<float>(m_data.GetRect().bottom));
 }
