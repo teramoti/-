@@ -44,7 +44,7 @@ GameScene::GameScene(SceneManager* scenemaneger)
 //----------------------------------------------------------------------
 GameScene::~GameScene()
 {
-	m_Camera.reset();
+	m_camera.reset();
 	m_player.reset();
 	m_skyDome.reset();
 	m_states.reset();
@@ -79,7 +79,7 @@ void GameScene::Initialize()
 	//}
 
 	//Cameraクラスの初期化
-	m_Camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
+	m_camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
 	m_shadow = new Shadow();
 	//プレイヤーの生成
 	m_player = std::make_unique<TestPlayer>();
@@ -87,7 +87,7 @@ void GameScene::Initialize()
 	m_player->Initilize(m_shadow);
 
 	//カメラのTargetの設定
-	m_Camera->SetObject3D(m_player.get());
+	m_camera->SetObject3D(m_player.get());
 
 	//チェックポイントの作成
 	m_checkPoint = std::make_unique<CheckPoint>();
@@ -203,7 +203,7 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 	}
 
 	//カメラの更新	
-	m_Camera->Update();
+	m_camera->Update();
 
 	//プレイヤーの更新
 	m_player->Update(m_startFlag);
@@ -221,15 +221,15 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 void GameScene::Render()
 {
 	//プレイヤーの描画
-	m_player->Render(m_Camera->GetView(),m_Camera->GetProj());
+	m_player->Render(m_camera->GetView(),m_camera->GetProj());
 	//スカイドームの描画
-	m_skyDome->Render(m_Camera->GetView(), m_Camera->GetProj());
+	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
 	//コースの描画
-	m_cource->Render(m_Camera->GetView(), m_Camera->GetProj());
+	m_cource->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
 	SpriteRender();		
 	//メッシュの描画
-	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());
+	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理

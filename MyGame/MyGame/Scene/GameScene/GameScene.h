@@ -45,7 +45,7 @@ private:
 	//カメラ
 	ID3D11Device* m_device;//デバイス取得用変数
 	ID3D11DeviceContext* m_context;//コンテキスト取得変数
-	std::unique_ptr<TpsCamera> m_Camera;//カメラクラスの作成
+	std::unique_ptr<TpsCamera> m_camera;//カメラクラスの作成
 
 	//プレイヤー
 	std::unique_ptr<TestPlayer> m_player;
