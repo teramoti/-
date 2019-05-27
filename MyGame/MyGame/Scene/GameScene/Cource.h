@@ -11,9 +11,11 @@ public:
 
 	void Initilize();//初期化処理
 	void Update();//更新処理
-	void Render();//描画処理()
+	void Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);//描画処理()
+	void CreateResource();
+private:
 
 private:
-		//コースあたり判定
-	BoxNode m_box[5];
+	std::unique_ptr<DirectX::Model> m_model;
+
 };

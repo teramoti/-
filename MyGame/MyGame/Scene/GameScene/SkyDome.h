@@ -20,6 +20,12 @@ public:
 
 	void Initilize();
 	void Update();
-	void ReUpdate();
-	void Render();
+	void Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
+	void CreateResource();
+
+	void SetLight();
+
+private:
+	std::unique_ptr<DirectX::Model> m_model;
+
 };

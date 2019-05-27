@@ -27,9 +27,7 @@ TestPlayer::~TestPlayer()
 void TestPlayer::Initilize(Shadow* shadow)
 {
 	m_translation = DirectX::SimpleMath::Vector3(0,0,0);
-	
-	m_States = std::make_unique<DirectX::CommonStates>(m_directX11.GetDevice().Get());
-
+		
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 	m_box.Initialize();
 	m_box.SetTrans(m_translation);
@@ -66,7 +64,7 @@ void TestPlayer::Update(bool flag)
 
 void TestPlayer::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
-	m_model->Draw(m_directX11.GetContext().Get(), *m_States, m_world, view, proj);
+	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
 }
 
 void TestPlayer::Lost()

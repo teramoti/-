@@ -34,11 +34,14 @@ public:
 	bool Checkhit2(bool flag);
 	bool Checkhit3(bool flag);
 	bool GetFlag();
-	bool m_Flag;//ゴールのフラグ
+	//ゴールのフラグ
+	bool m_Flag;
 
 
 private:
 
-	BoxNode m_box[3];//当たり判定の設定
+	//当たり判定の設定
+	BoxNode m_box[3];
+	std::unique_ptr<DirectX::Model> m_model;
 
 };

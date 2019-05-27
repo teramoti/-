@@ -25,6 +25,8 @@ void CheckPoint::Initilize()
 	m_box[2].SetTrans(DirectX::SimpleMath::Vector3(-280, -3, -520));
 	m_box[2].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
 
+	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
+
 }
 
 void CheckPoint::Update()
@@ -43,8 +45,6 @@ void CheckPoint::Render()
 	{
 		//m_box[i].Render();
 	}
-	MyLib::Object3D::Draw();
-
 }
 
 bool CheckPoint::Checkhit1(bool flag)

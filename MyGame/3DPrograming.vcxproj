@@ -202,7 +202,6 @@
     <ClInclude Include="MyGame\Utillity\Flag.h" />
     <ClInclude Include="MyGame\Utillity\Math.h" />
     <ClInclude Include="MyGame\Utillity\SingletonBase.h" />
-    <ClInclude Include="MyGame\Utillity\Uncopyable.h" />
     <ClInclude Include="StepTimer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>

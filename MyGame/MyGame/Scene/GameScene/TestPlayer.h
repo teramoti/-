@@ -69,8 +69,6 @@ private:
 	std::unique_ptr<DirectX::Model> m_model;
 	DirectX::SimpleMath::Vector3 vec;//速度用変数
 
-	std::unique_ptr<DirectX::CommonStates> m_States;
-	std::unique_ptr<DirectX::EffectFactory> m_Factory;
 
 	BoxNode m_box;//ボックスのNode
 

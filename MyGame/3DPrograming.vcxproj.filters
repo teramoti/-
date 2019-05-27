@@ -131,9 +131,6 @@
     <ClInclude Include="MyGame\Scene\TitleScene\TitleStarEffect.h">
       <Filter>Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Scene\GameScene\CheckPoint.h">
-      <Filter>Scene\GameScene</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\CountDown.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
@@ -204,8 +201,8 @@
     <ClInclude Include="MyGame\Scene\GameScene\TpsCamera.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Utillity\Uncopyable.h">
-      <Filter>Utillity</Filter>
+    <ClInclude Include="MyGame\Scene\GameScene\CheckPoint.h">
+      <Filter>Scene\GameScene\Cource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

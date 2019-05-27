@@ -223,13 +223,13 @@ void GameScene::Render()
 	//プレイヤーの描画
 	m_player->Render(m_Camera->GetView(),m_Camera->GetProj());
 	//スカイドームの描画
-	m_skyDome->Render();
+	m_skyDome->Render(m_Camera->GetView(), m_Camera->GetProj());
 	//コースの描画
-	m_cource->Render();
+	m_cource->Render(m_Camera->GetView(), m_Camera->GetProj());
 	//画像の描画
 	SpriteRender();		
 	//メッシュの描画
-	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());
+	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理
@@ -290,7 +290,6 @@ void GameScene::SpriteRender()
 //!
 //! @return なし
 //----------------------------------------------------------------------
-
 void GameScene::DetectCollisionPlayerToCheckPoint()
 {
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
