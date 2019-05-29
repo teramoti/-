@@ -21,7 +21,7 @@ public:
 	~TimeComma();
 
 public:
-	//n‚Ü‚éˆ—
+	//‰Šú‰»ˆ—
 	void Initilize();
 	//XVˆ—
 	void Update();

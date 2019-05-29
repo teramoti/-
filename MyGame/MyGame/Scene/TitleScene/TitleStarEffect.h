@@ -18,7 +18,7 @@ public:
 	//タイトル名のデストラクタ
 	~TitleStarEffect();
 public:
-	//始まる処理
+	//初期化処理
 	void Initilize();
 	//更新処理
 	void Update();

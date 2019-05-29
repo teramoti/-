@@ -142,7 +142,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 
 	//タイムクラスの時間を取得
 	m_gameTimer = m_time->GetTime();
-	//始まる前のCountを引く
+	//初期化前のCountを引く
 	counter--;
 	//チェックポイントの更新
 	m_checkPoint->Update();
@@ -157,7 +157,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 			m_time->Update(m_gameTimer);
 			//ゲームの時間をＣｏｕｎｔダウンする
 			m_gameTime->SetTime(m_gameTimer);
-			//始まるフラグをtrueにする
+			//初期化フラグをtrueにする
 			m_startFlag = true;
 		}	
 	}
@@ -331,12 +331,23 @@ void GameScene::DetectCollisionPlayerToMesh()
 	DirectX::SimpleMath::Vector3 playerPos = m_player->GetTranslation();
 
 
+
+
+
 	// プレイヤーの真下に向かう線分
 	DirectX::SimpleMath::Vector3 v[2] =
 	{
 		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
 		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
 	};
+
+	// プレイヤーの外枠に向かう線分
+	DirectX::SimpleMath::Vector3 feller[2] =
+	{
+		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
+		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
+	};
+
 
 	//線分と床の交差判定を行う
 	int id;
@@ -356,5 +367,38 @@ void GameScene::DetectCollisionPlayerToMesh()
 	m_player->SetTranslation(playerPos);
 	//プレイヤーの速度を設定する
 	m_player->SetVel(playerVel);
+}
+
+void GameScene::UpdatePlayerFeller()
+{
+	/*
+	//feeler pointing straight in front
+	m_Feelers[0] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength * m_pVehicle->Heading();
+
+	//feeler to left
+	Vector2D temp = m_pVehicle->Heading();
+	Vec2DRotateAroundOrigin(temp, HalfPi * 3.5f);
+	m_Feelers[1] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength/2.0f * temp;
+
+	//feeler to right
+	temp = m_pVehicle->Heading();
+	Vec2DRotateAroundOrigin(temp, HalfPi * 0.5f);
+	m_Feelers[2] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength/2.0f * temp;
+	*/
+
+	m_feelers.resize(3);
+	m_feelers[0] = DirectX::SimpleMath::Vector3(m_player->GetTranslation().x + 10.0f * m_player->GetAngle(),
+		m_player->GetTranslation().y + 10.0f * m_player->GetAngle(),
+		m_player->GetTranslation().z + 10.0f * m_player->GetAngle());
+
+	DirectX::SimpleMath::Vector3 temp;
+
+
+	m_feelers[1] = DirectX::SimpleMath::Vector3(m_player->GetTranslation().x + 10.0f * m_player->GetAngle(),
+		m_player->GetTranslation().y + 10.0f * m_player->GetAngle(),
+		m_player->GetTranslation().z + 10.0f * m_player->GetAngle());
+
+
+
 }
 

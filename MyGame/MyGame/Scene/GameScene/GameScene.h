@@ -43,6 +43,7 @@ public:
 	//Meshとのあたりはんていの関数
 	void DetectCollisionPlayerToMesh();
 
+	void UpdatePlayerFeller();
 private:
 	const float PLAYER_RISE = 5.0f;
 
@@ -106,6 +107,10 @@ private:
 	// 音楽情報記憶用変数
 	//CriAtomExPlaybackId m_criAtomExPlaybackId;	
 
+	//触手
+	std::vector<DirectX::SimpleMath::Vector3> m_feelers;
+	
+	//DirectXGraphicsObjectへの参照
 	DirectX11& m_directX = DirectX11::Get();
 
 };
