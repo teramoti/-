@@ -22,7 +22,7 @@ class Shadow
 private:
 
 	// モデルハンドル
-	DirectX::Model* m_model;
+	std::unique_ptr<DirectX::Model> m_model;
 
 	// 表示フラグ
 	bool m_active;
@@ -31,7 +31,6 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11BlendState> m_blendState;
 
 	DirectX11& m_directX11 = DirectX11::Get();
-	TpsCamera* m_camera;
 public:
 	// コンストラクタ
 	Shadow();
@@ -40,11 +39,11 @@ public:
 	void Initialize();
 
 	// 描画関数
-	void Render();
+	void Render(DirectX::SimpleMath::Matrix view , DirectX::SimpleMath::Matrix proj, Teramoto::Object3D* setObject);
 
-	void SetModelShadow(MyLib::Object3D* object);
+	void SetModelShadow(Teramoto::Object3D* object);
 
-	void ResetModelShadow(DirectX::Model model, MyLib::Object3D* object);
+	void ResetModelShadow(DirectX::Model model, Teramoto::Object3D* object);
 	// 表示のON/OFFする関数
 	void Active(bool flag) { m_active = flag; }
 };

@@ -11,8 +11,9 @@ Shadow::Shadow() : m_active(true)
 
 void Shadow::Initialize()
 {
+	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 
-	//m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice(), L"",);
+	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\shadow.cmo", *m_directX11.Get().GetEffect());
 	// ブレンドステート作成（減算合成）
 	D3D11_BLEND_DESC bd;
 	ZeroMemory(&bd, sizeof(D3D11_BLEND_DESC));
@@ -32,19 +33,18 @@ void Shadow::Initialize()
 
 }
 
-void Shadow::Render()
+void Shadow::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj,Teramoto::Object3D* setObject)
 {
 	if (!m_model) return;
 	// 親の真下に影を表示する
-	MyLib::Object3D* object = new MyLib::Object3D();
-	const DirectX::SimpleMath::Vector3& pos = object->GetTranslation();
+	const DirectX::SimpleMath::Vector3& pos = setObject->GetTranslation();
 
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateTranslation(DirectX::SimpleMath::Vector3(pos.x, 0.0f, pos.z));
+	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateTranslation(DirectX::SimpleMath::Vector3(pos.x, pos.y-0.3f, pos.z));
 	m_model->Draw(m_directX11.GetContext().Get()
 	, *m_directX11.GetStates()
 		, world
-		, m_camera->GetView()
-		, m_camera->GetProj()
+		,view
+		, proj
 		, false, [&]()
 	{
 		// ブレンドを減算合成にし深度バッファは使用せず描画する

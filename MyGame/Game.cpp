@@ -222,7 +222,7 @@ void Game::DrawFPS()
 void Game::Clear()
 {
 	// レンダーターゲットをクリアする 
-	m_directX.GetContext()->ClearRenderTargetView(m_directX.GetRenderTargetView().Get(), DirectX::Colors::Blue);
+	m_directX.GetContext()->ClearRenderTargetView(m_directX.GetRenderTargetView().Get(), DirectX::Colors::Black);
 	// デプスステンシルビューを設定する 
 	m_directX.GetContext()->ClearDepthStencilView(m_directX.GetDepthStencilView().Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	// レンダータッゲートを設定する 

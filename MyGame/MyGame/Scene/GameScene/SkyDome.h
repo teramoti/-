@@ -9,7 +9,7 @@
 #include <SimpleMath.h>
 #include "../../GameSystem/Object.h"
 
-class SkyDome : public MyLib::Object3D
+class SkyDome : public Teramoto::Object3D
 {
 public:
 	const float SKYDOME_ROTATION_Y = 0.005f;

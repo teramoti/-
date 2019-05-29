@@ -54,7 +54,8 @@ public:
 	float m_nowScore[3];
 	float m_v[3] = {5999,5999,5999};
 
-	int m_stageNum;//ステージの番号用
+	//ステージの番号用
+	int m_stageNum;
 	int m_goalRank;
 	std::wstring m_name;
 	std::wstring m_colName;

@@ -27,7 +27,7 @@ public:
 protected:
 // メンバ変数
 	//デバッグ表示用オブジェクト
-	MyLib::Object3D m_Obj;
+	Teramoto::Object3D m_Obj;
 
 	DirectX::SimpleMath::Vector3 m_Trans;
 public:
@@ -39,7 +39,7 @@ public:
 	// 描画処理
 	virtual void Render() = 0;
 
-	void SetParent(MyLib::Object3D* parent);
+	void SetParent(Teramoto::Object3D* parent);
 
 	void SetTrans(DirectX::SimpleMath::Vector3& trans);
 

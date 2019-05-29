@@ -3,7 +3,7 @@
 //------------------------//------------------------
 // user(作成者) Keishi Teramoto
 // Created date(作成日) 2018 / 08 / 13
-// last updated (最終更新日) 2018 / 11 / 01
+// last updated (最終更新日) 2019 / 05 / 26
 //------------------------//------------------------
 
 
@@ -60,7 +60,7 @@ void SceneManager::InitilizeActiveScene()
 /// 活動中のシーンの更新処理
 /// </summary>
 /// <param name="timer">時間情報</param>
-void SceneManager::UpdateActiveScene( DX::StepTimer stepTimer)
+void SceneManager::UpdateActiveScene(const DX::StepTimer stepTimer)
 {
 	if (m_requestedScene != nullptr)
 	{

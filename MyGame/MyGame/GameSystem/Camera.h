@@ -3,7 +3,7 @@
 #include <SimpleMath.h>
 
 
-namespace MyLib
+namespace Teramoto
 {
 	class Camera
 	{

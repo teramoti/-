@@ -7,7 +7,6 @@
 
 //#include "../../pch.h"
 #include "GameScore.h"
-#include "../../GameSystem/GameSabe.h"
 
 using namespace MyGame;
 
@@ -43,7 +42,7 @@ void GameScore::Initilize()
 		System::DrawManager::GetInstance().LoadTexture(m_DrawData[i], L"Resources\\GameScene\\Number.png");
 	}
 	//ÉXÉRÉAÇÃê›íË
-	m_score = System::GameSabe::GetInstance().GetData();
+	//m_score = System::GameSabe::GetInstance().GetData();
 }
 
 

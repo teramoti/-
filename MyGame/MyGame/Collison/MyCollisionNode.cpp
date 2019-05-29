@@ -15,7 +15,7 @@ CollisionNode::~CollisionNode()
 {
 }
 
-void CollisionNode::SetParent(MyLib::Object3D * parent)
+void CollisionNode::SetParent(Teramoto::Object3D * parent)
 {
 	//m_Obj.SetParent(parent);
 }

@@ -67,7 +67,7 @@ void TitleScene::Initialize()
 	//}
 }
 
-void TitleScene::Update(DX::StepTimer& stepTimer)
+void TitleScene::Update(const DX::StepTimer& stepTimer)
 {
 	m_Star->Update();
 	m_StartFrame += 1;
@@ -91,7 +91,8 @@ void TitleScene::Update(DX::StepTimer& stepTimer)
 	{
 
 		m_SceneFlag = true;
-		m_num = SERECT_ENUM::NONE;//‰½‚à‚È‚µ‚É‰Šú‰»‚·‚é.
+		//‰½‚à‚È‚µ‚É‰Šú‰»‚·‚é.
+		m_num = SERECT_ENUM::NONE;
 		// Œø‰Ê‰¹‚ÌÄ¶
 		//m_criAtomExPlaybackId = m_adx2le->Play(1);
 	}

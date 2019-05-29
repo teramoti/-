@@ -19,7 +19,7 @@
 #pragma once
 
 //オブジェクト3Dクラス
-namespace MyLib
+namespace Teramoto
 {
 	class Object3D
 	{
@@ -53,7 +53,8 @@ namespace MyLib
 
 		DirectX11& m_directX11 = DirectX11::Get();
 
-		float m_angle;//角度
+		//角度
+		float m_angle;
 	public:
 
 		//コンストラクタ

@@ -5,8 +5,6 @@
 //内容	:	　ResultWordTime(リザルトの文字)のタスク
 //--------------------------------------------
 
-#include "../../GameSystem/GameSabe.h"
-
 #include "ResultWordTime.h"
 
 
@@ -31,10 +29,11 @@ ResultWordTime::~ResultWordTime()
 /// </summary>
 void ResultWordTime::Initilize()
 {
-	m_DrawData.SetPos(0,90);
-	m_DrawData.SetRect(0, 0, 200, 90);
-	m_DrawData.SetOrigin(0, 0);
-	System::DrawManager::GetInstance().LoadTexture(m_DrawData, L"Resources\\Textures\\Time.png");
+	m_drawData.SetPos(0.0f,90.0f);
+	m_drawData.SetRect(0.0f, 0.0f, 200.0f, 90.0f);
+	m_drawData.SetOrigin(0.0f, 0.0f);
+
+	System::DrawManager::GetInstance().LoadTexture(m_drawData, L"Resources\\Textures\\Time.png");
 }
 
 /// <summary>
@@ -49,5 +48,5 @@ void ResultWordTime::Update()
 /// </summary>
 void ResultWordTime::Draw()
 {
-	System::DrawManager::GetInstance().Draw(m_DrawData);
+	System::DrawManager::GetInstance().Draw(m_drawData);
 }

@@ -3,7 +3,7 @@
 
 
 
-using namespace MyLib;
+using namespace Teramoto;
 Camera::Camera(float w, float h)
 	: m_Eyepos(0, 0, 3.0f)
 	, m_Refpos(0, 0, 0)

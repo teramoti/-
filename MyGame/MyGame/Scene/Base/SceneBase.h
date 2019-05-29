@@ -44,7 +44,7 @@ class SceneBase
 		// <初期化関数>
 		virtual void Initialize() = 0;
 		// <更新関数>
-		virtual void Update( DX::StepTimer& stepTimer) = 0;
+		virtual void Update(const DX::StepTimer& stepTimer) = 0;
 		// <描画関数>
 		virtual void Render() = 0;
 		// <終了関数>

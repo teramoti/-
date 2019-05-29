@@ -6,10 +6,9 @@ using namespace DirectX::SimpleMath;
 TpsCamera::TpsCamera(int w, int h) :
 	Camera(static_cast<float>(w), static_cast<float>(h))
 {
-	m_TargetPos = Vector3::Zero;
-	m_TargetRot = 0.0f;
-	m_TargetRotX = 0.0f;
-	m_TargetRotZ = 0.0f;
+	m_targetPos = Vector3::Zero;
+	m_targetRotation= Vector3::Zero;
+	m_targetAngle = 0.0f;
 
 	Object = nullptr;
 }
@@ -23,15 +22,15 @@ void TpsCamera::Update()
 {
 	Vector3 refpos, eyepos;
 
-	SetTrans(Object->GetTranslation());
+	SetTranslation(Object->GetTranslation());
 	SetAngle(Object->GetAngle());
 
 	//TPSカメラ
-	refpos = Vector3(m_TargetPos.x,m_TargetPos.y, m_TargetPos.z) + Vector3(0, 1, 0);
+	refpos = Vector3(m_targetPos) + Vector3(0, 1, 0);
 
 	Vector3 cameraV(0.0f, 0.0f, -4.0f);
 
-	Matrix rot = Matrix::CreateRotationY(m_TargetRot);
+	Matrix rot = Matrix::CreateRotationY(m_targetAngle);
 	cameraV = Vector3::TransformNormal(cameraV, rot);
 
 	eyepos = refpos + cameraV;
@@ -40,42 +39,39 @@ void TpsCamera::Update()
 
 	Camera::Update();
 }
-
-void TpsCamera::SetTrans(DirectX::SimpleMath::Vector3 trangetpos)
+//----------------------------------------------------------------------
+//! @brief Tpsカメラクラスの位置の設定用関数
+//!
+//! @param targetPos
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void TpsCamera::SetTranslation(DirectX::SimpleMath::Vector3 trangetpos)
 {
-	m_TargetPos = trangetpos;
+	m_targetPos = trangetpos;
+}
+//----------------------------------------------------------------------
+//! @brief Tpsカメラクラスの角度の設定用関数
+//!
+//! @param targetPos
+//!
+//! @return なし
+//----------------------------------------------------------------------
+void TpsCamera::SetAngle(float rotation)
+{
+	m_targetAngle = rotation;
 }
 
-void TpsCamera::SetAngle(float tragetangle)
-{
-	m_TargetRot = tragetangle;
-}
-
-void TpsCamera::SetAngleX(float tragetangle)
-{
-	m_TargetRotX = tragetangle;
-}
-
-void TpsCamera::SetAngleZ(float tragetangle)
-{
-	m_TargetRotZ = tragetangle;
-}
-void TpsCamera::SetObject3D(MyLib::Object3D * object3D)
+void TpsCamera::SetObject3D(Teramoto::Object3D * object3D)
 {
 	Object = object3D;
 }
 
+DirectX::SimpleMath::Vector3 TpsCamera::GetRotation()
+{
+	return m_targetRotation;
+}
 float TpsCamera::GetAngle()
 {
-	return m_TargetRot;
-}
-
-float TpsCamera::GetAngleX()
-{
-	return m_TargetRotX;
-}
-
-float TpsCamera::GetAngleZ()
-{
-	return m_TargetRotZ;
+	return m_targetAngle;
 }

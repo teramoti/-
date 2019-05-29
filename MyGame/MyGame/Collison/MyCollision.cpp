@@ -644,7 +644,8 @@ void MyCollision::Planar::SetPlane(DirectX::SimpleMath::Vector3 pos1, DirectX::S
 	DirectX::SimpleMath::Vector3 vec_a = pos2 - pos1;
 	DirectX::SimpleMath::Vector3 vec_b = pos3 - pos2;
 
-	DirectX::SimpleMath::Vector3 normal = vec_a.Cross(vec_b);//vec_a‚ÌŠOÏ
+	//vec_a‚ÌŠOÏ
+	DirectX::SimpleMath::Vector3 normal = vec_a.Cross(vec_b);
 
 	SetPlane(normal, pos1);
 }

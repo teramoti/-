@@ -4,8 +4,8 @@
 #include "CountDown.h"
 #include "GameTime.h"
 //#include "../../ADX2/ADX2Le.h"
-//#include "../../GameSystem/Camera.h"
-#include "TestPlayer.h"
+
+#include "Player.h"
 #include "../../GameSystem/Camera.h"
 #include "TpsCamera.h"
 #include <SpriteFont.h>
@@ -26,29 +26,31 @@ public:
 	// <初期化関数>
 	void Initialize() override;
 	// <更新関数>
-	void Update(DX::StepTimer& stemTimer)override;
+	void Update(const DX::StepTimer& stemTimer)override;
 	// <描画関数>
 	void Render()override;
 	// <終了関数>
 	void Finalize()override;
 
 public:
+	//あたり判定をまとめる関数
 	void DetectCollisionManager();
+	//画像の描画
 	void SpriteRender();
 
-	void FileLoad();
-	void DetectCollisionPlayerToCheckPoint();//1ステージのチェックポイント
-	void DetectCollisionPlayerToMesh();//1ステージのチェックポイント
+	//CheckPointとのあたりはんていの関数
+	void DetectCollisionPlayerToCheckPoint();
+	//Meshとのあたりはんていの関数
+	void DetectCollisionPlayerToMesh();
 
 private:
 	const float PLAYER_RISE = 5.0f;
-	//カメラ
-	ID3D11Device* m_device;//デバイス取得用変数
-	ID3D11DeviceContext* m_context;//コンテキスト取得変数
-	std::unique_ptr<TpsCamera> m_Camera;//カメラクラスの作成
+
+	//カメラクラスの作成
+	std::unique_ptr<TpsCamera> m_camera;
 
 	//プレイヤー
-	std::unique_ptr<TestPlayer> m_player;
+	std::unique_ptr<Player> m_player;
 
 	//スカイドーム
 	std::unique_ptr<SkyDome>  m_skyDome;
@@ -60,34 +62,49 @@ private:
 	CollisionManager*				m_collisionManager;
 	//時間
 	std::unique_ptr<Time>			m_time;
-	//チェックポイント
+	//チェックポイントクラスの定義
 	std::unique_ptr<CheckPoint>		m_checkPoint;
-
+	//カウントダウンクラスの定義
 	CountDown*						m_count;
+	//ゲームの時間クラスの定義
 	GameTime*						m_gameTime;
 	//GameGoal* m_Goal;
-	bool m_Node;
-	bool m_startFlag;//ゲームが始まっているのかのフラグ用変数
-	float m_gameTimer;//ゲームの時間用変数
-	int m_CouceCount;
-	bool m_start;//始まっているかのbool
-	int m_GoalNum;//ゴールした時のフレームを少し回すよう変数
-	int m_GoalRank;//敵がゴールしたのかの処理(今は不要）
-	int m_StageNum;//ステージの番号
 
-	bool m_goalFlag;//ゴールしているかのフラグ用変数
+	bool m_Node;
+	//ゲームが始まっているのかのフラグ用変数
+	bool m_startFlag;
+	//ゲームの時間用変数
+	float m_gameTimer;
+	int m_CouceCount;
+	//Startしたかのフラグ
+	bool m_start;
+	//ゴールした時のフレームを少し回すよう変数
+	int m_GoalNum;
+	//敵がゴールしたのかの処理(今は不要）
+	int m_GoalRank;
+	//ステージの番号
+	int m_StageNum;
+
+				   //ゴールしているかのフラグ用変数
+	bool m_goalFlag;
 
 	//開始のカウントダウン
 	float counter = 180.0f;
-	bool m_SceneFlag;//シーン変更用フラグ
+	//シーン変更用フラグ
+	bool m_SceneFlag;
 
-	std::unique_ptr<CollisionMesh> m_stageMesh;//当たり判定用メッシュ
-	std::unique_ptr<CollisionMesh> m_stageMesh2;//外側の当たり判定用メッシュ
-	std::unique_ptr<Cource> m_cource;//コースのクラス作成用変数
-	//MyLibrary::ADX2Le* m_adx2le;	// サウンド
-
+	//当たり判定用メッシュ
+	std::unique_ptr<CollisionMesh> m_stageMesh;
+	//外側の当たり判定用メッシュ
+	std::unique_ptr<CollisionMesh> m_stageMesh2;
+	//コースのクラス作成用変数
+	std::unique_ptr<Cource> m_cource;
+	// サウンド
+	//MyLibrary::ADX2Le* m_adx2le;	
+	//影クラスの定義
 	Shadow* m_shadow;
-	//CriAtomExPlaybackId m_criAtomExPlaybackId;	// 音楽情報記憶用変数
+	// 音楽情報記憶用変数
+	//CriAtomExPlaybackId m_criAtomExPlaybackId;	
 
 	DirectX11& m_directX = DirectX11::Get();
 

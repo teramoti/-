@@ -60,7 +60,7 @@ class SceneManager:  public Utility::SingletonBase<SceneManager>
 		//シーンのInitilize呼び出し関数
 		void InitilizeActiveScene();
 		//シーンのUpdate呼び出し関数
-		void UpdateActiveScene(DX::StepTimer step);
+		void UpdateActiveScene(const DX::StepTimer step);
 		//シーンのRederび出し関数
 		void RenderActiveSceneRender();
 		//シーンの設定用関数

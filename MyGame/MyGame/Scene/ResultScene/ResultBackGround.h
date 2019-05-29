@@ -1,10 +1,10 @@
 
 #include "../../GameSystem/DrawManager.h"
-class ResultBackGorund
+class ResultBackGround
 {
 public:  
-	ResultBackGorund();
-	~ResultBackGorund();
+	ResultBackGround();
+	~ResultBackGround();
 
 	void Initilize();
 	void Update();

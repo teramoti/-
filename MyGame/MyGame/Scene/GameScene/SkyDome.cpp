@@ -23,29 +23,20 @@ void SkyDome::Initilize()
 {
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 
-	//Load(L"Resources/Model/SkyDome.cmo");
-	// m_scale *= 12.0f;
-	//m_world = DirectX::SimpleMath::Matrix::Identity;
-	m_translation = DirectX::SimpleMath::Vector3(0, -80.0f, 0);
-	//m_rotation = DirectX::SimpleMath::Quaternion(0, 0, 0,0);
 
-	//m_world = DirectX::SimpleMath::Matrix::CreateScale( m_scale)*DirectX::SimpleMath::Matrix::CreateTranslation(m_translation)*
-	//	DirectX::SimpleMath::Matrix::CreateRotationX(m_rotation.x)
-	//	*DirectX::SimpleMath::Matrix::CreateRotationY(m_rotation.y)*DirectX::SimpleMath::Matrix::CreateRotationZ(m_rotation.z);
 	CreateResource();
 
 }
 
 void SkyDome::Update()
 {
-	m_rotation.y += SKYDOME_ROTATION_Y;
-	MyLib::Object3D::Update();
+	Teramoto::Object3D::Update();
 
 }
 
 void SkyDome::CreateResource()
 {
-	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\SkyDomeSun.cmo", *m_directX11.Get().GetEffect());
+	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\SkyDome.cmo", *m_directX11.Get().GetEffect());
 }
 
 

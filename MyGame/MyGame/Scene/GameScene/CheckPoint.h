@@ -2,7 +2,7 @@
 #include "../../GameSystem/Object.h"
 #include "../../Collison/MyCollisionNode.h"
 
-class CheckPoint : public MyLib::Object3D
+class CheckPoint : public Teramoto::Object3D
 {
 public:
 	CheckPoint();
@@ -26,8 +26,10 @@ public:
 		return m_box[2];
 	}
 
-	bool CheckBlock[3];//チェックポイントの変数
-	bool m_FinalFlag;//最後のゴールフラグ
+	//チェックポイントの変数
+	bool CheckBlock[3];
+	//最後のゴールフラグ
+	bool m_FinalFlag;
 
 
 	bool Checkhit1(bool flag);

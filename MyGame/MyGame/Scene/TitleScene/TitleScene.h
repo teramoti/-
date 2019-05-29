@@ -26,7 +26,7 @@ public:
 	// <‰Šú‰»ŠÖ”>
 	 void Initialize()override;
 	// <XVŠÖ”>
-	void Update(DX::StepTimer& stepTimer)override;
+	void Update(const DX::StepTimer& stepTimer)override;
 	// <•`‰æŠÖ”>
 	void Render()override;
 	// <I—¹ŠÖ”>

@@ -2,36 +2,34 @@
 
 
 
-using namespace MyLib;
-
-MyLib::Object3D::Object3D()
+Teramoto::Object3D::Object3D()
 {
 	m_scale = DirectX::SimpleMath::Vector3(1, 1, 1);
 }
 
-MyLib::Object3D::~Object3D()
+Teramoto::Object3D::~Object3D()
 {
 
 }
 
-void MyLib::Object3D::Update()
+void Teramoto::Object3D::Update()
 {
 
-	DirectX::SimpleMath::Matrix rmat;
-	rmat = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
+	DirectX::SimpleMath::Matrix rotationMatrix;
+	rotationMatrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
 
-	DirectX::SimpleMath::Matrix transmat = DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
+	DirectX::SimpleMath::Matrix translationMatrix = DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
 
-	m_world =  rmat * transmat;
+	m_world =  rotationMatrix * translationMatrix;
 }
 
-void MyLib::Object3D::Draw()
+void Teramoto::Object3D::Draw()
 {
 
 }
 
 
-void MyLib::Object3D::SetLight()
+void Teramoto::Object3D::SetLight()
 {
 	auto SetLight = [&](DirectX::IEffect* effect)
 	{

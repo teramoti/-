@@ -35,7 +35,7 @@ void CheckPoint::Update()
 	{
 		m_box[i].Update();
 	}
-	MyLib::Object3D::Update();
+	Teramoto::Object3D::Update();
 
 }
 

@@ -160,7 +160,6 @@
     <ClInclude Include="MyGame\Collison\MyCollisionNode.h" />
     <ClInclude Include="MyGame\GameSystem\Camera.h" />
     <ClInclude Include="MyGame\GameSystem\DrawManager.h" />
-    <ClInclude Include="MyGame\GameSystem\GameSabe.h" />
     <ClInclude Include="MyGame\GameSystem\GameSaveData.h" />
     <ClInclude Include="MyGame\GameSystem\InputManager.h" />
     <ClInclude Include="MyGame\GameSystem\Object.h" />
@@ -174,11 +173,11 @@
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Shadow.h" />
     <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h" />
-    <ClInclude Include="MyGame\Scene\GameScene\TestPlayer.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\Player.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Time.h" />
     <ClInclude Include="MyGame\Scene\GameScene\TimeComma.h" />
     <ClInclude Include="MyGame\Scene\GameScene\TpsCamera.h" />
-    <ClInclude Include="MyGame\Scene\ResultScene\ResultBackGorund.h" />
+    <ClInclude Include="MyGame\Scene\ResultScene\ResultBackGround.h" />
     <ClInclude Include="MyGame\Scene\ResultScene\ResultHighTime.h" />
     <ClInclude Include="MyGame\Scene\ResultScene\ResultKeyDown.h" />
     <ClInclude Include="MyGame\Scene\ResultScene\ResultRank.h" />
@@ -217,10 +216,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MyGame\GameSystem\DrawManager.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="MyGame\GameSystem\GameSabe.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -265,7 +260,7 @@
     <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MyGame\Scene\GameScene\TestPlayer.cpp">
+    <ClCompile Include="MyGame\Scene\GameScene\Player.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -276,7 +271,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\TpsCamera.cpp" />
-    <ClCompile Include="MyGame\Scene\ResultScene\ResultBackGorund.cpp">
+    <ClCompile Include="MyGame\Scene\ResultScene\ResultBackGround.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\ResultScene\ResultHighTime.cpp">
@@ -372,6 +367,9 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\PlayerMark2.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\shadow.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\SkyDome.FBX">

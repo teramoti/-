@@ -1,16 +1,16 @@
-#include "ResultBackGorund.h"
+#include "ResultBackGround.h"
 
 
 
-ResultBackGorund::ResultBackGorund()
+ResultBackGround::ResultBackGround()
 {
 }
 
-ResultBackGorund::~ResultBackGorund()
+ResultBackGround::~ResultBackGround()
 {
 }
 
-void ResultBackGorund::Initilize()
+void ResultBackGround::Initilize()
 {
 	m_data.SetPos(0, 0);
 	m_data.SetRect(0, 0, 800, 600);
@@ -18,11 +18,11 @@ void ResultBackGorund::Initilize()
 	System::DrawManager::GetInstance().LoadTexture(m_data, L"Resources\\Textures\\TitleBack.png");
 }
 
-void ResultBackGorund::Update()
+void ResultBackGround::Update()
 {
 }
 
-void ResultBackGorund::Render()
+void ResultBackGround::Render()
 {
 	System::DrawManager::GetInstance().Draw(m_data);
 

@@ -44,7 +44,7 @@ GameScene::GameScene(SceneManager* scenemaneger)
 //----------------------------------------------------------------------
 GameScene::~GameScene()
 {
-	m_Camera.reset();
+	m_camera.reset();
 	m_player.reset();
 	m_skyDome.reset();
 	m_states.reset();
@@ -79,15 +79,16 @@ void GameScene::Initialize()
 	//}
 
 	//Cameraクラスの初期化
-	m_Camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
+	m_camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
 	m_shadow = new Shadow();
+	//m_shadow->Initialize();
 	//プレイヤーの生成
-	m_player = std::make_unique<TestPlayer>();
+	m_player = std::make_unique<Player>();
 	//Playerの初期化処理
 	m_player->Initilize(m_shadow);
 
 	//カメラのTargetの設定
-	m_Camera->SetObject3D(m_player.get());
+	m_camera->SetObject3D(m_player.get());
 
 	//チェックポイントの作成
 	m_checkPoint = std::make_unique<CheckPoint>();
@@ -114,7 +115,6 @@ void GameScene::Initialize()
 	//カウントダウンクラスの初期化
 	m_count->Initilize();
 
-
 	//ゲーム時間クラスの作成
 	m_gameTime = new GameTime();
 	//ゲーム時間クラスの初期化
@@ -133,14 +133,13 @@ void GameScene::Initialize()
 //! @return なし
 //----------------------------------------------------------------------
 
-void GameScene::Update(DX::StepTimer& stepTimer)
+void GameScene::Update(const DX::StepTimer& stepTimer)
 {
 
 	//ゲームの開始時間の取得
 	int startTime = (int)stepTimer.GetTotalSeconds();
- 	float elapsedTime = float(stepTimer.GetElapsedSeconds());
 	//時間の情報
-	
+
 	//タイムクラスの時間を取得
 	m_gameTimer = m_time->GetTime();
 	//始まる前のCountを引く
@@ -154,18 +153,21 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 	{
 		if (m_goalFlag == false)
 		{
-			m_time->Update(m_gameTimer);//時間の更新
-			m_gameTime->SetTime(m_gameTimer);//ゲームの時間をＣｏｕｎｔダウンする
-			m_startFlag = true;//始まるフラグをtrueにする
-
+			//時間の更新
+			m_time->Update(m_gameTimer);
+			//ゲームの時間をＣｏｕｎｔダウンする
+			m_gameTime->SetTime(m_gameTimer);
+			//始まるフラグをtrueにする
+			m_startFlag = true;
 		}	
-
 	}
 	else
 	{
+		//タイマーの設定をする。
 		m_count->SetTime(counter);
 	}
 
+	//プレイヤーがチェックポイントをすべて通ったのか
 	if (m_checkPoint->GetFlag() == true)
 	{
 		m_time->SetFlag(false);
@@ -190,20 +192,20 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 
 	//コースの更新処理
 	m_cource->Update();
+	
 	if (m_GoalNum > 40)
 	{
 		m_SceneFlag = true;
 	}
 	if (m_SceneFlag == true)
 	{
-		//m_adx2le->Stop();
 		//シーンをリザルトにする
 		m_sceneManager->SetScene(RESULT_SCENE);
 		return;
 	}
 
 	//カメラの更新	
-	m_Camera->Update();
+	m_camera->Update();
 
 	//プレイヤーの更新
 	m_player->Update(m_startFlag);
@@ -221,15 +223,16 @@ void GameScene::Update(DX::StepTimer& stepTimer)
 void GameScene::Render()
 {
 	//プレイヤーの描画
-	m_player->Render(m_Camera->GetView(),m_Camera->GetProj());
+	m_player->Render(m_camera->GetView(),m_camera->GetProj());
+	m_shadow->Render(m_camera->GetView(), m_camera->GetProj(),m_player.get());
 	//スカイドームの描画
-	m_skyDome->Render(m_Camera->GetView(), m_Camera->GetProj());
+	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
 	//コースの描画
-	m_cource->Render(m_Camera->GetView(), m_Camera->GetProj());
+	m_cource->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
 	SpriteRender();		
 	//メッシュの描画
-	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_Camera->GetView(), m_Camera->GetProj());
+	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理
@@ -255,7 +258,7 @@ void GameScene::DetectCollisionManager()
 {
 	// ステージのチェックポイントにPlayerが当たっているか
 	DetectCollisionPlayerToCheckPoint();
-	// 
+	// ステージのMeshにPlayerが当たっているか
 	DetectCollisionPlayerToMesh();
 
 }
@@ -292,16 +295,22 @@ void GameScene::SpriteRender()
 //----------------------------------------------------------------------
 void GameScene::DetectCollisionPlayerToCheckPoint()
 {
+	//ステージのチェックポイント1とPlayerがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
 	{
+		//1つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit1(true);
 	}
+	//ステージのチェックポイント2とPlayerがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos2()) == true)
 	{
+		//2つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit2(true);
 	}
+	//ステージのチェックポイント3とPlayerがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
 	{
+		//3つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit3(true);
 	}
 
@@ -316,11 +325,13 @@ void GameScene::DetectCollisionPlayerToCheckPoint()
 
 void GameScene::DetectCollisionPlayerToMesh()
 {
-	DirectX::SimpleMath::Vector3 playerVel = m_player->GetVel();
+	//プレイヤーの方向ベクトルの取得
+	DirectX::SimpleMath::Vector3 playerVel = m_player->GetVelotity();
+	//プレイヤーの位置の取得
 	DirectX::SimpleMath::Vector3 playerPos = m_player->GetTranslation();
 
 
-	// ボールの真下に向かう線分
+	// プレイヤーの真下に向かう線分
 	DirectX::SimpleMath::Vector3 v[2] =
 	{
 		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),

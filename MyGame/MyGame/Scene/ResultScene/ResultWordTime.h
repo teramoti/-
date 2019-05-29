@@ -30,5 +30,5 @@ public:
 	//タイトルロゴのポジション
 	DirectX::SimpleMath::Vector2 m_Pos;
 	//描画用の変数
-	System::DrawData m_DrawData;
+	System::DrawData m_drawData;
 };

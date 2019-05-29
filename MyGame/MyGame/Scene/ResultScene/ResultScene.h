@@ -5,7 +5,7 @@
 #include "ResultTime.h"
 #include "ResultKeyDown.h"
 #include "ResultWordTime.h"
-#include "ResultBackGorund.h"
+#include "ResultBackGround.h"
 #include "ResultHighTime.h"
 #include "ResultRank.h"
 //#include "../../ADX2/ADX2Le.h"
@@ -19,7 +19,7 @@ public:
 	// <初期化関数>
 	virtual void Initialize();
 	// <更新関数>
-	virtual void Update(DX::StepTimer& stepTimer);
+	virtual void Update(const DX::StepTimer& stepTimer);
 	// <描画関数>
 	virtual void Render();
 	// <終了関数>
@@ -29,10 +29,10 @@ public:
 private:
 	ResultTime* m_score;
 	ResultKeyDown* m_space;
-	ResultWordTime* m_Wscore;
-	ResultBackGorund* m_BackGorund;
-	ResultHighTime* m_HighTime;
-	ResultRank* m_Rank;
+	ResultWordTime* m_wscore;
+	ResultBackGround* m_backGorund;
+	ResultHighTime* m_highTime;
+	ResultRank* m_rank;
 	// サウンド
 	//MyLibrary::ADX2Le* m_adx2le;
 
