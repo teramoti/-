@@ -224,7 +224,10 @@ void GameScene::Render()
 {
 	//プレイヤーの描画
 	m_player->Render(m_camera->GetView(),m_camera->GetProj());
+<<<<<<< HEAD
 	m_shadow->Render(m_camera->GetView(), m_camera->GetProj(),m_player.get());
+=======
+>>>>>>> 44105518dbb6f25c151be9ebdc146f28eef5a8a7
 	//スカイドームの描画
 	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
 	//コースの描画
@@ -232,7 +235,11 @@ void GameScene::Render()
 	//画像の描画
 	SpriteRender();		
 	//メッシュの描画
+<<<<<<< HEAD
 	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
+=======
+	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
+>>>>>>> 44105518dbb6f25c151be9ebdc146f28eef5a8a7
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理
