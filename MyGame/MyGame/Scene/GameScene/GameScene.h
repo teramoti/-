@@ -46,16 +46,12 @@ public:
 	void UpdatePlayerFeller();
 private:
 	const float PLAYER_RISE = 5.0f;
-<<<<<<< HEAD
 
 	//カメラクラスの作成
 	std::unique_ptr<TpsCamera> m_camera;
-=======
 	//カメラ
 	ID3D11Device* m_device;//デバイス取得用変数
 	ID3D11DeviceContext* m_context;//コンテキスト取得変数
-	std::unique_ptr<TpsCamera> m_camera;//カメラクラスの作成
->>>>>>> 44105518dbb6f25c151be9ebdc146f28eef5a8a7
 
 	//プレイヤー
 	std::unique_ptr<Player> m_player;
