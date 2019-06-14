@@ -8,14 +8,14 @@
 #include "../../GameSystem/Object.h"
 #include "../../Collison/MyCollisionNode.h"
 #include "Shadow.h"
-class Player : public Teramoto::Object3D
+class MyAirPlane : public Teramoto::Object3D
 {
 
 public:
 	//コンストラクタ
-	Player();
+	MyAirPlane();
 	//デストラクタ
-	~Player();
+	~MyAirPlane();
 public:
 
 	//初期化処理
@@ -28,7 +28,7 @@ public:
 	//削除する処理
 	void Lost();
 	//プレイヤーを移動せる関数
-	void PlayerMove();	
+	void MyAirPlaneMove();	
 
 	//velcityのGet関数
 	DirectX::SimpleMath::Vector3 GetVelotity()

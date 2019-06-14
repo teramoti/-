@@ -83,8 +83,8 @@ void GameScene::Initialize()
 	m_shadow = new Shadow();
 	//m_shadow->Initialize();
 	//プレイヤーの生成
-	m_player = std::make_unique<Player>();
-	//Playerの初期化処理
+	m_player = std::make_unique<MyAirPlane>();
+	//MyAirPlaneの初期化処理
 	m_player->Initilize(m_shadow);
 
 	//カメラのTargetの設定
@@ -155,7 +155,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 		{
 			//時間の更新
 			m_time->Update(m_gameTimer);
-			//ゲームの時間をＣｏｕｎｔダウンする
+			//ゲームの時間をCountダウンする
 			m_gameTime->SetTime(m_gameTimer);
 			//初期化フラグをtrueにする
 			m_startFlag = true;
@@ -257,10 +257,10 @@ void GameScene::Finalize()
 //----------------------------------------------------------------------
 void GameScene::DetectCollisionManager()
 {
-	// ステージのチェックポイントにPlayerが当たっているか
-	DetectCollisionPlayerToCheckPoint();
-	// ステージのMeshにPlayerが当たっているか
-	DetectCollisionPlayerToMesh();
+	// ステージのチェックポイントにMyAirPlaneが当たっているか
+	DetectCollisionMyAirPlaneToCheckPoint();
+	// ステージのMeshにMyAirPlaneが当たっているか
+	DetectCollisionMyAirPlaneToMesh();
 
 }
 
@@ -294,21 +294,21 @@ void GameScene::SpriteRender()
 //!
 //! @return なし
 //----------------------------------------------------------------------
-void GameScene::DetectCollisionPlayerToCheckPoint()
+void GameScene::DetectCollisionMyAirPlaneToCheckPoint()
 {
-	//ステージのチェックポイント1とPlayerがあったているのか
+	//ステージのチェックポイント1とMyAirPlaneがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
 	{
 		//1つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit1(true);
 	}
-	//ステージのチェックポイント2とPlayerがあったているのか
+	//ステージのチェックポイント2とMyAirPlaneがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos2()) == true)
 	{
 		//2つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit2(true);
 	}
-	//ステージのチェックポイント3とPlayerがあったているのか
+	//ステージのチェックポイント3とMyAirPlaneがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
 	{
 		//3つ目のチェックポイントを通ったことにする
@@ -324,16 +324,12 @@ void GameScene::DetectCollisionPlayerToCheckPoint()
 //! @return なし
 //----------------------------------------------------------------------
 
-void GameScene::DetectCollisionPlayerToMesh()
+void GameScene::DetectCollisionMyAirPlaneToMesh()
 {
 	//プレイヤーの方向ベクトルの取得
 	DirectX::SimpleMath::Vector3 playerVel = m_player->GetVelotity();
 	//プレイヤーの位置の取得
 	DirectX::SimpleMath::Vector3 playerPos = m_player->GetTranslation();
-
-
-
-
 
 	// プレイヤーの真下に向かう線分
 	DirectX::SimpleMath::Vector3 v[2] =
@@ -359,10 +355,6 @@ void GameScene::DetectCollisionPlayerToMesh()
 		playerPos.y = s.y + PLAYER_RISE;
 		playerVel.y = 0.0f;
 	}
-	else
-	{
-
-	}
 
 	//プレイヤーの場所の更新
 	m_player->SetTranslation(playerPos);
@@ -370,7 +362,7 @@ void GameScene::DetectCollisionPlayerToMesh()
 	m_player->SetVel(playerVel);
 }
 
-void GameScene::UpdatePlayerFeller()
+void GameScene::UpdateMyAirPlaneFeller()
 {
 	/*
 	//feeler pointing straight in front

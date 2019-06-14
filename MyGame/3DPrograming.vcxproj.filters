@@ -195,11 +195,11 @@
     <ClInclude Include="MyGame\Scene\GameScene\CheckPoint.h">
       <Filter>Scene\GameScene\Cource</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Scene\GameScene\Player.h">
-      <Filter>Scene\GameScene\Player</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Scene\ResultScene\ResultBackGround.h">
       <Filter>Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\MyAirPlane.h">
+      <Filter>Scene\GameScene\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,11 +332,11 @@
     <ClCompile Include="MyGame\Scene\GameScene\CheckPoint.cpp">
       <Filter>Scene\GameScene\Cource</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Scene\GameScene\Player.cpp">
-      <Filter>Scene\GameScene\Player</Filter>
-    </ClCompile>
     <ClCompile Include="MyGame\Scene\ResultScene\ResultBackGround.cpp">
       <Filter>Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\MyAirPlane.cpp">
+      <Filter>Scene\GameScene\Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

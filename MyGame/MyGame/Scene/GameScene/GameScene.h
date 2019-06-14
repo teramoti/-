@@ -5,7 +5,7 @@
 #include "GameTime.h"
 //#include "../../ADX2/ADX2Le.h"
 
-#include "Player.h"
+#include "MyAirPlane.h"
 #include "../../GameSystem/Camera.h"
 #include "TpsCamera.h"
 #include <SpriteFont.h>
@@ -39,11 +39,11 @@ public:
 	void SpriteRender();
 
 	//CheckPointとのあたりはんていの関数
-	void DetectCollisionPlayerToCheckPoint();
+	void DetectCollisionMyAirPlaneToCheckPoint();
 	//Meshとのあたりはんていの関数
-	void DetectCollisionPlayerToMesh();
+	void DetectCollisionMyAirPlaneToMesh();
 
-	void UpdatePlayerFeller();
+	void UpdateMyAirPlaneFeller();
 private:
 	const float PLAYER_RISE = 5.0f;
 
@@ -54,7 +54,7 @@ private:
 	ID3D11DeviceContext* m_context;//コンテキスト取得変数
 
 	//プレイヤー
-	std::unique_ptr<Player> m_player;
+	std::unique_ptr<MyAirPlane> m_player;
 
 	//スカイドーム
 	std::unique_ptr<SkyDome>  m_skyDome;

@@ -1,5 +1,5 @@
 //------------------------//------------------------
-// Contents(処理内容) Player.cppの内容を書く
+// Contents(処理内容) MyAirPlane.cppの内容を書く
 //------------------------//------------------------
 // user(作成者) Keishi Teramoto
 // Created date(作成日) 2018 / 09 / 23
@@ -11,20 +11,20 @@
 #include <KeyBoard.h>
 #include "../../GameSystem/InputManager.h"
 
-#include "Player.h"
+#include "MyAirPlane.h"
 
 
 
-Player::Player() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity), m_velocity(DirectX::SimpleMath::Vector3::Zero),
+MyAirPlane::MyAirPlane() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity), m_velocity(DirectX::SimpleMath::Vector3::Zero),
 m_pos(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -0.0f)), m_acceleration(0.0f), m_startFlag(false)
 {
 }
 
-Player::~Player()
+MyAirPlane::~MyAirPlane()
 {
 }
 
-void Player::Initilize(Shadow* shadow)
+void MyAirPlane::Initilize(Shadow* shadow)
 {
 	m_shadow = shadow;
 
@@ -39,12 +39,12 @@ void Player::Initilize(Shadow* shadow)
 	CreateResource();
 }
 
-void Player::CreateResource()
+void MyAirPlane::CreateResource()
 {
 	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\Player.cmo", *m_directX11.Get().GetEffect());
 }
 
-void Player::Update(bool flag)
+void MyAirPlane::Update(bool flag)
 {
 
 
@@ -54,22 +54,22 @@ void Player::Update(bool flag)
 	m_box.Update();
 	m_box.SetTrans(m_translation);
 	//プレイヤーの移動
-	PlayerMove();
+	MyAirPlaneMove();
 
 }
 
-void Player::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
+void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
 	m_shadow->Render(view, proj,this);
 
 }
 
-void Player::Lost()
+void MyAirPlane::Lost()
 {
 }
 
-void Player::PlayerMove()
+void MyAirPlane::MyAirPlaneMove()
 {
 	bool keyFlag = false;
 
