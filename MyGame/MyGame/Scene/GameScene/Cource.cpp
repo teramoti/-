@@ -32,7 +32,7 @@ void Cource::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matri
 
 void Cource::CreateResource()
 {
-	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\CircleCource.cmo", *m_directX11.Get().GetEffect());
+	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\MyCource_01.cmo", *m_directX11.Get().GetEffect());
 
 }
 

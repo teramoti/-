@@ -7,23 +7,28 @@
 bool CollisionNode::m_DebugVisible = true;
 
 
-CollisionNode::CollisionNode()  :m_Trans(DirectX::SimpleMath::Vector3::Zero)
+CollisionNode::CollisionNode()  :m_translation(DirectX::SimpleMath::Vector3::Zero)
 {
+	
 }
 
 CollisionNode::~CollisionNode()
 {
 }
 
+void CollisionNode::CreateResource()
+{
+}
+
 void CollisionNode::SetParent(Teramoto::Object3D * parent)
 {
-	//m_Obj.SetParent(parent);
+	//m_obj.SetParent(parent);
 }
 
 void CollisionNode::SetTrans(DirectX::SimpleMath::Vector3 & trans)
 {
-	 m_Trans = trans; 
-	 m_Obj.SetTranslation(trans); 
+	 m_translation = trans; 
+	 m_obj.SetTranslation(trans); 
 }
 
 SphereNode::SphereNode()
@@ -34,21 +39,23 @@ SphereNode::SphereNode()
 
 void SphereNode::Initialize()
 {
-	//m_Obj.Load(L"Resources/Model/Sphere.cmo");
+	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
+
+	//m_obj.Load(L"Resources/Model/Sphere.cmo");
 }
 
 void SphereNode::Update()
 {
 
-	m_Obj.SetTranslation(m_Trans);
+	m_obj.SetTranslation(m_translation);
 
-	m_Obj.SetScale(DirectX::SimpleMath::Vector3(m_localRadius));
+	m_obj.SetScale(DirectX::SimpleMath::Vector3(m_localRadius));
 
-	m_Obj.Update();
+	m_obj.Update();
 
 	{
 		// 判定球の要素を計算
-		const DirectX::SimpleMath::Matrix& worldm = m_Obj.GetWorld();
+		const DirectX::SimpleMath::Matrix& worldm = m_obj.GetWorld();
 
 		// モデル座標系での中心点
 		DirectX::SimpleMath::Vector3 center(0, 0, 0);
@@ -65,12 +72,16 @@ void SphereNode::Update()
 	}
 }
 
-void SphereNode::Render()
+void SphereNode::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
-	m_Obj.SetTranslation(m_Trans);
-	m_Obj.SetTranslation(DirectX::SimpleMath::Vector3(m_localRadius));
+	m_obj.SetTranslation(m_translation);
+	m_obj.SetTranslation(DirectX::SimpleMath::Vector3(m_localRadius));
 
-	if (GetDebugVisible()) { m_Obj.Draw(); }
+	if (GetDebugVisible()) { m_obj.Draw(); }
+}
+
+void SphereNode::CreateResource()
+{
 }
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -85,34 +96,41 @@ BoxNode::BoxNode()
 void BoxNode::Initialize() 
 {
 	m_size = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
-	//m_Obj.Load(L"Resources/Model/box.cmo");
+	//m_obj.Load(L"Resources/Model/box.cmo");
 	SetPointPos();
 }
 
 void BoxNode::Update()
 {
-	m_Obj.SetTranslation(m_Trans);
+	m_obj.SetTranslation(m_translation);
 	SetPointPos();
-	m_Obj.Update();
+	m_obj.Update();
 
 }
 
-void BoxNode::Render()
+void BoxNode::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
-	m_Obj.SetTranslation(m_Trans);
-	if (GetDebugVisible()) { m_Obj.Draw(); }
+	m_obj.SetTranslation(m_translation);
+	DirectX::SimpleMath::Matrix world;
+
+	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.GetStates(), world, view, proj);
+	if (GetDebugVisible()) { m_obj.Draw(); }
+}
+
+void BoxNode::CreateResource()
+{
 }
 
 void BoxNode::SetPointPos()
 {
-	Pos0 = DirectX::SimpleMath::Vector3(m_Trans.x - (m_size.x / 2.0f), m_Trans.y - (m_size.y / 2.0f), m_Trans.z - (m_size.z / 2.0f));
-	Pos1 = DirectX::SimpleMath::Vector3(m_Trans.x + (m_size.x / 2.0f), m_Trans.y - (m_size.y / 2.0f), m_Trans.z - (m_size.z / 2.0f));
-	Pos2 = DirectX::SimpleMath::Vector3(m_Trans.x - (m_size.x / 2.0f), m_Trans.y + (m_size.y / 2.0f), m_Trans.z - (m_size.z / 2.0f));
-	Pos3 = DirectX::SimpleMath::Vector3(m_Trans.x + (m_size.x / 2.0f), m_Trans.y + (m_size.y / 2.0f), m_Trans.z - (m_size.z / 2.0f));
-	Pos4 = DirectX::SimpleMath::Vector3(m_Trans.x - (m_size.x / 2.0f), m_Trans.y - (m_size.y / 2.0f), m_Trans.z + (m_size.z / 2.0f));
-	Pos5 = DirectX::SimpleMath::Vector3(m_Trans.x + (m_size.x / 2.0f), m_Trans.y - (m_size.y / 2.0f), m_Trans.z + (m_size.z / 2.0f));
-	Pos6 = DirectX::SimpleMath::Vector3(m_Trans.x - (m_size.x / 2.0f), m_Trans.y + (m_size.y / 2.0f), m_Trans.z + (m_size.z / 2.0f));
-	Pos7 = DirectX::SimpleMath::Vector3(m_Trans.x + (m_size.x / 2.0f), m_Trans.y + (m_size.y / 2.0f), m_Trans.z + (m_size.z / 2.0f));
+	Pos0 = DirectX::SimpleMath::Vector3(m_translation.x - (m_size.x / 2.0f), m_translation.y - (m_size.y / 2.0f), m_translation.z - (m_size.z / 2.0f));
+	Pos1 = DirectX::SimpleMath::Vector3(m_translation.x + (m_size.x / 2.0f), m_translation.y - (m_size.y / 2.0f), m_translation.z - (m_size.z / 2.0f));
+	Pos2 = DirectX::SimpleMath::Vector3(m_translation.x - (m_size.x / 2.0f), m_translation.y + (m_size.y / 2.0f), m_translation.z - (m_size.z / 2.0f));
+	Pos3 = DirectX::SimpleMath::Vector3(m_translation.x + (m_size.x / 2.0f), m_translation.y + (m_size.y / 2.0f), m_translation.z - (m_size.z / 2.0f));
+	Pos4 = DirectX::SimpleMath::Vector3(m_translation.x - (m_size.x / 2.0f), m_translation.y - (m_size.y / 2.0f), m_translation.z + (m_size.z / 2.0f));
+	Pos5 = DirectX::SimpleMath::Vector3(m_translation.x + (m_size.x / 2.0f), m_translation.y - (m_size.y / 2.0f), m_translation.z + (m_size.z / 2.0f));
+	Pos6 = DirectX::SimpleMath::Vector3(m_translation.x - (m_size.x / 2.0f), m_translation.y + (m_size.y / 2.0f), m_translation.z + (m_size.z / 2.0f));
+	Pos7 = DirectX::SimpleMath::Vector3(m_translation.x + (m_size.x / 2.0f), m_translation.y + (m_size.y / 2.0f), m_translation.z + (m_size.z / 2.0f));
 }
 
 //_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
@@ -136,20 +154,24 @@ CapsuleNode::CapsuleNode()
 
 void CapsuleNode::Initialize()
 {
-	//m_Obj.LoadModel(L"Resources/CapsuleNode.cmo");
+	//m_obj.LoadModel(L"Resources/CapsuleNode.cmo");
 }
 
 void CapsuleNode::Update()
 {
-	m_Obj.SetTranslation(m_Trans);
+	m_obj.SetTranslation(m_translation);
 	SetPos();
-	m_Obj.Update();
+	m_obj.Update();
 }
 
-void CapsuleNode::Render()
+void CapsuleNode::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
-	m_Obj.SetTranslation(m_Trans);
-	if (GetDebugVisible()) { m_Obj.Draw(); }
+	m_obj.SetTranslation(m_translation);
+	if (GetDebugVisible()) { m_obj.Draw(); }
+}
+
+void CapsuleNode::CreateResource()
+{
 }
 
 //下を決める、そのあと上が決まる
@@ -167,7 +189,7 @@ void CapsuleNode::SetHiehtRadius(float height, float radius)
 
 void CapsuleNode::SetPos()
 {
-	Segment.Vec = DirectX::SimpleMath::Vector3(m_Trans);
+	Segment.Vec = DirectX::SimpleMath::Vector3(m_translation);
 
 	Segment.Start = DirectX::SimpleMath::Vector3(Segment.Vec.x, Segment.Vec.y + m_height, Segment.Vec.z);
 }
@@ -184,7 +206,11 @@ void PlanarNode::Update()
 {
 }
 
-void PlanarNode::Render()
+void PlanarNode::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
+{
+}
+
+void PlanarNode::CreateResource()
 {
 }
 

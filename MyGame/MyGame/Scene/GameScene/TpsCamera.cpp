@@ -1,13 +1,10 @@
 #include "TpsCamera.h"
 
-using namespace DirectX;
-using namespace DirectX::SimpleMath;
-
 TpsCamera::TpsCamera(int w, int h) :
 	Camera(static_cast<float>(w), static_cast<float>(h))
 {
-	m_targetPos = Vector3::Zero;
-	m_targetRotation= Vector3::Zero;
+	m_targetPos = DirectX::SimpleMath::Vector3::Zero;
+	m_targetRotation= DirectX::SimpleMath::Vector3::Zero;
 	m_targetAngle = 0.0f;
 
 	Object = nullptr;
@@ -20,18 +17,32 @@ TpsCamera::~TpsCamera()
 
 void TpsCamera::Update()
 {
-	Vector3 refpos, eyepos;
-
+	DirectX::SimpleMath::Vector3 refpos, eyepos;
+	
 	SetTranslation(Object->GetTranslation());
 	SetAngle(Object->GetAngle());
+	
+	DirectX::SimpleMath::Matrix world;
 
+	world = Object->GetWorld();
+	m_targetPos.x = world._41;
+	m_targetPos.y = world._42;
+	m_targetPos.z = world._43;
+
+	world._41=0;
+	world._42=0;
+	world._43=0;
+
+	DirectX::SimpleMath::Quaternion rotation;
+	rotation = DirectX::SimpleMath::Quaternion::CreateFromRotationMatrix(world);
+	
 	//TPSÉJÉÅÉâ
-	refpos = Vector3(m_targetPos) + Vector3(0, 1, 0);
+	refpos = m_targetPos + DirectX::SimpleMath::Vector3(0, 1, 0);
 
-	Vector3 cameraV(0.0f, 0.0f, -4.0f);
+	DirectX::SimpleMath::Vector3 cameraV(0.0f, 0.0f, -4.0f);
 
-	Matrix rot = Matrix::CreateRotationY(m_targetAngle);
-	cameraV = Vector3::TransformNormal(cameraV, rot);
+	DirectX::SimpleMath::Matrix rot = world;
+	cameraV = DirectX::SimpleMath::Vector3::TransformNormal(cameraV, rot);
 
 	eyepos = refpos + cameraV;
 	Seteyepos(eyepos);

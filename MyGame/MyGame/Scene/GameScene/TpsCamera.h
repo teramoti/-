@@ -15,7 +15,6 @@ private:
 	DirectX::SimpleMath::Vector3 m_targetRotation;
 	//オブジェクトクラス
 	Teramoto::Object3D* Object;
-
 public:
 	TpsCamera(int w, int h);
 	~TpsCamera();

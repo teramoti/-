@@ -29,8 +29,9 @@
 
 GameScene::GameScene(SceneManager* scenemaneger)
 	: SceneBase(scenemaneger, m_SceneFlag), m_gameTimer(0),
-	m_CouceCount(0),m_StageNum(0), m_GoalRank(0),
-	m_startFlag(false), m_SceneFlag(false) , m_goalFlag(false)
+	m_couceCount(0),m_stageNum(0),  m_playerHeight(0.0f),
+	m_startFlag(false), m_sceneFlag(false) , m_goalFlag(false),m_isUpdateing(false)
+
 {
 
 }
@@ -70,8 +71,8 @@ void GameScene::Initialize()
 	// サウンドの読み込み
 	//m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
 	//コースのステージメッシュの初期化
-	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/MyGameCource_1.obj");
-	m_stageMesh2 = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get(), L"Resources/OutsidetheMyGameCourse_1.obj");
+	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/MyCource_01.obj");
+	//m_stageMesh2 = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get(), L"Resources/OutsidetheMyGameCourse_1.obj");
 	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
 	//{
 	//	// 効果音の再生
@@ -122,7 +123,9 @@ void GameScene::Initialize()
 
 
 	//ゴール時の止める時間の初期化
-	m_GoalNum = 0;
+	m_goalNum = 0;
+	m_isUpdateing = false;
+
 }
 
 //----------------------------------------------------------------------
@@ -135,6 +138,8 @@ void GameScene::Initialize()
 
 void GameScene::Update(const DX::StepTimer& stepTimer)
 {
+	m_isUpdateing = true;
+
 
 	//ゲームの開始時間の取得
 	int startTime = (int)stepTimer.GetTotalSeconds();
@@ -171,8 +176,11 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	if (m_checkPoint->GetFlag() == true)
 	{
 		m_time->SetFlag(false);
-		m_GoalNum += 1;
+		m_goalNum += 1;
 		m_goalFlag = true;
+
+		//カメラワークを変える
+
 
 	}
 	//60秒たったら強制的にリザルトに行く処理
@@ -193,7 +201,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	//コースの更新処理
 	m_cource->Update();
 	
-	if (m_GoalNum > 40)
+	if (m_goalNum > 40)
 	{
 		m_SceneFlag = true;
 	}
@@ -204,11 +212,12 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 		return;
 	}
 
+	//プレイヤーの更新
+	m_player->Update(m_startFlag);
+
 	//カメラの更新	
 	m_camera->Update();
 
-	//プレイヤーの更新
-	m_player->Update(m_startFlag);
 	//当たり判定の更新用関数
 	DetectCollisionManager();
 
@@ -222,18 +231,31 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 //----------------------------------------------------------------------
 void GameScene::Render()
 {
-	//プレイヤーの描画
-	m_player->Render(m_camera->GetView(),m_camera->GetProj());
-	m_shadow->Render(m_camera->GetView(), m_camera->GetProj(),m_player.get());
+	if (!m_isUpdateing)
+	{
+		return;
+	}
+
 	//スカイドームの描画
 	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
+	
 	//コースの描画
-	m_cource->Render(m_camera->GetView(), m_camera->GetProj());
+	m_cource->Render(m_camera->GetView(), m_camera->GetProj());	
+	
+	//プレイヤーの描画	
+	m_player->Render(m_camera->GetView(),m_camera->GetProj());
+	//プレイヤーの影描画
+	m_shadow->Render(m_camera.get()->GetView(), m_camera->GetProj(), m_player.get(), PLAYER_HEIGHT);
+	
 	//画像の描画
 	SpriteRender();		
+
 	//メッシュの描画
 	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
-	m_stageMesh2->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
+	
+	//画像の描画
+	SpriteRender();		
+
 }
 //----------------------------------------------------------------------
 //! @brief ゲームシーンの終了処理
@@ -281,7 +303,7 @@ void GameScene::SpriteRender()
 	if (m_goalFlag)
 	{
 		//ゴールの文字を出す
-
+	
 	}
 
 	System::DrawManager::GetInstance().End();
@@ -352,46 +374,14 @@ void GameScene::DetectCollisionMyAirPlaneToMesh()
 	if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
 	{
 		//プレイヤーのポジションy軸をメッシュの判定分+プレイヤーの高さ分あげる
-		playerPos.y = s.y + PLAYER_RISE;
+		playerPos.y = s.y + PLAYER_HEIGHT;
 		playerVel.y = 0.0f;
 	}
+
+	m_playerHeight = s.y;
 
 	//プレイヤーの場所の更新
 	m_player->SetTranslation(playerPos);
 	//プレイヤーの速度を設定する
 	m_player->SetVel(playerVel);
 }
-
-void GameScene::UpdateMyAirPlaneFeller()
-{
-	/*
-	//feeler pointing straight in front
-	m_Feelers[0] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength * m_pVehicle->Heading();
-
-	//feeler to left
-	Vector2D temp = m_pVehicle->Heading();
-	Vec2DRotateAroundOrigin(temp, HalfPi * 3.5f);
-	m_Feelers[1] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength/2.0f * temp;
-
-	//feeler to right
-	temp = m_pVehicle->Heading();
-	Vec2DRotateAroundOrigin(temp, HalfPi * 0.5f);
-	m_Feelers[2] = m_pVehicle->Pos() + m_dWallDetectionFeelerLength/2.0f * temp;
-	*/
-
-	m_feelers.resize(3);
-	m_feelers[0] = DirectX::SimpleMath::Vector3(m_player->GetTranslation().x + 10.0f * m_player->GetAngle(),
-		m_player->GetTranslation().y + 10.0f * m_player->GetAngle(),
-		m_player->GetTranslation().z + 10.0f * m_player->GetAngle());
-
-	DirectX::SimpleMath::Vector3 temp;
-
-
-	m_feelers[1] = DirectX::SimpleMath::Vector3(m_player->GetTranslation().x + 10.0f * m_player->GetAngle(),
-		m_player->GetTranslation().y + 10.0f * m_player->GetAngle(),
-		m_player->GetTranslation().z + 10.0f * m_player->GetAngle());
-
-
-
-}
-

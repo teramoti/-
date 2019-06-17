@@ -35,9 +35,9 @@ namespace Teramoto
 
 		virtual void Update();
 
-		const DirectX::SimpleMath::Matrix& GetView();
+		DirectX::SimpleMath::Matrix& GetView();
 
-		const DirectX::SimpleMath::Matrix& GetProj();
+		DirectX::SimpleMath::Matrix& GetProj();
 
 		void Seteyepos(const DirectX::SimpleMath::Vector3& eyepos);
 		void Setrefpos(const DirectX::SimpleMath::Vector3& refpos);

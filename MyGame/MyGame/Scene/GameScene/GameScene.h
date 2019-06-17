@@ -43,15 +43,11 @@ public:
 	//Meshとのあたりはんていの関数
 	void DetectCollisionMyAirPlaneToMesh();
 
-	void UpdateMyAirPlaneFeller();
 private:
-	const float PLAYER_RISE = 5.0f;
+	const float PLAYER_HEIGHT = 0.3f;
 
 	//カメラクラスの作成
 	std::unique_ptr<TpsCamera> m_camera;
-	//カメラ
-	ID3D11Device* m_device;//デバイス取得用変数
-	ID3D11DeviceContext* m_context;//コンテキスト取得変数
 
 	//プレイヤー
 	std::unique_ptr<MyAirPlane> m_player;
@@ -74,29 +70,30 @@ private:
 	GameTime*						m_gameTime;
 	//GameGoal* m_Goal;
 
-	bool m_Node;
+	bool m_node;
 	//ゲームが始まっているのかのフラグ用変数
 	bool m_startFlag;
 	//ゲームの時間用変数
 	float m_gameTimer;
-	int m_CouceCount;
+	int m_couceCount;
 	//Startしたかのフラグ
 	bool m_start;
 	//ゴールした時のフレームを少し回すよう変数
-	int m_GoalNum;
+	int m_goalNum;
 	//敵がゴールしたのかの処理(今は不要）
-	int m_GoalRank;
+	//int m_goalRank;
 	//ステージの番号
-	int m_StageNum;
+	int m_stageNum;
 
-				   //ゴールしているかのフラグ用変数
+	//ゴールしているかのフラグ用変数
 	bool m_goalFlag;
 
 	//開始のカウントダウン
 	float counter = 180.0f;
 	//シーン変更用フラグ
-	bool m_SceneFlag;
+	bool m_sceneFlag;
 
+	bool m_isUpdateing;
 	//当たり判定用メッシュ
 	std::unique_ptr<CollisionMesh> m_stageMesh;
 	//外側の当たり判定用メッシュ
@@ -110,6 +107,8 @@ private:
 	// 音楽情報記憶用変数
 	//CriAtomExPlaybackId m_criAtomExPlaybackId;	
 
+	//プレイヤーとメッシュのあたり判定で生まれる高さ取得変数
+	float m_playerHeight;
 	//触手
 	std::vector<DirectX::SimpleMath::Vector3> m_feelers;
 	

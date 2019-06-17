@@ -85,9 +85,5 @@ public:
 
 	//ボックスのNode
 	BoxNode m_box;
-
-	//SphereのNode
-	SphereNode m_sphere;
-
 };
 

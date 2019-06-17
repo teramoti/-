@@ -39,11 +39,8 @@ public:
 	void Initialize();
 
 	// ï`âÊä÷êî
-	void Render(DirectX::SimpleMath::Matrix view , DirectX::SimpleMath::Matrix proj, Teramoto::Object3D* setObject);
+	void Render(DirectX::SimpleMath::Matrix& view , DirectX::SimpleMath::Matrix& proj, Teramoto::Object3D* setObject,float objectHeight);
 
-	void SetModelShadow(Teramoto::Object3D* object);
-
-	void ResetModelShadow(DirectX::Model model, Teramoto::Object3D* object);
 	// ï\é¶ÇÃON/OFFÇ∑ÇÈä÷êî
 	void Active(bool flag) { m_active = flag; }
 };

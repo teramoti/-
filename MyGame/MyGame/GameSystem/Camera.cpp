@@ -27,13 +27,13 @@ void Camera::Update()
 	m_Proj = DirectX::SimpleMath::Matrix::CreatePerspectiveFieldOfView(m_FovY, m_Aspect, m_NearClip, m_FarClip);
 }
 
-const DirectX::SimpleMath::Matrix & Camera::GetView()
+DirectX::SimpleMath::Matrix & Camera::GetView()
 {
 	// TODO: return ステートメントをここに挿入します
 	return m_View;
 }
 
-const DirectX::SimpleMath::Matrix & Camera::GetProj()
+DirectX::SimpleMath::Matrix & Camera::GetProj()
 {
 	// TODO: return ステートメントをここに挿入します
 	return m_Proj;

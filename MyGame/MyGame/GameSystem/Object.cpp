@@ -18,7 +18,8 @@ void Teramoto::Object3D::Update()
 	DirectX::SimpleMath::Matrix rotationMatrix;
 	rotationMatrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
 
-	DirectX::SimpleMath::Matrix translationMatrix = DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
+	DirectX::SimpleMath::Matrix translationMatrix = 
+		DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
 
 	m_world =  rotationMatrix * translationMatrix;
 }

@@ -354,8 +354,8 @@
     <Manifest Include="settings.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <MeshContentTask Include="FBX\ball2.FBX">
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
+    <MeshContentTask Include="FBX\AirPlane.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\CircleCource.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
@@ -363,8 +363,8 @@
     <MeshContentTask Include="FBX\Coin.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
-    <MeshContentTask Include="FBX\Floor.FBX">
-      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Models\%(Filename).cmo</ContentOutput>
+    <MeshContentTask Include="FBX\MyCource_01.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\PlayerMark2.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>

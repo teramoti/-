@@ -1,5 +1,4 @@
 #include "ResultRecord.h"
-using namespace DirectX::SimpleMath;
 
 ResultRecord::ResultRecord() : m_FlamNum(0) , m_Flag(true)
 {
