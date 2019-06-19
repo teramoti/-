@@ -360,25 +360,19 @@ void GameScene::DetectCollisionMyAirPlaneToMesh()
 		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
 	};
 
-	// プレイヤーの外枠に向かう線分
-	DirectX::SimpleMath::Vector3 feller[2] =
-	{
-		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
-		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
-	};
-
 
 	//線分と床の交差判定を行う
 	int id;
+
 	DirectX::SimpleMath::Vector3 s;
+
 	if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
 	{
 		//プレイヤーのポジションy軸をメッシュの判定分+プレイヤーの高さ分あげる
 		playerPos.y = s.y + PLAYER_HEIGHT;
+		//プレイヤーの速度を0にする。s
 		playerVel.y = 0.0f;
 	}
-
-	m_playerHeight = s.y;
 
 	//プレイヤーの場所の更新
 	m_player->SetTranslation(playerPos);

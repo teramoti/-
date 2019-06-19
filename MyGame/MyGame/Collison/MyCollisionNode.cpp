@@ -96,12 +96,13 @@ BoxNode::BoxNode()
 void BoxNode::Initialize() 
 {
 	m_size = DirectX::SimpleMath::Vector3(0.0f, 0.0f, 0.0f);
-	//m_obj.Load(L"Resources/Model/box.cmo");
+	CreateResource();
 	SetPointPos();
 }
 
 void BoxNode::Update()
 {
+	m_obj.SetScale(m_size);
 	m_obj.SetTranslation(m_translation);
 	SetPointPos();
 	m_obj.Update();
@@ -110,15 +111,16 @@ void BoxNode::Update()
 
 void BoxNode::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
-	m_obj.SetTranslation(m_translation);
 	DirectX::SimpleMath::Matrix world;
 
+	world = DirectX::SimpleMath::Matrix::CreateScale(m_size)*DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
+
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.GetStates(), world, view, proj);
-	if (GetDebugVisible()) { m_obj.Draw(); }
 }
 
 void BoxNode::CreateResource()
 {
+	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources/Model/box.cmo", *m_directX11.Get().GetEffect());
 }
 
 void BoxNode::SetPointPos()

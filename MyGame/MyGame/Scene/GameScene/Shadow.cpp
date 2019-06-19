@@ -43,7 +43,7 @@ void Shadow::Render(DirectX::SimpleMath::Matrix& view , DirectX::SimpleMath::Mat
 		DirectX::SimpleMath::Matrix::CreateTranslation(
 			DirectX::SimpleMath::Vector3(
 				setObject->GetWorld()._41,
-				/*setObject->GetWorld()._42 - */-objectHeight,
+				setObject->GetWorld()._42 -objectHeight,
 				setObject->GetWorld()._43
 				)
 		);
@@ -55,7 +55,7 @@ void Shadow::Render(DirectX::SimpleMath::Matrix& view , DirectX::SimpleMath::Mat
 		, false, [&]()
 	{
 		// ブレンドを減算合成にし深度バッファは使用せず描画する
-		m_directX11.GetContext().Get()->OMSetBlendState(m_blendState.Get(), nullptr, 0xffffffff);
+		m_directX11.GetContext().Get()->OMSetBlendState(m_blendState.Get(), nullptr, 0x000000ff);
 		m_directX11.GetContext().Get()->OMSetDepthStencilState(m_directX11.Get().GetStates()->DepthRead(), 0);
 	});
 

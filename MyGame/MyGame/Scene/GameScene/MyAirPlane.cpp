@@ -35,7 +35,7 @@ void MyAirPlane::Initilize(Shadow* shadow)
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 	m_box.Initialize();
 	m_box.SetTrans(m_translation);
-	m_box.SetSize(DirectX::SimpleMath::Vector3(1, 1, 1));
+	m_box.SetSize(DirectX::SimpleMath::Vector3(0.5,0.5,0.5));
 	CreateResource();
 
 	m_velocity.z = 1.0f;
@@ -55,8 +55,11 @@ void MyAirPlane::Update(bool flag)
 
 	m_box.Update();
 	m_box.SetTrans(m_translation);
+
 	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®
 	MyAirPlaneMove();
+
+
 
 }
 

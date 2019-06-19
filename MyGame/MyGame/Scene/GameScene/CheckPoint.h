@@ -10,7 +10,7 @@ public:
 
 	void Initilize();
 	void Update();
-	void Render();
+	void Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj);
 
 	BoxNode& GetBoxStartPos()
 	{

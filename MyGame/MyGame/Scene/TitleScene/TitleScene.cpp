@@ -87,7 +87,7 @@ void TitleScene::Update(const DX::StepTimer& stepTimer)
 		m_EndframeB = !m_EndframeB;
 		m_EndFrame = 0;
 	}
-	if (System::InputManager::GetInstance().GetKeyboardTracker().pressed.Z)
+	if (System::InputManager::GetInstance().GetKeyboardTracker().pressed.Space)
 	{
 
 		m_SceneFlag = true;
@@ -117,7 +117,7 @@ void TitleScene::Render()
 	m_Star->Draw();
 
 	m_TitleLogo->Draw();
-	m_KeyDown->Draw();
+	//m_KeyDown->Draw();
 
 	if (m_StartframeB == true)m_GoGame->Draw();
 

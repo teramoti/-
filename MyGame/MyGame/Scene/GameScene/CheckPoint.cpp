@@ -39,11 +39,11 @@ void CheckPoint::Update()
 
 }
 
-void CheckPoint::Render()
+void CheckPoint::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& proj)
 {
 	for (int i = 0; i < 3; i++)
 	{
-		//m_box[i].Render();
+		m_box[i].Render(view,proj);
 	}
 }
 
