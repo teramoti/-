@@ -156,6 +156,8 @@ void Game::Update(const DX::StepTimer& timer)
 	// 入力クラスの更新
 	System::InputManager::GetInstance().Update(&kb, &m_keyboardTracker);
 
+	m_timer.SetFixedTimeStep(true);
+	m_timer.SetTargetElapsedSeconds(1.0 / 60);
 	//SceneManagerの更新用処理
 	m_sceneManager->UpdateActiveScene(timer);
 }

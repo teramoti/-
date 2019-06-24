@@ -25,6 +25,7 @@ public:
 
 	//•`‰æˆ—
 	void Draw();
+	//ˆÚ“®ˆ—
 	void Move();
 private:
 

@@ -7,9 +7,6 @@
 
 #include "TitleLogo.h"
 
-
-
-
 /// <summary>
 /// コンストラクタ
 /// </summary>
@@ -38,10 +35,12 @@ void TitleLogo::Initilize()
 	m_data.SetScale(m_Size);
 	m_data.SetOrigin(static_cast<float>(m_data.GetRect().right), static_cast<float>(m_data.GetRect().bottom));
 }
-
+/// <summary>
+/// 更新処理
+/// </summary>
 void TitleLogo::Update()
 {
-
+	//posをマイフレーム3ずつずらす
 	m_Pos.x -= 3.0f;
 
 	if (m_Pos.x < 800)
@@ -57,11 +56,14 @@ void TitleLogo::Update()
 		m_Size.x = 1.2;
 		m_Size.y = 1.2;
 	}
-
+	//大きさの変更
 	m_data.SetScale(m_Size);
+	//場所の変更
 	m_data.SetPos(m_Pos);
 }
-
+/// <summary>
+/// 描画処理
+/// </summary>
 void TitleLogo::Draw()
 {
 	System::DrawManager::GetInstance().Draw(m_data);

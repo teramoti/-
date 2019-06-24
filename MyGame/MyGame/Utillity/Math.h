@@ -17,7 +17,7 @@
 //! @brief MathƒNƒ‰ƒX
 //!
 /// </summary>
-namespace MyLibrary
+namespace Teramoto
 {
 	class Math
 	{

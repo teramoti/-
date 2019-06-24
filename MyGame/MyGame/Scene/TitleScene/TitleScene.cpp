@@ -1,5 +1,11 @@
+//------------------------//------------------------
+// Contents(処理内容) TitleScene.cppの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
 #include <d3d11.h>
-
 #include "TitleScene.h"
 #include "../SceneManager/SceneManager.h"
 #include "../../GameSystem/InputManager.h"
@@ -9,7 +15,10 @@ extern void ExitGame();
 
 
 
-
+/// <summary>
+/// コンストラクタ
+/// </summary>
+/// <param name="scenemaneger"></param>
 TitleScene::TitleScene(SceneManager* scenemaneger)
 	: SceneBase(scenemaneger,m_SceneFlag=false),m_num(0),
 	m_StartFrame(0), m_EndFrame(0),
@@ -18,6 +27,9 @@ TitleScene::TitleScene(SceneManager* scenemaneger)
 	//なにもしない
 }
 
+/// <summary>
+/// デストラクタ
+/// </summary>
 TitleScene::~TitleScene()
 {
 	delete m_Star;
@@ -30,7 +42,9 @@ TitleScene::~TitleScene()
 
 }
 
-
+/// <summary>
+/// 初期化処理
+/// </summary>
 void TitleScene::Initialize()
 {
 
@@ -67,6 +81,10 @@ void TitleScene::Initialize()
 	//}
 }
 
+/// <summary>
+/// 更新処理
+/// </summary>
+/// <param name="stepTimer"></param>
 void TitleScene::Update(const DX::StepTimer& stepTimer)
 {
 	m_Star->Update();
@@ -82,11 +100,13 @@ void TitleScene::Update(const DX::StepTimer& stepTimer)
 
 	m_KeyDown->Update();
 	m_TitleLogo->Update();
+
 	if (m_EndFrame > 30)
 	{
 		m_EndframeB = !m_EndframeB;
 		m_EndFrame = 0;
 	}
+
 	if (System::InputManager::GetInstance().GetKeyboardTracker().pressed.Space)
 	{
 
@@ -108,7 +128,9 @@ void TitleScene::Update(const DX::StepTimer& stepTimer)
 	}
 
 }
-
+/// <summary>
+/// 描画処理
+/// </summary>
 void TitleScene::Render()
 {
 	System::DrawManager::GetInstance().Begin();
@@ -124,6 +146,9 @@ void TitleScene::Render()
 	System::DrawManager::GetInstance().End();
 }
 
+/// <summary>
+/// 終了処理
+/// </summary>
 void TitleScene::Finalize()
 {
 	delete m_Star;

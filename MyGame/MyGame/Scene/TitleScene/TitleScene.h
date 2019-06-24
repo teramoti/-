@@ -1,3 +1,10 @@
+//------------------------//------------------------
+// Contents(処理内容) TitleScene.hの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
 #pragma once
 #include "../Base/SceneBase.h"
 #include "TitleLogo.h"

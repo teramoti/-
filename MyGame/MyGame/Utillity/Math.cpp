@@ -5,16 +5,18 @@
 // Created date(作成日) 2018 / 07 / 07
 // last updated (最終更新日) 2018 / 07 / 07
 //------------------------//------------------------
+// ヘッダファイルの読み込み ================================================
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include "Math.h"
 
 using namespace std;
-using namespace MyLibrary;
+using namespace Teramoto;
 
 // π
-const float MyLibrary::Math::PI = 3.14159274f;
+const float Teramoto::Math::PI = 3.14159274f;
 
 /// <summary>
 /// 絶対値を返す
@@ -22,7 +24,7 @@ const float MyLibrary::Math::PI = 3.14159274f;
 /// <param name="num">数値</param>
 /// <returns>絶対値</returns>
 template<typename T>
-T MyLibrary::Math::Abs(T num)
+T Teramoto::Math::Abs(T num)
 {
 	if (num < 0)
 	{
@@ -52,7 +54,7 @@ inline T Math::Difference(T p1, T p2)
 /// <param name="targetPos1">2D(対象の座標X)or3D(対象の座標Z)</param>
 /// <param name="targetPos2">2D(対象の座標Y)or3D(対象の座標X)</param>
 /// <returns>対象物への角度</returns>
-float MyLibrary::Math::TargetAngle(float myPos1, float myPos2, float targetPos1, float targetPos2)
+float Teramoto::Math::TargetAngle(float myPos1, float myPos2, float targetPos1, float targetPos2)
 {
 	float dPos1;
 	float dPos2;
@@ -68,7 +70,7 @@ float MyLibrary::Math::TargetAngle(float myPos1, float myPos2, float targetPos1,
 	
 
 template<typename T>
-bool MyLibrary::Math::Clamp(T value, T num1, T num2)
+bool Teramoto::Math::Clamp(T value, T num1, T num2)
 {
 	if (num1 < num2)
 	{
@@ -102,7 +104,7 @@ bool MyLibrary::Math::Clamp(T value, T num1, T num2)
 /// <param name="min">最小値</param>
 /// <param name="max">最大値</param>
 /// <returns>minからmaxの間の値</returns>
-int MyLibrary::Math::GetRand(int min, int max)
+int Teramoto::Math::GetRand(int min, int max)
 {
 	int random;
 
@@ -117,7 +119,7 @@ int MyLibrary::Math::GetRand(int min, int max)
 /// </summary>
 /// <param name="deg">デグリー角</param>
 /// <returns>ラジアン角</returns>
-float MyLibrary::Math::ToRad(float deg)
+float Teramoto::Math::ToRad(float deg)
 {
 	return deg * (PI / 180.f);
 }
@@ -127,7 +129,7 @@ float MyLibrary::Math::ToRad(float deg)
 /// </summary>
 /// <param name="rad">ラジアン角</param>
 /// <returns>デグリー角</returns>
-float MyLibrary::Math::ToDeg(float rad)
+float Teramoto::Math::ToDeg(float rad)
 {
 	return rad * (180.f * PI);
 }

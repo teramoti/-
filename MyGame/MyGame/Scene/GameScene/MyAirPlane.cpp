@@ -65,7 +65,7 @@ void MyAirPlane::Update(bool flag)
 
 void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {	
-	m_box.Render(view,proj);
+	//m_box.Render(view,proj);
 
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
 
@@ -144,7 +144,6 @@ void MyAirPlane::MyAirPlaneMove()
 
 
 	//äpìxÇÃê›íË
-
 	m_rotation = DirectX::SimpleMath::Quaternion::CreateFromAxisAngle(DirectX::SimpleMath::Vector3(0.0f, 1.0f, 0.0f), m_angle);
 	vec = DirectX::SimpleMath::Vector3::Transform(vec, m_rotation);
 	m_velocity = vec * (m_acceleration);
