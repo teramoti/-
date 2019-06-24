@@ -167,10 +167,12 @@
     <ClInclude Include="MyGame\Scene\GameScene\CheckPoint.h" />
     <ClInclude Include="MyGame\Scene\GameScene\CountDown.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Cource.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\EnemyAirPlane.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameReadyWord.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameScene.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameScore.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\MyNeuralNetwork.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Shadow.h" />
     <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h" />
     <ClInclude Include="MyGame\Scene\GameScene\MyAirPlane.h" />
@@ -243,6 +245,7 @@
     <ClCompile Include="MyGame\Scene\GameScene\Cource.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\EnemyAirPlane.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\GameReadyWord.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -256,6 +259,7 @@
     <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\MyNeuralNetwork.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\Shadow.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

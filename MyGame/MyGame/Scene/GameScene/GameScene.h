@@ -59,6 +59,7 @@ private:
 
 	// コモンステート
 	std::unique_ptr<DirectX::CommonStates> m_states;
+	//コリジョンマネージャーの定義
 	CollisionManager*				m_collisionManager;
 	//時間
 	std::unique_ptr<Time>			m_time;
@@ -68,8 +69,8 @@ private:
 	CountDown*						m_count;
 	//ゲームの時間クラスの定義
 	GameTime*						m_gameTime;
-	//GameGoal* m_Goal;
 
+	//
 	bool m_node;
 	//ゲームが始まっているのかのフラグ用変数
 	bool m_startFlag;

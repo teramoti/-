@@ -208,6 +208,12 @@
     <ClInclude Include="Window.h">
       <Filter>GameMain</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\EnemyAirPlane.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\MyNeuralNetwork.h">
+      <Filter>Scene\GameScene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\Utillity\Math.cpp">
@@ -350,6 +356,12 @@
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>GameMain</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\EnemyAirPlane.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\MyNeuralNetwork.cpp">
+      <Filter>Scene\GameScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

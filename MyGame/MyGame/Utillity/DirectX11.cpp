@@ -1,3 +1,10 @@
+//------------------------//------------------------
+// Contents(処理内容) DirectX11s.cppの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2018 / 07 / 13
+// last updated (最終更新日) 2018 / 11 / 05
+//------------------------//------------------------
 #include "DirectX11.h"
 
 // ハイブリッドグラフィックシステムに対しデフォルトで個別に優先する方を示す
@@ -40,9 +47,12 @@ void DirectX11::CreateDevice()
 		featureLevels,
 		_countof(featureLevels),
 		D3D11_SDK_VERSION,
-		m_device.ReleaseAndGetAddressOf(),   // 生成されたDirect3Dデバイスを返す returns the Direct3D device created
-		&m_featureLevel,                     // 生成されたデバイスの機能レベルを返す returns feature level of device created
-		m_context.ReleaseAndGetAddressOf()   // デバイスイミディエイトコンテキストを返す returns the device immediate context
+		// 生成されたDirect3Dデバイスを返す returns the Direct3D device created
+		m_device.ReleaseAndGetAddressOf(),    
+		// 生成されたデバイスの機能レベルを返す returns feature level of device created
+		&m_featureLevel,                  
+		// デバイスイミディエイトコンテキストを返す returns the device immediate context
+		m_context.ReleaseAndGetAddressOf()   
 	);
 
 	if (hr == E_INVALIDARG) 
