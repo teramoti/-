@@ -53,6 +53,9 @@
     <Filter Include="GameMain">
       <UniqueIdentifier>{4e04ccbc-c124-4b43-91b7-026499a93ce7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scene\GameScene\Enemy">
+      <UniqueIdentifier>{35efb2dd-d86b-4860-9713-8eae725fdfa8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="StepTimer.h">
@@ -208,10 +211,16 @@
     <ClInclude Include="Window.h">
       <Filter>GameMain</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Scene\GameScene\EnemyAirPlane.h">
+    <ClInclude Include="MyGame\Scene\GameScene\Item.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\EnemyAirPlane.h">
+      <Filter>Scene\GameScene\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\MyNeuralNetwork.h">
+      <Filter>Scene\GameScene\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\ItemManager.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
   </ItemGroup>
@@ -358,9 +367,15 @@
       <Filter>GameMain</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\EnemyAirPlane.cpp">
-      <Filter>Scene\GameScene</Filter>
+      <Filter>Scene\GameScene\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\MyNeuralNetwork.cpp">
+      <Filter>Scene\GameScene\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Item.cpp">
+      <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\ItemManager.cpp">
       <Filter>Scene\GameScene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -394,6 +409,9 @@
       <Filter>Resources</Filter>
     </MeshContentTask>
     <MeshContentTask Include="FBX\AirPlane.FBX">
+      <Filter>Resources</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\MyGameCource_01.FBX">
       <Filter>Resources</Filter>
     </MeshContentTask>
   </ItemGroup>

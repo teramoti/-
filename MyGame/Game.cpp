@@ -158,6 +158,10 @@ void Game::Update(const DX::StepTimer& timer)
 
 	m_timer.SetFixedTimeStep(true);
 	m_timer.SetTargetElapsedSeconds(1.0 / 60);
+	if (System::InputManager::GetInstance().GetKeyboardState().Escape)
+	{
+		ExitGame();
+	}
 	//SceneManagerの更新用処理
 	m_sceneManager->UpdateActiveScene(timer);
 }
@@ -286,23 +290,50 @@ void Game::OnActivated()
 {
 	// TODO: ゲームがアクティブなウィンドウになる 
 }
-
+//----------------------------------------------------------------------
+//! @brief Gameクラスのゲームがバックグラウンドウィンドウになる 
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::OnDeactivated()
 {
 	// TODO: ゲームがバックグラウンドウィンドウになる 
 }
+//----------------------------------------------------------------------
+//! @brief Gameクラスのゲームがパワーサスペンデッドになる 
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 
 void Game::OnSuspending()
 {
 	// TODO: ゲームがパワーサスペンデッドになる 
 }
 
+//----------------------------------------------------------------------
+//! @brief Gameクラスのゲームがパワーレジュームになる 
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::OnResuming()
 {
 	m_timer.ResetElapsedTime();
 
 	// TODO: ゲームがパワーレジュームになる 
 }
+//----------------------------------------------------------------------
+//! @brief Gameクラスのゲームサイズの変更
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 
 void Game::OnWindowSizeChanged(int width, int height)
 {
@@ -312,16 +343,26 @@ void Game::OnWindowSizeChanged(int width, int height)
 	DirectX11::Get().CreateResources();
 	// TODO: ゲームウィンドウのサイズが再変更される 
 }
-
-// プロパティ Properties
+//----------------------------------------------------------------------
+//! @brief Gameクラスの意のデフォルトウィンドウサイズに変更する
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void Game::GetDefaultSize(int& width, int& height) const
 {
 	// TODO: 任意のデフォルトウィンドウサイズに変更する(最小サイズは320x200) 
 	width = 800;
 	height = 600;
 }
-
-// Exitヘルパー関数 
+//----------------------------------------------------------------------
+//! @brief Exitヘルパー関数 
+//!
+//! @param なし
+//!
+//! @return なし
+//---------------------------------------------------------------------- 
 void ExitGame()
 {
 	PostQuitMessage(0);

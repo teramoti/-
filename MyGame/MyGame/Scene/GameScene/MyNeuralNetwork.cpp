@@ -8,7 +8,7 @@
 
 
 //---------------------------------------------------------------------------
-/*
+/*Å@
 Book:           AI for Game Developers
 Authors:        David M. Bourg & Glenn Seemann
 Example:        Neural Networks, Chapter 14

@@ -12,11 +12,17 @@
 #include "Shadow.h"
 #include "SpriteBatch.h"
 #include "Cource.h"
+#include "EnemyAirPlane.h"
 #include "CheckPoint.h"
 #include "Time.h"
 #include "../../Collison/CollisionMesh.h"
 #include "../../Collison/MyCollisionManager.h"
 #include "../../Utillity/DirectX11.h"
+
+#include "Item.h"
+
+#include "ItemManager.h"
+
 class GameScene : public SceneBase
 {
 public:
@@ -42,6 +48,8 @@ public:
 	void DetectCollisionMyAirPlaneToCheckPoint();
 	//Meshとのあたりはんていの関数
 	void DetectCollisionMyAirPlaneToMesh();
+	//Meshと敵のあたり判定
+	//void DetectCollisionEnemyAirPlaneToMesh();
 
 private:
 	const float PLAYER_HEIGHT = 0.3f;
@@ -51,6 +59,9 @@ private:
 
 	//プレイヤー
 	std::unique_ptr<MyAirPlane> m_player;
+
+	//プレイヤー
+	std::unique_ptr<EnemyAirPlane> m_enemy;
 
 	//スカイドーム
 	std::unique_ptr<SkyDome>  m_skyDome;
@@ -70,6 +81,9 @@ private:
 	//ゲームの時間クラスの定義
 	GameTime*						m_gameTime;
 
+	std::vector<Item*>							m_item;
+
+	ItemManager* m_itemManager;
 	//
 	bool m_node;
 	//ゲームが始まっているのかのフラグ用変数

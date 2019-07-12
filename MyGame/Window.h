@@ -1,5 +1,5 @@
 //------------------------//------------------------
-// Contents(処理内容) Flag.hの内容を書く
+// Contents(処理内容) Window.hの内容を書く
 //------------------------//------------------------
 // user(作成者) Keishi Teramoto
 // Created date(作成日) 2019 / 06 / 20
@@ -60,7 +60,7 @@ public:
 
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 		// ウィンドウを生成する
-		HWND hWnd = CreateWindowEx(0, L"DirectXgameFrameworkWindowClass", L"DirectXgameFramework", WS_OVERLAPPEDWINDOW,
+		HWND hWnd = CreateWindowEx(0, L"DirectXgameFrameworkWindowClass", L"AirPlaneGame", WS_OVERLAPPEDWINDOW,
 			CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, m_hInstance, nullptr);
 
 		// TODO: CreateWindowEx(WS_EX_TOPMOST, L"DirectXgameFrameworkWindowClass", L"DirectXgameFramework", WS_POPUP,...)

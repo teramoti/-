@@ -1,12 +1,21 @@
-//
-// Main.cpp
-//
-
+//------------------------//------------------------
+// Contents(処理内容) Main.cppの内容を書く
+//------------------------//------------------------
+// user(作成者) Keishi Teramoto
+// Created date(作成日) 2019 / 05 / 30
+// last updated (最終更新日) 2019 / 06 / 05
+//------------------------//------------------------
 #include "Window.h"
 #include "Game.h"
 
 
-// Entry point
+//----------------------------------------------------------------------
+//! @brief メインソース
+//!
+//! @param なし
+//!
+//! @return なし
+//----------------------------------------------------------------------
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);

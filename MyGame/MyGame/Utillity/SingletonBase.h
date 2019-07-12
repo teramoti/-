@@ -5,7 +5,11 @@
 // Created date(ì¬“ú) 2018 / 07 / 07
 // last updated (ÅIXV“ú) 2018 / 07 / 07
 //------------------------//------------------------
+
 #pragma once
+#ifndef  SINGLETON_DEFINED
+#define  SINGLETON_DEFINED
+
 
 namespace Utility
 {
@@ -33,3 +37,4 @@ namespace Utility
 		SingletonBase(const SingletonBase &obj) {}
 	};
 }
+#endif  //SINGLETON_DEFINED

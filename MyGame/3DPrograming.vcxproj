@@ -172,6 +172,8 @@
     <ClInclude Include="MyGame\Scene\GameScene\GameScene.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameScore.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\Item.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\ItemManager.h" />
     <ClInclude Include="MyGame\Scene\GameScene\MyNeuralNetwork.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Shadow.h" />
     <ClInclude Include="MyGame\Scene\GameScene\SkyDome.h" />
@@ -259,6 +261,8 @@
     <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Item.cpp" />
+    <ClCompile Include="MyGame\Scene\GameScene\ItemManager.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\MyNeuralNetwork.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\Shadow.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\SkyDome.cpp">
@@ -368,6 +372,9 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\MyCource_01.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\MyGameCource_01.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\PlayerMark2.FBX">

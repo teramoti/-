@@ -8,6 +8,8 @@
 
 // 多重インクルードの防止 ==================================================
 #pragma once
+#ifndef  FLAG_DEFINED
+#define  FLAG_DEFINED
 
 //----------------------------------------------------------------------
 //!
@@ -49,3 +51,4 @@ namespace Utility
 		unsigned int m_Flag;
 	};
 }
+#endif  //FLAG_DEFINED
