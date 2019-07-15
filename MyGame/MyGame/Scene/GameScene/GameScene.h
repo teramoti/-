@@ -44,12 +44,13 @@ public:
 	//‰æ‘œ‚Ì•`‰æ
 	void SpriteRender();
 
-	//CheckPoint‚Æ‚Ì‚ ‚½‚è‚Í‚ñ‚Ä‚¢‚ÌŠÖ”
+	//CheckPoint‚Æ‚Ì‚ ‚½‚è”»’è‚ÌŠÖ”
 	void DetectCollisionMyAirPlaneToCheckPoint();
-	//Mesh‚Æ‚Ì‚ ‚½‚è‚Í‚ñ‚Ä‚¢‚ÌŠÖ”
+	//ƒR[ƒX‚Æ‚Ì‚ ‚½‚è”»’è‚ÌŠÖ”
+	void DetectCollisionMyAirPlaneToCource();
+	//Mesh‚Æ‚Ì‚ ‚½‚è”»’è‚ÌŠÖ”
 	void DetectCollisionMyAirPlaneToMesh();
-	//Mesh‚Æ“G‚Ì‚ ‚½‚è”»’è
-	//void DetectCollisionEnemyAirPlaneToMesh();
+
 
 private:
 	const float PLAYER_HEIGHT = 0.3f;

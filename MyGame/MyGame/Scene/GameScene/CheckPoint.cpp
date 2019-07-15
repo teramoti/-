@@ -2,7 +2,7 @@
 
 
 
-CheckPoint::CheckPoint() 
+CheckPoint::CheckPoint() : CheckBlock{false,false,false}, m_FinalFlag(false)
 {
 }
 
@@ -14,16 +14,22 @@ void CheckPoint::Initilize()
 {
 	m_box[0].Initialize();
 	m_box[0].SetTrans(DirectX::SimpleMath::Vector3(0, -3, 0));
-	m_box[0].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
+	m_box[0].SetSize(DirectX::SimpleMath::Vector3(96, 100.5f, 96));
 	//CheckPoint1ÇÃê›íË
 	m_box[1].Initialize();	
-	m_box[1].SetTrans(DirectX::SimpleMath::Vector3(-290,-3, 500));
+	m_box[1].SetTrans(DirectX::SimpleMath::Vector3(500,-3, 500));
+	m_box[1].SetSize(DirectX::SimpleMath::Vector3(96, 100.5f, 96));
 
-	m_box[1].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
 	//CheckPoint2ÇÃê›íË
+
 	m_box[2].Initialize();
-	m_box[2].SetTrans(DirectX::SimpleMath::Vector3(-280, -3, -520));
-	m_box[2].SetSize(DirectX::SimpleMath::Vector3(230, 16.5f, 230));
+	m_box[2].SetTrans(DirectX::SimpleMath::Vector3(500, -3, -500));
+	m_box[2].SetSize(DirectX::SimpleMath::Vector3(96, 100.5f, 96));
+
+	for (int i = 0; i < 3; i++)
+	{	
+		m_box[i].SetPointPos();
+	}
 
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 

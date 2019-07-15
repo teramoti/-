@@ -399,6 +399,13 @@ bool CheckSphere2Box(const MyCollision::Sphere& _sphere, const MyCollision::Box&
 /// <returns></returns>
 bool CheckBox2BoxAABB(MyCollision::Box _box1, MyCollision::Box _box2)
 {
+	//if (_box1.Pos0.x > _box2.Pos7.x)return false;
+	//if (_box1.Pos7.x < _box2.Pos0.x)return false;
+	//if (_box1.Pos0.y > _box2.Pos7.y)return false;
+	//if (_box1.Pos7.y < _box2.Pos0.y)return false;
+	//if (_box1.Pos0.z > _box2.Pos7.z)return false;
+	//if (_box1.Pos7.z < _box2.Pos0.z)return false;
+
 	if (_box1.Pos0.x > _box2.Pos7.x)return false;
 	if (_box1.Pos7.x < _box2.Pos0.x)return false;
 	if (_box1.Pos0.y > _box2.Pos7.y)return false;

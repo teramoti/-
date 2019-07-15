@@ -76,7 +76,7 @@ void GameScene::Initialize()
 	// サウンドの読み込み
 	//m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
 	//コースのステージメッシュの初期化
-	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/MyCource_01.obj");
+	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/Cource_01.obj");
 	//m_stageMesh2 = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get(), L"Resources/OutsidetheMyGameCourse_1.obj");
 	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
 	//{
@@ -94,13 +94,13 @@ void GameScene::Initialize()
 	 // メルセンヌ・ツイスタの32ビット版、引数は初期シード値	
 	std::mt19937 mt(rnd());
 	// [0, 99] 範囲の一様乱数
-	std::uniform_int_distribution<> randx(-32,1150);
-	std::uniform_int_distribution<> randz(-555, 655);
+	std::uniform_int_distribution<> randx(-100,1050);
+	std::uniform_int_distribution<> randz(-480, 600);
 
 	m_item.resize(100);
 	for (int i = 0; i < m_item.size(); i++)
 	{
-		m_item[i] = new Item(DirectX::SimpleMath::Vector3(randx(mt),-3, randz(mt)));
+		m_item[i] = new Item(DirectX::SimpleMath::Vector3(randx(mt),-3.0f, randz(mt)));
 	}
 
 	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
@@ -160,6 +160,8 @@ void GameScene::Initialize()
 	m_goalNum = 0;
 	m_isUpdateing = false;
 
+	m_collisionManager = new CollisionManager();
+
 }
 
 //----------------------------------------------------------------------
@@ -198,6 +200,8 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 			m_gameTime->SetTime(m_gameTimer);
 			//初期化フラグをtrueにする
 			m_startFlag = true;
+			
+
 		}	
 	}
 	else
@@ -245,10 +249,11 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 		m_sceneManager->SetScene(RESULT_SCENE);
 		return;
 	}
-
 	//プレイヤーの更新
 	m_player->Update(m_startFlag);
-	m_enemy->Update(stept);
+	
+	//m_enemy->Update(stept);
+	
 	//カメラの更新	
 	m_camera->Update();
 
@@ -256,9 +261,10 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	{
 		(*itr)->Update();
 	}
+		//当たり判定の更新用関数
+		DetectCollisionManager();
 
-	//当たり判定の更新用関数
-	DetectCollisionManager();
+
 
 }
 //----------------------------------------------------------------------
@@ -279,19 +285,20 @@ void GameScene::Render()
 	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
 	
 	//コースの描画
-	//m_cource->Render(m_camera->GetView(), m_camera->GetProj());	
+	m_cource->Render(m_camera->GetView(), m_camera->GetProj());	
 	
 	//プレイヤーの描画	
 	m_player->Render(m_camera->GetView(),m_camera->GetProj());
 	//プレイヤーの影描画
 	m_shadow->Render(m_camera.get()->GetView(), m_camera->GetProj(), m_player.get(), PLAYER_HEIGHT);
-	
-	m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
+	//敵の描画
+	//m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
 	SpriteRender();		
-
+	m_checkPoint->Render(m_camera.get()->GetView(), m_camera->GetProj());
 	//メッシュの描画
 	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
+	//コインの描画
 	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
 	{
 		(*itr)->Render(m_camera->GetView(), m_camera->GetProj());
@@ -327,7 +334,8 @@ void GameScene::DetectCollisionManager()
 	DetectCollisionMyAirPlaneToCheckPoint();
 	// ステージのMeshにMyAirPlaneが当たっているか
 	DetectCollisionMyAirPlaneToMesh();
-
+	// ステージとMyAirPlaneが当たっているか
+	DetectCollisionMyAirPlaneToCource();
 }
 
 //----------------------------------------------------------------------
@@ -365,6 +373,9 @@ void GameScene::DetectCollisionMyAirPlaneToCheckPoint()
 	//ステージのチェックポイント1とMyAirPlaneがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
 	{
+		int i = 0;
+		i++;
+
 		//1つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit1(true);
 	}
@@ -374,13 +385,25 @@ void GameScene::DetectCollisionMyAirPlaneToCheckPoint()
 		//2つ目のチェックポイントを通ったことにする
 		m_checkPoint->Checkhit2(true);
 	}
+
 	//ステージのチェックポイント3とMyAirPlaneがあったているのか
 	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
 	{
 		//3つ目のチェックポイントを通ったことにする
-		m_checkPoint->Checkhit3(true);
+ 		m_checkPoint->Checkhit3(true);
 	}
+}
+void GameScene::DetectCollisionMyAirPlaneToCource()
+{
+	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_cource->GetBox())==true)
+	{
+		m_player->SetScale(DirectX::SimpleMath::Vector3(3,3,3));
+	}
+	else
+	{
+		m_player->SetScale(DirectX::SimpleMath::Vector3(1,1,1));
 
+	}
 }
 //----------------------------------------------------------------------
 //! @brief ステージのあたり判定

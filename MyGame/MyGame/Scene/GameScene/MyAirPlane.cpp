@@ -36,6 +36,8 @@ void MyAirPlane::Initilize(Shadow* shadow)
 	m_box.Initialize();
 	m_box.SetTrans(m_translation);
 	m_box.SetSize(DirectX::SimpleMath::Vector3(0.5,0.5,0.5));
+
+	m_box.SetPointPos();
 	CreateResource();
 
 	m_velocity.z = 1.0f;
@@ -53,11 +55,13 @@ void MyAirPlane::Update(bool flag)
 	m_startFlag = flag;
 	Teramoto::Object3D::Update();
 
-	m_box.Update();
 	m_box.SetTrans(m_translation);
+	m_box.Update();
+
 
 	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®
 	MyAirPlaneMove();
+
 
 
 
@@ -65,9 +69,9 @@ void MyAirPlane::Update(bool flag)
 
 void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {	
-	//m_box.Render(view,proj);
 
-	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
+	//m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
+	m_box.Render(view,proj);
 
 	//m_shadow->Render(view, proj, this,0.0f);
 }
