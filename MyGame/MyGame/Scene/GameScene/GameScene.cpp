@@ -466,36 +466,36 @@ void GameScene::DetectCollisionMyAirPlaneToMesh()
 }
 
 
-//void GameScene::DetectCollisionEnemyAirPlaneToMesh()
-//{
-//	//プレイヤーの方向ベクトルの取得
-//	DirectX::SimpleMath::Vector3 playerVel = m_enemy->GetVelotity();
-//	//プレイヤーの位置の取得
-//	DirectX::SimpleMath::Vector3 playerPos = m_enemy->GetTranslation();
-//
-//	// プレイヤーの真下に向かう線分
-//	DirectX::SimpleMath::Vector3 v[2] =
-//	{
-//		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
-//		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
-//	};
-//
-//
-//	//線分と床の交差判定を行う
-//	int id;
-//
-//	DirectX::SimpleMath::Vector3 s;
-//
-//	if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
-//	{
-//		//プレイヤーのポジションy軸をメッシュの判定分+プレイヤーの高さ分あげる
-//		playerPos.y = s.y + PLAYER_HEIGHT;
-//		//プレイヤーの速度を0にする。s
-//		playerVel.y = 0.0f;
-//	}
-//
-//	//プレイヤーの場所の更新
-//	m_enemy->SetTranslation(playerPos);
-//	//プレイヤーの速度を設定する
-//	m_enemy->SetVel(playerVel);
-//}
+void GameScene::DetectCollisionEnemyAirPlaneToMesh()
+{
+	//プレイヤーの方向ベクトルの取得
+	DirectX::SimpleMath::Vector3 playerVel = m_enemy->GetVelotity();
+	//プレイヤーの位置の取得
+	DirectX::SimpleMath::Vector3 playerPos = m_enemy->GetTranslation();
+
+	// プレイヤーの真下に向かう線分
+	DirectX::SimpleMath::Vector3 v[2] =
+	{
+		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
+		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
+	};
+
+
+	//線分と床の交差判定を行う
+	int id;
+
+	DirectX::SimpleMath::Vector3 s;
+
+	if (m_stageMesh->HitCheck_Segment(v[0], v[1], &id, &s))
+	{
+		//プレイヤーのポジションy軸をメッシュの判定分+プレイヤーの高さ分あげる
+		playerPos.y = s.y + PLAYER_HEIGHT;
+		//プレイヤーの速度を0にする。s
+		playerVel.y = 0.0f;
+	}
+
+	//プレイヤーの場所の更新
+	m_enemy->SetTranslation(playerPos);
+	//プレイヤーの速度を設定する
+	m_enemy->SetVel(playerVel);
+}

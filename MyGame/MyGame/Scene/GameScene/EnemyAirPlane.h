@@ -5,14 +5,13 @@
 #include "../../../StepTimer.h"
 #include <Model.h>
 #include <CommonStates.h>
+#include "../../GameSystem/Object.h"
 
 #include <Effects.h>
-#include "TpsCamera.h"
 
-#include "../../GameSystem/Object.h"
 #include "../../Collison/MyCollisionNode.h"
 
-class EnemyAirPlane : Teramoto::Object3D
+class EnemyAirPlane : public Teramoto::Object3D
 {
 public:
 
@@ -28,8 +27,6 @@ public:
 	void Update(DX::StepTimer& timer);
 	//•`‰æˆ—()
 	void Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj);
-	//íœ‚·‚éˆ—
-	void Lost();
 
 	//ƒŠƒ\[ƒX‚Ì¶¬
 	void CreateResources();

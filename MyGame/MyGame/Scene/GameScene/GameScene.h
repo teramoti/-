@@ -6,13 +6,14 @@
 //#include "../../ADX2/ADX2Le.h"
 
 #include "MyAirPlane.h"
+#include "EnemyAirPlane.h"
+
 #include "../../GameSystem/Camera.h"
 #include "TpsCamera.h"
 #include <SpriteFont.h>
 #include "Shadow.h"
 #include "SpriteBatch.h"
 #include "Cource.h"
-#include "EnemyAirPlane.h"
 #include "CheckPoint.h"
 #include "Time.h"
 #include "../../Collison/CollisionMesh.h"
@@ -55,6 +56,7 @@ public:
 	//MeshÇ∆ÇÃÇ†ÇΩÇËîªíËÇÃä÷êî
 	void DetectCollisionMyAirPlaneToMesh();
 
+	void DetectCollisionEnemyAirPlaneToMesh();
 
 private:
 	const float PLAYER_HEIGHT = 0.3f;
