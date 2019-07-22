@@ -47,6 +47,10 @@ public:
 		return m_box;
 	}
 
+	void AddCoin()
+	{
+		m_coinNum += 10;
+	}
 private:
 
 	//
@@ -82,7 +86,7 @@ public:
 	//速度用変数
 	DirectX::SimpleMath::Vector3 vec;
 
-
+	int m_coinNum;
 	//ボックスのNode
 	BoxNode m_box;
 };

@@ -15,8 +15,12 @@
 
 
 
-MyAirPlane::MyAirPlane() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity), m_velocity(DirectX::SimpleMath::Vector3::Zero),
-m_pos(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -0.0f)), m_acceleration(0.0f), m_startFlag(false)
+MyAirPlane::MyAirPlane() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity),
+m_velocity(DirectX::SimpleMath::Vector3::Zero),
+m_pos(DirectX::SimpleMath::Vector3(0.0f, 0.0f, -0.0f)), 
+m_acceleration(0.0f), m_startFlag(false),
+m_coinNum(0)
+
 {
 }
 
@@ -62,16 +66,13 @@ void MyAirPlane::Update(bool flag)
 	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®
 	MyAirPlaneMove();
 
-
-
-
 }
 
 void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {	
 
-	//m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
-	m_box.Render(view,proj);
+	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
+	//m_box.Render(view,proj);
 
 	//m_shadow->Render(view, proj, this,0.0f);
 }

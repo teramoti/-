@@ -86,3 +86,7 @@ void Item::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix
 	m_batch->End();
 
 }
+
+void Item::DetectCollision()
+{
+}

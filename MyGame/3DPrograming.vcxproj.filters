@@ -223,6 +223,15 @@
     <ClInclude Include="MyGame\Scene\GameScene\ItemManager.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Utillity\Observer.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\IOberver.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Utillity\Subject.h">
+      <Filter>Utillity</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\Utillity\Math.cpp">
@@ -377,6 +386,12 @@
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\ItemManager.cpp">
       <Filter>Scene\GameScene</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Utillity\Observer.cpp">
+      <Filter>Utillity</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Utillity\Subject.cpp">
+      <Filter>Utillity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

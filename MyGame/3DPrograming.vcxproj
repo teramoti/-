@@ -203,8 +203,11 @@
     <ClInclude Include="MyGame\Utillity\DirectX11.h" />
     <ClInclude Include="MyGame\Utillity\dx.h" />
     <ClInclude Include="MyGame\Utillity\Flag.h" />
+    <ClInclude Include="MyGame\Utillity\IOberver.h" />
     <ClInclude Include="MyGame\Utillity\Math.h" />
+    <ClInclude Include="MyGame\Utillity\Observer.h" />
     <ClInclude Include="MyGame\Utillity\SingletonBase.h" />
+    <ClInclude Include="MyGame\Utillity\Subject.h" />
     <ClInclude Include="StepTimer.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -350,6 +353,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MyGame\Utillity\Observer.cpp" />
+    <ClCompile Include="MyGame\Utillity\Subject.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

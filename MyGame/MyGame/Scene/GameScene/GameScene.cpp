@@ -108,6 +108,8 @@ void GameScene::Initialize()
 		(*itr)->Initilize(*m_itemManager);
 	}
 
+
+
 	//Cameraクラスの初期化
 	m_camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
 	m_shadow = new Shadow();
@@ -160,7 +162,20 @@ void GameScene::Initialize()
 	m_goalNum = 0;
 	m_isUpdateing = false;
 
+	//コリジョンマネージャー
 	m_collisionManager = new CollisionManager();
+
+	std::string a;
+	m_observer = new Observer("観察", m_player.get());
+
+	m_subject = new Subject();
+	
+	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
+	{
+		(*itr)->Attach(m_observer);
+	}
+
+	
 
 }
 
@@ -260,9 +275,12 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
 	{
 		(*itr)->Update();
+
+		(*itr)->DetectCollision();
 	}
-		//当たり判定の更新用関数
-		DetectCollisionManager();
+
+	//当たり判定の更新用関数
+	DetectCollisionManager();
 
 
 
@@ -295,7 +313,7 @@ void GameScene::Render()
 	//m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
 	SpriteRender();		
-	m_checkPoint->Render(m_camera.get()->GetView(), m_camera->GetProj());
+	//m_checkPoint->Render(m_camera.get()->GetView(), m_camera->GetProj());
 	//メッシュの描画
 	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
 	//コインの描画

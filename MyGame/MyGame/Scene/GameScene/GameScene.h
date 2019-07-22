@@ -19,6 +19,10 @@
 #include "../../Collison/MyCollisionManager.h"
 #include "../../Utillity/DirectX11.h"
 
+#include "../../Utillity/Observer.h"
+#include "../../Utillity/Subject.h"
+#include "../../Utillity/IOberver.h"
+
 #include "Item.h"
 
 #include "ItemManager.h"
@@ -130,5 +134,12 @@ private:
 	
 	//DirectXGraphicsObjectÇ÷ÇÃéQè∆
 	DirectX11& m_directX = DirectX11::Get();
+	//interFace
+	IObserver* m_iobserver;
+	//Observer
+	Observer* m_observer;
+	//Subject
+	Subject* m_subject;
+
 
 };
