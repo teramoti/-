@@ -10,10 +10,10 @@
 
 //インクルードファイルの宣言
 #include "Game.h"
+#include "CheckMemory.h"
+
 #include "MyGame\GameSystem\InputManager.h"
 #include "MyGame\GameSystem\DrawManager.h"
-//#include "MyGame\ADX2\ADX2Le.h"
-
 void ExitGame();
 
 //----------------------------------------------------------------------
@@ -194,7 +194,6 @@ void Game::Render()
 
 	#endif
 
-
 	//SceneManagerの描画用処理
 	m_sceneManager->RenderActiveSceneRender();
 	
@@ -275,8 +274,21 @@ void Game::Finalize()
 {
 	// Graphicsオブジェクトをリセットする
 	DirectX11::Dispose();
+	m_window.reset();
+	m_graphics.reset();
+	m_keyboard.reset();
+	m_spriteBatch.reset();
+	m_font.reset();
+	m_commonStates.reset();
 	// Windowオブジェクトをリセットする
 	m_window.reset();
+	m_sceneManager->FinalizeActiveScene();
+	
+	if (m_sceneManager != nullptr)
+	{
+		m_sceneManager.reset();
+		m_sceneManager = nullptr;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -367,3 +379,4 @@ void ExitGame()
 {
 	PostQuitMessage(0);
 }
+

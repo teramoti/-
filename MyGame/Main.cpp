@@ -5,7 +5,14 @@
 // Created date(作成日) 2019 / 05 / 30
 // last updated (最終更新日) 2019 / 06 / 05
 //------------------------//------------------------
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+
+
 #include "Window.h"
+#include "CheckMemory.h"
+
 #include "Game.h"
 
 
@@ -18,6 +25,11 @@
 //----------------------------------------------------------------------
 int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow)
 {
+	// メモリリークレポートを出力ウィンドウのデバッグウィンドウに出力する
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	// 出力先を出力ウィンドウに戻す
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
+
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -26,6 +38,7 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 		return 1;
 
 	int width = 800;
+
 	int height = 600;
 
 	//Gameオブジェクトの生成

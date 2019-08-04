@@ -1,12 +1,14 @@
 #include "Observer.h"
 
-Observer::Observer(const std::string & name, MyAirPlane* player)
+Observer::Observer(MyAirPlane* player)
 {
 	m_player = player;
 
 }
 
-void Observer::Update(DirectX::SimpleMath::Vector3 & pos)
+void Observer::Update(Subject* subject)
 {
+	m_subject = subject->GetSubject();
+
 	m_player->AddCoin();
 }

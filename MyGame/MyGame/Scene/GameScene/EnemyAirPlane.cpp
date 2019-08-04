@@ -1,5 +1,5 @@
 #include "EnemyAirPlane.h"
-
+#include "../../Collison/DebugBox.h"
 
 #define	MAX_DATA		3
 #define MAX_PARAMS		4
@@ -16,15 +16,15 @@ EnemyAirPlane::~EnemyAirPlane()
 {
 }
 
-void EnemyAirPlane::Initilize()
+void EnemyAirPlane::Initilize(Shadow* shadow)
 {
-
-	//m_translation = DirectX::SimpleMath::Vector3(0, 0, 0);
+	m_shadow = shadow;
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 
 	CreateResources();
 
 	m_translation = DirectX::SimpleMath::Vector3(0, 0, 0);
+	m_shadow->Initialize();
 
 	float AngleSet[MAX_DATA][MAX_PARAMS] = {
 		0.8,	0.0f,	0.0f,	0.25f,
@@ -146,6 +146,10 @@ void EnemyAirPlane::Initilize()
 		error = error / MAX_DATA;
 	}
 
+	m_box.c = m_translation;
+	m_box.r = DirectX::SimpleMath::Vector3(0.5, 2.0, 0.5);
+
+
 }
 
 void EnemyAirPlane::Update(DX::StepTimer& timer)
@@ -190,6 +194,9 @@ void EnemyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath
 {
 	//ƒ‚ƒfƒ‹‚Ì•`‰æ
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
+	//DebugBox* playerdebugbox = new DebugBox(m_directX.GetDevice().Get(), m_box.c, m_box.r);
+	//playerdebugbox->Draw(m_directX.GetContext().Get(), *m_directX.Get().GetStates(), m_world, view, proj);
+	m_shadow->Render(view, proj, this, 0.3f);
 
 }
 

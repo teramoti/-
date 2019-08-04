@@ -1,13 +1,16 @@
 #pragma once
+
+
 #include <Model.h>
 #include <CommonStates.h>
 
 #include <Effects.h>
 #include "TpsCamera.h"
-
+#include "../../Collison/Collision.h"
 #include "../../GameSystem/Object.h"
-#include "../../Collison/MyCollisionNode.h"
 #include "Shadow.h"
+#include "../../Utillity/DirectX11.h"
+
 class MyAirPlane : public Teramoto::Object3D
 {
 
@@ -42,18 +45,18 @@ public:
 	}
 
 
-	BoxNode& GetBox()
+	Collision::Box& GetBox()
 	{
-		return m_box;
+		return *m_box;
 	}
 
 	void AddCoin()
 	{
-		m_coinNum += 10;
+		m_coinNum += 1;
 	}
 private:
 
-	//
+	//影の描画
 	Shadow* m_shadow;
 	
 	//ポジション
@@ -88,6 +91,8 @@ public:
 
 	int m_coinNum;
 	//ボックスのNode
-	BoxNode m_box;
+	Collision::Box* m_box;
+
+	DirectX11& m_directX = DirectX11::Get();
 };
 

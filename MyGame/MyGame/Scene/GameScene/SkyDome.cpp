@@ -15,7 +15,7 @@ SkyDome::SkyDome()
 }
 SkyDome::~SkyDome()
 {
-
+	m_model.reset();
 }
 
 

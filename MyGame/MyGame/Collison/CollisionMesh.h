@@ -72,7 +72,7 @@ private:
 public:
 	// コンストラクタ
 	CollisionMesh(ID3D11Device* device, const wchar_t* fname);
-
+	~CollisionMesh() {};
 	// 位置を設定する関数
 	void SetPosition(DirectX::SimpleMath::Vector3 position) { m_position = position; }
 

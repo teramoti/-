@@ -19,7 +19,7 @@ void Subject::Notify(DirectX::SimpleMath::Vector3& pos)
 	{
 		if (*iter != 0)
 		{
-			(*iter)->Update(pos);
+			(*iter)->Update(this);
 		}
 	}
 }

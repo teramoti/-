@@ -34,7 +34,8 @@ private:
 public:
 	// コンストラクタ
 	Shadow();
-
+	//　デストラクタ
+	~Shadow();
 	// 初期化関数
 	void Initialize();
 

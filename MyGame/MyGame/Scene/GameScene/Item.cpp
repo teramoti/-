@@ -2,17 +2,22 @@
 #include <random>
 
 
-Item::Item(DirectX::SimpleMath::Vector3 pos) : m_pos(DirectX::SimpleMath::Vector3::Zero), m_angle(0.0f)
+Item::Item() : m_pos(DirectX::SimpleMath::Vector3::Zero), m_angle(0.0f) ,m_batchEffect(nullptr)
 {
-	m_pos = pos;
 }
 
 Item::~Item()
 {
+	m_batchEffect.reset();
+	m_batch.reset();
+	m_inputLayout.Reset();
+	//delete m_itemManager;
 }
 
-void Item::Initilize(ItemManager& itemManager)
+void Item::Initilize(ItemManager& itemManager, DirectX::SimpleMath::Vector3 pos)
 {
+
+
 	m_itemManager = &itemManager;
 	// エフェクトの作成
 	m_batchEffect = std::make_unique<DirectX::AlphaTestEffect>(m_directX11.GetDevice().Get());
@@ -28,6 +33,9 @@ void Item::Initilize(ItemManager& itemManager)
 	// プリミティブバッチの作成
 	m_batch = std::make_unique<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>>((m_directX11.GetContext().Get()));	
 
+
+	int i = 0;
+	m_pos = pos;
 }
 
 void Item::Update()
@@ -35,6 +43,7 @@ void Item::Update()
 	//コインのモデルを回転させる処理
 	m_angle += 0.05f;
 	
+	m_pos = GetPos();
 	//ワールドを算出する
 	m_world = DirectX::SimpleMath::Matrix::CreateRotationY(m_angle)* DirectX::SimpleMath::Matrix::CreateTranslation(m_pos);
 
@@ -43,6 +52,8 @@ void Item::Update()
 
 void Item::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& projection)
 {
+	if (m_batchEffect == nullptr) return;
+
 	// 頂点情報（ここは自分で設定してください。）
 	DirectX::VertexPositionTexture vertex[4] =
 	{
@@ -61,7 +72,7 @@ void Item::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix
 	// カリングは左周り
 	m_directX11.GetContext().Get()->RSSetState(m_directX11.Get().GetStates()->CullCounterClockwise());
 	// 不透明のみ描画する設定
-	m_batchEffect->SetAlphaFunction(D3D11_COMPARISON_EQUAL);
+ 	m_batchEffect->SetAlphaFunction(D3D11_COMPARISON_EQUAL);
 	m_batchEffect->SetReferenceAlpha(255);
 	m_batchEffect->SetWorld(m_world);
 	m_batchEffect->SetView(view);
@@ -89,4 +100,5 @@ void Item::Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix
 
 void Item::DetectCollision()
 {
+	//Notify();
 }

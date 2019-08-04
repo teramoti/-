@@ -1,5 +1,6 @@
 #pragma once
 #include "../Base/SceneBase.h"
+
 #include "SkyDome.h"
 #include "CountDown.h"
 #include "GameTime.h"
@@ -17,7 +18,6 @@
 #include "CheckPoint.h"
 #include "Time.h"
 #include "../../Collison/CollisionMesh.h"
-#include "../../Collison/MyCollisionManager.h"
 #include "../../Utillity/DirectX11.h"
 
 #include "../../Utillity/Observer.h"
@@ -58,7 +58,12 @@ public:
 
 	void DetectCollisionEnemyAirPlaneToMesh();
 
+	void DetectCollisionCoinToMesh();
 private:
+
+	//DirectXGraphicsObjectへの参照
+	DirectX11& m_directX = DirectX11::Get();
+
 	const float PLAYER_HEIGHT = 0.3f;
 
 	//カメラクラスの作成
@@ -77,8 +82,14 @@ private:
 
 	// コモンステート
 	std::unique_ptr<DirectX::CommonStates> m_states;
+
+	//当たり判定用メッシュ
+	std::unique_ptr<CollisionMesh> m_stageMesh;
+	//コースのクラス作成用変数
+	std::unique_ptr<Cource> m_cource;
+
 	//コリジョンマネージャーの定義
-	CollisionManager*				m_collisionManager;
+	//CollisionManager*				m_collisionManager;
 	//時間
 	std::unique_ptr<Time>			m_time;
 	//チェックポイントクラスの定義
@@ -90,9 +101,18 @@ private:
 
 	std::vector<Item*>							m_item;
 
-	ItemManager* m_itemManager;
-	//
-	bool m_node;
+	ItemManager* m_itemManager
+		
+		;	//interFace
+	IObserver* m_iobserver;
+	//Observer
+	Observer* m_observer;
+	//Subject
+	Subject* m_subject;
+
+	//影クラスの定義
+	Shadow* m_shadow;
+
 	//ゲームが始まっているのかのフラグ用変数
 	bool m_startFlag;
 	//ゲームの時間用変数
@@ -116,32 +136,14 @@ private:
 	bool m_sceneFlag;
 
 	bool m_isUpdateing;
-	//当たり判定用メッシュ
-	std::unique_ptr<CollisionMesh> m_stageMesh;
-	//外側の当たり判定用メッシュ
-	std::unique_ptr<CollisionMesh> m_stageMesh2;
-	//コースのクラス作成用変数
-	std::unique_ptr<Cource> m_cource;
 	// サウンド
 	//MyLibrary::ADX2Le* m_adx2le;	
-	//影クラスの定義
-	Shadow* m_shadow;
 	// 音楽情報記憶用変数
 	//CriAtomExPlaybackId m_criAtomExPlaybackId;	
 
+	
 	//プレイヤーとメッシュのあたり判定で生まれる高さ取得変数
 	float m_playerHeight;
-	//触手
-	std::vector<DirectX::SimpleMath::Vector3> m_feelers;
-	
-	//DirectXGraphicsObjectへの参照
-	DirectX11& m_directX = DirectX11::Get();
-	//interFace
-	IObserver* m_iobserver;
-	//Observer
-	Observer* m_observer;
-	//Subject
-	Subject* m_subject;
 
 
 };

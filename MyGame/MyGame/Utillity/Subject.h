@@ -19,6 +19,10 @@ public:
 	virtual void Detach(Observer* observer);
 	virtual void Notify(DirectX::SimpleMath::Vector3& pos);
 
+	Subject* GetSubject()
+	{
+		return this;
+	}
 private:
 	std::vector<Observer*> m_observerVector;
 };

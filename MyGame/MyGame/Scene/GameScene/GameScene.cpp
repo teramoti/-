@@ -10,12 +10,14 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include <Keyboard.h>
+#include<random>
+
 #include "Gamescene.h"
+
 #include "../../GameSystem/GameSaveData.h"
 #include "../../GameSystem/DrawManager.h"
 #include "../../GameSystem/InputManager.h"
 #include "../SceneManager/SceneManager.h"
-#include<random>
 
 
 #define MIN(a,b) ((a>b) ? (b):(a));
@@ -48,18 +50,21 @@ GameScene::~GameScene()
 {
 	m_camera.reset();
 	m_player.reset();
+	m_enemy.reset();
 	m_skyDome.reset();
 	m_states.reset();
-
+	m_stageMesh.reset();
 	m_time.reset();
 	m_checkPoint.reset();
-	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
-	{
-		delete (*itr);
-	}
-	delete m_itemManager;
+	m_cource.reset();
+
 	delete m_count;
 	delete m_gameTime;
+	delete m_itemManager;
+	//delete m_iobserver;
+	delete m_observer;
+	delete m_subject;
+	delete m_shadow;
 }
 
 //----------------------------------------------------------------------
@@ -73,47 +78,94 @@ void GameScene::Initialize()
 {
 
 	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
+
 	// サウンドの読み込み
 	//m_adx2le->LoadAcb(L"GameScene.acb", L"GameScene.awb");
+
 	//コースのステージメッシュの初期化
 	m_stageMesh = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get() , L"Resources/Cource_01.obj");
-	//m_stageMesh2 = std::make_unique<CollisionMesh>(m_directX.GetDevice().Get(), L"Resources/OutsidetheMyGameCourse_1.obj");
+
 	//if (!m_adx2le->IsPlayStateByID(m_criAtomExPlaybackId))
 	//{
 	//	// 効果音の再生
 	//	m_criAtomExPlaybackId = m_adx2le->Play(0);
 	//}
 
+	//アイテムマネージャークラスを作成
 	m_itemManager = new ItemManager();
+	//アイテムマネージャーの初期化処理
 	m_itemManager->Initilize();
 
 	//場所のランダム
 	
 	// 非決定的な乱数生成器を生成
 	std::random_device rnd;
+
 	 // メルセンヌ・ツイスタの32ビット版、引数は初期シード値	
 	std::mt19937 mt(rnd());
-	// [0, 99] 範囲の一様乱数
+
+	// x軸の一様乱数
 	std::uniform_int_distribution<> randx(-100,1050);
+	// z軸の一様乱数
 	std::uniform_int_distribution<> randz(-480, 600);
 
-	m_item.resize(100);
-	for (int i = 0; i < m_item.size(); i++)
+	//アイテムの数を設定
+	m_item.resize(30);
+
+	int size = 0;
+	 
+	for (int i=0; i < (static_cast<int>(m_item.size())); i++)
 	{
-		m_item[i] = new Item(DirectX::SimpleMath::Vector3(randx(mt),-3.0f, randz(mt)));
+		//アイテムクラスの初期化
+		m_item[i] = new Item();
 	}
 
+	//int x1;
+	//int z1;
+
+	//int rangeX1=  100;
+	//int rangeZ1= -100;
+	//int rangeX2= -100;
+	//int rangeZ2= -200;
+
+	////範囲を指定して乱数の作成
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	std::uniform_int_distribution<> randX1(rangeZ1 + (i*100),rangeX1);//左
+	//	std::uniform_int_distribution<> randZ1(rangeZ2 + (i*100),rangeX2);//上
+
+	//	x1 = randX1(mt);
+	//	z1 = randZ1(mt);
+
+	//	int a = 0;
+	//}
+		int x=0;
+		int z=0;
 	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
 	{
-		(*itr)->Initilize(*m_itemManager);
+		
+		x = randx(mt);
+		z = randz(mt);
+
+		//do {
+		//}
+		//while ((x < 950 && x > 0 && z < 400 && z > -280));
+
+		//ソートする
+		
+		//Itemクラスの初期化処理
+		(*itr)->Initilize(*m_itemManager, DirectX::SimpleMath::Vector3(static_cast<float>(x), 3.0f, static_cast<float>(z)));
+		//numを1ずつ足す。
+		size += 1;
 	}
-
-
+	
 
 	//Cameraクラスの初期化
 	m_camera = std::make_unique<TpsCamera>(m_directX.GetWidth(), m_directX.GetHeight());
+	
+	//Shadowクラスを作成する
 	m_shadow = new Shadow();
-	//m_shadow->Initialize();
+
 	//プレイヤーの生成
 	m_player = std::make_unique<MyAirPlane>();
 	//MyAirPlaneの初期化処理
@@ -122,7 +174,7 @@ void GameScene::Initialize()
 	//Enemyの生成
 	m_enemy= std::make_unique<EnemyAirPlane>();
 	//EnemyAirPlaneの初期化処理
-	m_enemy->Initilize();	
+	m_enemy->Initilize(m_shadow);	
 	
 	//カメラのTargetの設定
 	m_camera->SetObject3D(m_player.get());
@@ -131,7 +183,6 @@ void GameScene::Initialize()
 	m_checkPoint = std::make_unique<CheckPoint>();
 	//チェックポイントの初期化処理
 	m_checkPoint->Initilize();
-
 
 	//コースクラスの作成
 	m_cource = std::make_unique<Cource>();
@@ -145,7 +196,6 @@ void GameScene::Initialize()
 
 	//時間クラスの作成
 	m_time = std::make_unique<Time>();
-
 
 	//カウントダウンクラスの作成
 	m_count = new CountDown();
@@ -162,16 +212,13 @@ void GameScene::Initialize()
 	m_goalNum = 0;
 	m_isUpdateing = false;
 
-	//コリジョンマネージャー
-	m_collisionManager = new CollisionManager();
-
-	std::string a;
-	m_observer = new Observer("観察", m_player.get());
+	m_observer = new Observer(m_player.get());
 
 	m_subject = new Subject();
 	
 	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
 	{
+		//アッタチする。
 		(*itr)->Attach(m_observer);
 	}
 
@@ -212,11 +259,9 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 			//時間の更新
 			m_time->Update(m_gameTimer);
 			//ゲームの時間をCountダウンする
-			m_gameTime->SetTime(m_gameTimer);
+			//m_gameTime->SetTime(m_gameTimer);
 			//初期化フラグをtrueにする
 			m_startFlag = true;
-			
-
 		}	
 	}
 	else
@@ -267,7 +312,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	//プレイヤーの更新
 	m_player->Update(m_startFlag);
 	
-	//m_enemy->Update(stept);
+	m_enemy->Update(stept);
 	
 	//カメラの更新	
 	m_camera->Update();
@@ -301,26 +346,17 @@ void GameScene::Render()
 
 	//スカイドームの描画
 	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
-	
 	//コースの描画
 	m_cource->Render(m_camera->GetView(), m_camera->GetProj());	
-	
 	//プレイヤーの描画	
 	m_player->Render(m_camera->GetView(),m_camera->GetProj());
-	//プレイヤーの影描画
-	m_shadow->Render(m_camera.get()->GetView(), m_camera->GetProj(), m_player.get(), PLAYER_HEIGHT);
 	//敵の描画
-	//m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
+	m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
-	SpriteRender();		
-	//m_checkPoint->Render(m_camera.get()->GetView(), m_camera->GetProj());
+	SpriteRender();	
 	//メッシュの描画
-	m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
-	//コインの描画
-	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
-	{
-		(*itr)->Render(m_camera->GetView(), m_camera->GetProj());
-	}
+	//m_stageMesh->DrawCollision(m_directX.GetContext().Get(), m_camera->GetView(), m_camera->GetProj());
+
 
 	//画像の描画
 	SpriteRender();		
@@ -336,6 +372,11 @@ void GameScene::Render()
 
 void GameScene::Finalize()
 {
+	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
+	{
+
+		delete (*itr);
+	}
 
 }
 
@@ -354,8 +395,11 @@ void GameScene::DetectCollisionManager()
 	DetectCollisionMyAirPlaneToMesh();
 	// ステージとMyAirPlaneが当たっているか
 	DetectCollisionMyAirPlaneToCource();
+	// ステージとEnemyAirPlaneがあったているか
+	DetectCollisionEnemyAirPlaneToMesh();
+	//ステージとコインがあったているかの判定
+	//DetectCollisionCoinToMesh();
 }
-
 //----------------------------------------------------------------------
 //! @brief 画像の描画用関数
 //!
@@ -376,6 +420,12 @@ void GameScene::SpriteRender()
 	
 	}
 
+	//コインの描画
+	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
+	{
+		(*itr)->Render(m_camera->GetView(), m_camera->GetProj());
+	}
+
 	System::DrawManager::GetInstance().End();
 }
 
@@ -389,38 +439,38 @@ void GameScene::SpriteRender()
 void GameScene::DetectCollisionMyAirPlaneToCheckPoint()
 {
 	//ステージのチェックポイント1とMyAirPlaneがあったているのか
-	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
-	{
-		int i = 0;
-		i++;
+	//if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos1()) == true)
+	//{
+	//	int i = 0;
+	//	i++;
 
-		//1つ目のチェックポイントを通ったことにする
-		m_checkPoint->Checkhit1(true);
-	}
-	//ステージのチェックポイント2とMyAirPlaneがあったているのか
-	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos2()) == true)
-	{
-		//2つ目のチェックポイントを通ったことにする
-		m_checkPoint->Checkhit2(true);
-	}
+	//	//1つ目のチェックポイントを通ったことにする
+	//	m_checkPoint->Checkhit1(true);
+	//}
+	////ステージのチェックポイント2とMyAirPlaneがあったているのか
+	//if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxCheckPos2()) == true)
+	//{
+	//	//2つ目のチェックポイントを通ったことにする
+	//	m_checkPoint->Checkhit2(true);
+	//}
 
-	//ステージのチェックポイント3とMyAirPlaneがあったているのか
-	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
-	{
-		//3つ目のチェックポイントを通ったことにする
- 		m_checkPoint->Checkhit3(true);
-	}
+	////ステージのチェックポイント3とMyAirPlaneがあったているのか
+	//if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_checkPoint->GetBoxStartPos()) == true)
+	//{
+	//	//3つ目のチェックポイントを通ったことにする
+ //		m_checkPoint->Checkhit3(true);
+	//}
 }
 void GameScene::DetectCollisionMyAirPlaneToCource()
 {
-	if (m_collisionManager->CollisionBox2Box(m_player->GetBox(), m_cource->GetBox())==true)
+	//自機とコースのあたり判定
+	if (Collision::HitCheck_Box2Box(m_player->GetBox(), m_cource->GetBox()))
 	{
-		m_player->SetScale(DirectX::SimpleMath::Vector3(3,3,3));
-	}
-	else
-	{
-		m_player->SetScale(DirectX::SimpleMath::Vector3(1,1,1));
+		DirectX::SimpleMath::Vector3 pos = m_player->GetTranslation();
 
+		DirectX::SimpleMath::Vector3 speed = m_player->GetVelotity();
+
+		//あたり判定の処理
 	}
 }
 //----------------------------------------------------------------------
@@ -430,7 +480,7 @@ void GameScene::DetectCollisionMyAirPlaneToCource()
 //!
 //! @return なし
 //----------------------------------------------------------------------
-
+//
 void GameScene::DetectCollisionMyAirPlaneToMesh()
 {
 	//プレイヤーの方向ベクトルの取得
@@ -444,7 +494,6 @@ void GameScene::DetectCollisionMyAirPlaneToMesh()
 		DirectX::SimpleMath::Vector3(playerPos.x, 100.0f, playerPos.z),
 		DirectX::SimpleMath::Vector3(playerPos.x, -100.0f, playerPos.z),
 	};
-
 
 	//線分と床の交差判定を行う
 	int id;

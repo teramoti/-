@@ -152,12 +152,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CheckMemory.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="MyGame\Collison\Collision.h" />
     <ClInclude Include="MyGame\Collison\CollisionMesh.h" />
-    <ClInclude Include="MyGame\Collison\MyCollision.h" />
-    <ClInclude Include="MyGame\Collison\MyCollisionManager.h" />
-    <ClInclude Include="MyGame\Collison\MyCollisionNode.h" />
+    <ClInclude Include="MyGame\Collison\DebugBox.h" />
+    <ClInclude Include="MyGame\Collison\DebugCapsule.h" />
+    <ClInclude Include="MyGame\Collison\DebugSphere.h" />
     <ClInclude Include="MyGame\GameSystem\Camera.h" />
     <ClInclude Include="MyGame\GameSystem\DrawManager.h" />
     <ClInclude Include="MyGame\GameSystem\GameSaveData.h" />
@@ -215,9 +216,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MyGame\Collison\CollisionMesh.cpp" />
-    <ClCompile Include="MyGame\Collison\MyCollision.cpp" />
-    <ClCompile Include="MyGame\Collison\MyCollisionManager.cpp" />
-    <ClCompile Include="MyGame\Collison\MyCollisionNode.cpp" />
+    <ClCompile Include="MyGame\Collison\DebugBox.cpp" />
+    <ClCompile Include="MyGame\Collison\DebugCapsule.cpp" />
+    <ClCompile Include="MyGame\Collison\DebugSphere.cpp" />
     <ClCompile Include="MyGame\GameSystem\Camera.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -391,6 +392,11 @@
     <MeshContentTask Include="FBX\SkyDome.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MyGame\Collison\DebugBox.inc" />
+    <None Include="MyGame\Collison\DebugCapsule.inc" />
+    <None Include="MyGame\Collison\DebugSphere.inc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

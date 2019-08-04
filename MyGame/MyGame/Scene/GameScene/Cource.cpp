@@ -1,6 +1,6 @@
 //#include "../../../pch.h"
 #include "Cource.h"
-
+#include "../../Collison/DebugBox.h"
 
 
 Cource::Cource()
@@ -9,6 +9,7 @@ Cource::Cource()
 
 Cource::~Cource()
 {
+	m_model.reset();
 }
 
 void Cource::Initilize()
@@ -16,26 +17,31 @@ void Cource::Initilize()
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 
 	CreateResource();
-	m_inBox.Initialize();
-	m_inBox.SetTrans(DirectX::SimpleMath::Vector3(480, -15,0));
-	m_inBox.SetSize(DirectX::SimpleMath::Vector3(290 ,30,300));
+	
+	m_inBox.c=(DirectX::SimpleMath::Vector3(1000/2,0,0));
+	m_inBox.r=(DirectX::SimpleMath::Vector3(360 ,50,360));
 
-	m_inBox.SetPointPos();
 
 	m_translation = DirectX::SimpleMath::Vector3(0, -1, 0);
 }
 
 void Cource::Update()
 {
-	m_inBox.Update();
 	Object3D::Update();
 }
 
 void Cource::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
-	//m_inBox.Render(view, proj);
 
-	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
+	DirectX::SimpleMath::Matrix world;
+	world = DirectX::SimpleMath::Matrix::CreateScale(m_inBox.r)*DirectX::SimpleMath::Matrix::CreateTranslation(m_inBox.c);
+	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view,proj);
+
+	DebugBox* playerdebugbox = new DebugBox(m_directX.GetDevice().Get(), m_inBox.c, m_inBox.r);
+
+	playerdebugbox->Draw(m_directX.GetContext().Get(), *m_directX.Get().GetStates(), world, view, proj);
+
+
 }
 
 void Cource::CreateResource()

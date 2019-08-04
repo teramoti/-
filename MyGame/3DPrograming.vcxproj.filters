@@ -175,15 +175,6 @@
     <ClInclude Include="MyGame\Scene\SceneManager\SceneManager.h">
       <Filter>Scene\SceneManager</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollisionManager.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollisionNode.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="MyGame\Collison\MyCollision.h">
-      <Filter>Collision</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Collison\CollisionMesh.h">
       <Filter>Collision</Filter>
     </ClInclude>
@@ -231,6 +222,18 @@
     </ClInclude>
     <ClInclude Include="MyGame\Utillity\Subject.h">
       <Filter>Utillity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\DebugCapsule.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\DebugSphere.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Collison\DebugBox.h">
+      <Filter>Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CheckMemory.h">
+      <Filter>GameMain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -339,15 +342,6 @@
     <ClCompile Include="MyGame\Scene\SceneManager\SceneManager.cpp">
       <Filter>Scene\SceneManager</Filter>
     </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollisionManager.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollisionNode.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Collison\MyCollision.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="MyGame\Collison\CollisionMesh.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
@@ -393,6 +387,15 @@
     <ClCompile Include="MyGame\Utillity\Subject.cpp">
       <Filter>Utillity</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame\Collison\DebugCapsule.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\DebugSphere.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Collison\DebugBox.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
@@ -434,5 +437,16 @@
     <ResourceCompile Include="resource.rc">
       <Filter>GameMain</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="MyGame\Collison\DebugBox.inc">
+      <Filter>Collision</Filter>
+    </None>
+    <None Include="MyGame\Collison\DebugCapsule.inc">
+      <Filter>Collision</Filter>
+    </None>
+    <None Include="MyGame\Collison\DebugSphere.inc">
+      <Filter>Collision</Filter>
+    </None>
   </ItemGroup>
 </Project>

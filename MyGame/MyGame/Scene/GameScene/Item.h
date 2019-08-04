@@ -24,10 +24,10 @@ class ItemManager;
 class Item
 {
 public:
-	Item(DirectX::SimpleMath::Vector3 pos);
+	Item();
 	~Item();
 
-	void Initilize(ItemManager& itemManager);
+	void Initilize(ItemManager& itemManager, DirectX::SimpleMath::Vector3 pos);
 	void Update();
 	void Render(DirectX::SimpleMath::Matrix& view, DirectX::SimpleMath::Matrix& projection);
 
@@ -35,15 +35,20 @@ public:
 	{
 		return m_pos;
 	}
-	//ŠÄŽ‹ŽÒ‚ð‚¢‚ê‚é
-	void Attach(Observer* shop)
+
+	void SetPos(DirectX::SimpleMath::Vector3 pos)
 	{
-		m_list.push_back(shop);
+		m_pos = pos;
+	}
+	//ŠÄŽ‹ŽÒ‚ð‚¢‚ê‚é
+	void Attach(Observer* observer)
+	{
+		m_list.push_back(observer);
 	}
 
-	void Detach(Observer* shop)
+	void Detach(Observer* observer)
 	{
-		m_list.erase(std::remove(m_list.begin(), m_list.end(), shop), m_list.end());
+		m_list.erase(std::remove(m_list.begin(), m_list.end(), observer), m_list.end());
 	}
 
 	void DetectCollision();

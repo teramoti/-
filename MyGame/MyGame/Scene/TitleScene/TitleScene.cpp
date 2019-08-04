@@ -6,7 +6,12 @@
 // last updated (最終更新日) 2018 / 11 / 05
 //------------------------//------------------------
 #include <d3d11.h>
+
+
 #include "TitleScene.h"
+
+#include "../../../CheckMemory.h"
+
 #include "../SceneManager/SceneManager.h"
 #include "../../GameSystem/InputManager.h"
 #include "../../GameSystem/DrawManager.h"
@@ -39,7 +44,8 @@ TitleScene::~TitleScene()
 	delete m_Aroow;
 	delete m_BackGround;
 	delete m_KeyDown;
-
+	delete m_myAirPlane;
+	delete m_camera;
 }
 
 /// <summary>
@@ -69,6 +75,11 @@ void TitleScene::Initialize()
 	m_Star = new TitleStarEffect();
 	m_Star->Initilize();
 
+	m_myAirPlane = new MyAirPlane();
+	m_myAirPlane->Initilize(nullptr);
+
+	m_camera = new TpsCamera(800, 600);
+	m_camera->SetObject3D(m_myAirPlane);
 	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 
 	//// サウンドの読み込み
@@ -127,6 +138,7 @@ void TitleScene::Update(const DX::StepTimer& stepTimer)
 
 	}
 
+	m_myAirPlane->Update(true);
 }
 /// <summary>
 /// 描画処理
@@ -144,6 +156,7 @@ void TitleScene::Render()
 	if (m_StartframeB == true)m_GoGame->Draw();
 
 	System::DrawManager::GetInstance().End();
+	//m_myAirPlane->Render(m_camera->GetView(),m_camera->GetProj());
 }
 
 /// <summary>
@@ -151,11 +164,17 @@ void TitleScene::Render()
 /// </summary>
 void TitleScene::Finalize()
 {
-	delete m_Star;
 	delete m_TitleLogo;
 	delete m_GoGame;
 	delete m_GoEnd;
+
 	delete m_Aroow;
 	delete m_BackGround;
+
 	delete m_KeyDown;
+	delete m_Star;
+
+	delete m_myAirPlane;
+	delete m_camera;
+
 }

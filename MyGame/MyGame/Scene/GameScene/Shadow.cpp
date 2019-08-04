@@ -9,6 +9,12 @@ Shadow::Shadow() : m_active(true)
 {
 }
 
+Shadow::~Shadow()
+{
+	m_model.reset();
+	m_blendState.Reset();
+}
+
 void Shadow::Initialize()
 {
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
@@ -40,13 +46,15 @@ void Shadow::Render(DirectX::SimpleMath::Matrix& view , DirectX::SimpleMath::Mat
 	const DirectX::SimpleMath::Vector3& pos = setObject->GetTranslation();
 
 	DirectX::SimpleMath::Matrix world = 
+
 		DirectX::SimpleMath::Matrix::CreateTranslation(
 			DirectX::SimpleMath::Vector3(
 				setObject->GetWorld()._41,
-				setObject->GetWorld()._42 -objectHeight,
+				setObject->GetWorld()._42 - objectHeight,
 				setObject->GetWorld()._43
 				)
 		);
+
 	m_model->Draw(m_directX11.GetContext().Get()
 	, *m_directX11.GetStates()
 		, world

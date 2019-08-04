@@ -9,10 +9,12 @@
 #include <d3d11.h>
 #include <SimpleMath.h>
 #include <KeyBoard.h>
+
 #include "../../GameSystem/InputManager.h"
 
 #include "MyAirPlane.h"
 
+#include "../../Collison/DebugBox.h"
 
 
 MyAirPlane::MyAirPlane() : m_angle(0.0f), m_rotation(DirectX::SimpleMath::Quaternion::Identity),
@@ -25,24 +27,28 @@ m_coinNum(0)
 }
 
 MyAirPlane::~MyAirPlane()
-{
+{	
+	delete m_box;
+	m_model.reset();
+	delete m_shadow;
 }
 
 void MyAirPlane::Initilize(Shadow* shadow)
 {
-	m_shadow = shadow;
+	m_shadow = new Shadow();
+	//m_shadow = shadow;
 
 	m_translation = DirectX::SimpleMath::Vector3(0,0,0);
 		
 	m_shadow->Initialize();
 
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
-	m_box.Initialize();
-	m_box.SetTrans(m_translation);
-	m_box.SetSize(DirectX::SimpleMath::Vector3(0.5,0.5,0.5));
 
-	m_box.SetPointPos();
+	m_box = new Collision::Box();
+
+
 	CreateResource();
+
 
 	m_velocity.z = 1.0f;
 }
@@ -59,22 +65,20 @@ void MyAirPlane::Update(bool flag)
 	m_startFlag = flag;
 	Teramoto::Object3D::Update();
 
-	m_box.SetTrans(m_translation);
-	m_box.Update();
-
+	m_box->c = m_translation;
+	m_box->r = DirectX::SimpleMath::Vector3(0.5, 2.0, 0.5);
 
 	//ƒvƒŒƒCƒ„[‚ÌˆÚ“®
 	MyAirPlaneMove();
-
 }
 
 void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {	
+	DebugBox* playerdebugbox = new DebugBox(m_directX.GetDevice().Get(), m_box->c, m_box->r);
+	playerdebugbox->Draw(m_directX.GetContext().Get(), *m_directX.Get().GetStates(), m_world, view, proj);
 
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
-	//m_box.Render(view,proj);
-
-	//m_shadow->Render(view, proj, this,0.0f);
+	m_shadow->Render(view, proj, this, 0.3f);
 }
 
 void MyAirPlane::Lost()

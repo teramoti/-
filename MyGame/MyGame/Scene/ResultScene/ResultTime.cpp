@@ -22,7 +22,8 @@ ResultTime::ResultTime() : m_score(0)
 ResultTime::~ResultTime()
 {
 	//‰½‚à‚µ‚È‚¢
-	delete m_Comma;
+	
+	m_Comma;
 }
 
 /// <summary>

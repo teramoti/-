@@ -14,6 +14,8 @@
 #include "TitleBackGround.h"
 #include "TitleKeyDown.h"
 #include "TitleStarEffect.h"
+#include "../GameScene/TpsCamera.h"
+#include "../GameScene/MyAirPlane.h"
 //#include "../..//ADX2/ADX2Le.h"
 
 class TitleScene : public SceneBase
@@ -48,6 +50,8 @@ private:
 	TitleBackGround* m_BackGround;
 	TitleKeyDown* m_KeyDown;
 	TitleStarEffect* m_Star;
+	MyAirPlane* m_myAirPlane;
+	TpsCamera* m_camera;
 private:
 	//ƒV[ƒ“‚É“ü‚é•Ï”
 	int m_num;

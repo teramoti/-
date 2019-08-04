@@ -1,15 +1,19 @@
 #pragma once
 #ifndef ENEMY_AIR_PLANE
 #define ENEMY_AIR_PLANE
-#include "MyNeuralNetwork.h"
-#include "../../../StepTimer.h"
 #include <Model.h>
 #include <CommonStates.h>
-#include "../../GameSystem/Object.h"
-
 #include <Effects.h>
 
-#include "../../Collison/MyCollisionNode.h"
+#include "MyNeuralNetwork.h"
+#include "../../../StepTimer.h"
+#include "../../Collison/Collision.h"
+#include "Shadow.h"
+
+#include "../../GameSystem/Object.h"
+#include "../../Collison/Collision.h"
+#include "../../Utillity/DirectX11.h"
+
 
 class EnemyAirPlane : public Teramoto::Object3D
 {
@@ -20,7 +24,7 @@ public:
 
 public:
 	//初期化処理
-	void Initilize();
+	void Initilize(Shadow* shadow);
 
 
 	//更新処理
@@ -71,6 +75,7 @@ private:
 	const float MIN_ACCELERATION = 0.0f;
 
 public:
+	Shadow* m_shadow;
 	//角度
 	float m_angle;
 	//始まったかのフラグ管理
@@ -83,7 +88,10 @@ public:
 
 
 	//ボックスのNode
-	BoxNode m_box;
+	Collision::Box m_box;
+
+	DirectX11& m_directX = DirectX11::Get();
+
 };
 
 #endif // !ENEMY_AIR_PLANE

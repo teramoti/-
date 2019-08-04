@@ -6,15 +6,17 @@ ItemManager::ItemManager()
 
 ItemManager::~ItemManager()
 {
+	//m_sprites.reset();
+	//m_texture.Reset();
 }
 
 void ItemManager::Initilize()
 {
 	// スプライトバッチの作成
-	m_sprites = std::make_unique < DirectX::SpriteBatch > (m_directX11.GetContext().Get());
+	m_sprites = std::make_unique <DirectX::SpriteBatch> (m_directX11.GetContext().Get());
 
 	// テクスチャのロード
-	DirectX::CreateWICTextureFromFile(m_directX11.GetDevice().Get(), L"Resources\\Textures\\coin.png", nullptr, m_texture.GetAddressOf());
+	DirectX::CreateWICTextureFromFile(m_directX11.GetDevice().Get(), L"Resources\\Textures\\coin.png", nullptr, m_texture.GetAddressOf()); 
 }
 
 void ItemManager::Finalize()

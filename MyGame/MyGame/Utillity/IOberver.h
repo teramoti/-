@@ -7,12 +7,15 @@
 
 #include <d3d11.h>
 #include <SimpleMath.h>
+#include "Subject.h"
+
+class Subject;
 
 class IObserver
 {
 public:
 	
-	virtual void Update(DirectX::SimpleMath::Vector3& pos) = 0;
+	virtual void Update(Subject* subject) = 0;
 
 };
 

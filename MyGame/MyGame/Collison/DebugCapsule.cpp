@@ -1,85 +1,73 @@
 //--------------------------------------------------------------------------------------
-// File: CollisionMesh.cpp
+// File: DebugCapsule.cpp
 //
-// Obj形式のメッシュをコリジョンにするクラス
+// デバッグカプセルを描画するクラス
 //
-// Date: 2018.7.11
+// Date: 2018.6.19
 // Author: Hideyasu Imase
 //--------------------------------------------------------------------------------------
-//#include "pch.h"
-#include "CollisionMesh.h"
-#include <fstream>
-#include <string>
+#include "../../pch.h"
+#include "DebugCapsule.h"
 
-
+using namespace DirectX;
+using namespace DirectX::SimpleMath;
 
 #ifdef _DEBUG
 
 #include "../../VertexShader.inc"	// 頂点シェーダー
 #include "../../PixelShader.inc"	// ピクセルシェーダー
+#include "DebugCapsule.inc"	// モデルの頂点とインデックス情報
 
 #endif
 
-CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
+/*********************************************************************
+* 関数名	: RotationArc
+* 内容		: 最小弧クオータニオンを求める
+* 種類		: ローカル関数
+* 作成者	: 今瀬 秀康
+* 作成日	: 2006/11/13
+* コメント	: GAME PROGRAMING Gems 1 208P参照
+*			: この関数は q * V0 = V1 を満たすクォータニオンqを返す
+*--------------------------------------------------------------------
+* 引数		: *q [OUT] 出力先
+*			: V0 [IN] ベクトルV0
+*			: V1 [IN] ベクトルV1
+* 返り値	: 出力先へのポインタ
+*********************************************************************/
+static void RotationArc(Quaternion *q, const Vector3& V0, const Vector3& V1)
 {
-	// obj形式のファイル読み込み
-	std::vector<DirectX::SimpleMath::Vector3> vertexes;
-	std::vector<int> indexes;
-	std::ifstream ifs(fname);
+	Vector3 v0 = V0;
+	Vector3 v1 = V1;
 
-	std::string str;
-	while (getline(ifs, str))
+	v0.Normalize();
+	v1.Normalize();
+	Vector3 c = v0.Cross(v1);
+	float d = v0.Dot(v1);
+	// 回転軸が定まらないため強制的に回転クォータニオンを作成する
+	if (fabsf(1.0f + d) < FLT_EPSILON)
 	{
-		// 頂点
-		if (str[0] == 'v')
-		{
-			DirectX::SimpleMath::Vector3 val;
-			sscanf_s(str.data(), "v  %f %f %f", &val.x, &val.y, &val.z);
-			vertexes.push_back(val);
-		}
-		// インデックス
-		if (str[0] == 'f')
-		{
-			int a, b, c;
-			sscanf_s(str.data(), "f %d %d %d", &a, &b, &c);
-			// 三角形の頂点インデックス番号が同じ物を含む場合は無視する
-			if (a != b && a != c && b != c)
-			{
-				indexes.push_back(a - 1);
-				indexes.push_back(c - 1);
-				indexes.push_back(b - 1);
-			}
-		}
+		q->x = 1.0f;
+		q->y = q->z = q->w = 0.0f;
+		return;
 	}
-	ifs.close();
+	float s = sqrtf((1 + d) * 2.0f);
+	q->x = c.x / s;
+	q->y = c.y / s;
+	q->z = c.z / s;
+	q->w = s / 2.0f;
+}
 
-	// 三角形リストに登録
-	for (size_t i = 0; i < indexes.size() / 3; i++)
-	{
-		AddTriangle(vertexes[indexes[i * 3]], vertexes[indexes[i * 3 + 1]], vertexes[indexes[i * 3 + 2]]);
-	}
+DebugCapsule::DebugCapsule(ID3D11Device * device, DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b, float radius)
+{
+	SetCenterSegment(a, b);
+	SetRadius(radius);
 
 #ifdef _DEBUG
-	DirectX::XMFLOAT3* v_array = new DirectX::XMFLOAT3[vertexes.size()];
-	UINT* id_array = new UINT[indexes.size()];
-
-	// インデックス数
-	m_indexCnt = indexes.size();
-
-	// 読み込んだ値をコピー
-	for (size_t i = 0; i < vertexes.size(); i++)
-	{
-		v_array[i] = vertexes[i];
-	}
-	for (size_t i = 0; i < indexes.size(); i++)
-	{
-		id_array[i] = indexes[i];
-	}
 
 	// 頂点バッファの作成
 	D3D11_BUFFER_DESC desc;
 	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.ByteWidth = sizeof(DirectX::XMFLOAT3) * vertexes.size();
+	desc.ByteWidth = sizeof(XMFLOAT3) * VERTEX_CNT;
 	desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;	 // 頂点バッファ
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
@@ -87,28 +75,38 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 
 	// 頂点の設定
 	D3D11_SUBRESOURCE_DATA data;
-	data.pSysMem = v_array;
+	data.pSysMem = vertexes;
 	data.SysMemPitch = 0;
 	data.SysMemSlicePitch = 0;
 
 	// 頂点バッファの作成
-	device->CreateBuffer(&desc, &data, m_vertexBuffer.GetAddressOf());
+	device->CreateBuffer(&desc, &data, m_vertexBuffer[0].GetAddressOf());
+
+	// 頂点バッファの作成（ヘッド）
+	desc.ByteWidth = sizeof(XMFLOAT3) * VERTEX_CNT_HEAD;
+	data.pSysMem = vertexes_head;
+	device->CreateBuffer(&desc, &data, m_vertexBuffer[1].GetAddressOf());
 
 	// インデックスバッファの作成
 	desc.Usage = D3D11_USAGE_DEFAULT;
-	desc.ByteWidth = sizeof(UINT) * indexes.size();
+	desc.ByteWidth = sizeof(UINT) * INDEX_CNT;
 	desc.BindFlags = D3D11_BIND_INDEX_BUFFER;	// インデックスバッファ
 	desc.CPUAccessFlags = 0;
 	desc.MiscFlags = 0;
 	desc.StructureByteStride = 0;
 
 	// インデックスの設定
-	data.pSysMem = id_array;
+	data.pSysMem = indexes;
 	data.SysMemPitch = 0;
 	data.SysMemSlicePitch = 0;
 
 	// インデックスバッファの作成
-	device->CreateBuffer(&desc, &data, m_indexBuffer.GetAddressOf());
+	device->CreateBuffer(&desc, &data, m_indexBuffer[0].GetAddressOf());
+
+	// インデックスバッファの作成（ヘッド）
+	desc.ByteWidth = sizeof(UINT) * INDEX_CNT_HEAD;
+	data.pSysMem = indexes_head;
+	device->CreateBuffer(&desc, &data, m_indexBuffer[1].GetAddressOf());
 
 	// 定数バッファの作成
 	ZeroMemory(&desc, sizeof(desc));
@@ -164,13 +162,11 @@ CollisionMesh::CollisionMesh(ID3D11Device * device, const wchar_t * fname)
 	rsDesc.MultisampleEnable = FALSE;
 	rsDesc.AntialiasedLineEnable = FALSE;
 	device->CreateRasterizerState(&rsDesc, m_rasterizerState.GetAddressOf());
-
-	delete[] v_array;
-	delete[] id_array;
 #endif
+
 }
 
-void CollisionMesh::Draw(ID3D11DeviceContext* context, const DirectX::SimpleMath::Matrix& world, const DirectX::SimpleMath::Matrix& view, const DirectX::SimpleMath::Matrix& projection)
+void DebugCapsule::Draw(ID3D11DeviceContext* context, CommonStates& states, const Matrix& world, const Matrix& view, const Matrix& projection)
 {
 
 #ifdef _DEBUG
@@ -183,13 +179,13 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const DirectX::SimpleMath
 
 	// 頂点バッファ
 	UINT vb_slot = 0;
-	ID3D11Buffer* vb[1] = { m_vertexBuffer.Get() };
-	UINT stride[1] = { sizeof(DirectX::XMFLOAT3) };
+	ID3D11Buffer* vb[2] = { m_vertexBuffer[0].Get(), m_vertexBuffer[1].Get() };
+	UINT stride[1] = { sizeof(XMFLOAT3) };
 	UINT offset[1] = { 0 };
-	context->IASetVertexBuffers(vb_slot, 1, vb, stride, offset);
+	context->IASetVertexBuffers(vb_slot, 1, &vb[0], stride, offset);
 
 	// インデックスバッファ
-	context->IASetIndexBuffer(m_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
+	context->IASetIndexBuffer(m_indexBuffer[0].Get(), DXGI_FORMAT_R32_UINT, 0);
 
 	// トポロジー（三角形リスト）
 	context->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -199,7 +195,7 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const DirectX::SimpleMath
 
 	//-----------------------------------------------------------------------------------//
 
-	DirectX::SimpleMath::Matrix WVP = world * view * projection;
+	Matrix WVP = m_scale * m_rotate * m_trans * world * view * projection;
 	ConstantBuffer cbuff;
 	cbuff.worldViewProjection = DirectX::XMMatrixTranspose(WVP);
 	context->UpdateSubresource(m_constantBuffer.Get(), 0, NULL, &cbuff, 0, 0);
@@ -217,49 +213,57 @@ void CollisionMesh::Draw(ID3D11DeviceContext* context, const DirectX::SimpleMath
 	//-----------------------------------------------------------------------------------//
 
 	// メッシュの描画
-	context->DrawIndexed(m_indexCnt, 0, 0);
+	context->DrawIndexed(INDEX_CNT, 0, 0);
+
+	// メッシュの描画（ヘッド）
+	WVP = m_scale_head * m_rotate * m_trans_head * world * view * projection;
+	cbuff.worldViewProjection = DirectX::XMMatrixTranspose(WVP);
+	context->UpdateSubresource(m_constantBuffer.Get(), 0, NULL, &cbuff, 0, 0);
+	context->VSSetConstantBuffers(0, 1, cb);
+	context->IASetVertexBuffers(vb_slot, 1, &vb[1], stride, offset);
+	context->IASetIndexBuffer(m_indexBuffer[1].Get(), DXGI_FORMAT_R32_UINT, 0);
+	context->DrawIndexed(INDEX_CNT_HEAD, 0, 0);
+
+	// メッシュの描画（ヘッド）
+	WVP = m_scale_head * m_rotate_head * m_trans * world * view * projection;
+	cbuff.worldViewProjection = DirectX::XMMatrixTranspose(WVP);
+	context->UpdateSubresource(m_constantBuffer.Get(), 0, NULL, &cbuff, 0, 0);
+	context->VSSetConstantBuffers(0, 1, cb);
+	context->DrawIndexed(INDEX_CNT_HEAD, 0, 0);
 
 #endif
 
 }
 
-void CollisionMesh::DrawCollision(ID3D11DeviceContext * context, const DirectX::SimpleMath::Matrix & view, const DirectX::SimpleMath::Matrix & projection)
+void DebugCapsule::SetCenterSegment(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b)
 {
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation) * DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
-	Draw(context, world, view, projection);
+	m_a = a;
+	m_b = b;
+	Vector3 v = b - a;
+	m_trans = Matrix::CreateTranslation(m_a);
+	m_trans_head = Matrix::CreateTranslation(m_b);
+	m_scale = Matrix::CreateScale(m_radius, v.Length(), m_radius);
+	Quaternion q;
+	RotationArc(&q, Vector3(0.0f, 1.0f, 0.0f), v);
+	m_rotate = Matrix::CreateFromQuaternion(q);
+	m_rotate_head = Matrix::CreateRotationZ(XM_PI) * m_rotate;
 }
 
-void CollisionMesh::AddTriangle(DirectX::SimpleMath::Vector3 a, DirectX::SimpleMath::Vector3 b, DirectX::SimpleMath::Vector3 c)
+void DebugCapsule::SetRadius(float radius)
 {
-	Collision::Triangle t(a, b, c);
-	m_triangles.push_back(t);
+	m_radius = radius;
+	Vector3 v = m_b - m_a;
+	m_scale = Matrix::CreateScale(m_radius, v.Length(), m_radius);
+	m_scale_head = Matrix::CreateScale(m_radius);
 }
 
-int CollisionMesh::GetTriangleCnt()
+void DebugCapsule::GetCenterSegment(DirectX::SimpleMath::Vector3 * a, DirectX::SimpleMath::Vector3 * b)
 {
-	return m_triangles.size();
+	*a = m_a;
+	*b = m_b;
 }
 
-const Collision::Triangle & CollisionMesh::GetTriangle(int id)
+float DebugCapsule::GetRadius()
 {
-	return m_triangles[id];
-}
-
-bool CollisionMesh::HitCheck_Segment(DirectX::SimpleMath::Vector3 p, DirectX::SimpleMath::Vector3 q, int * id, DirectX::SimpleMath::Vector3 * hit_pos)
-{
-	// 線分に逆行列を掛ける
-	DirectX::SimpleMath::Matrix world = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation) * DirectX::SimpleMath::Matrix::CreateTranslation(m_position);
-	DirectX::SimpleMath::Matrix matInvert = world.Invert();
-	p = DirectX::SimpleMath::Vector3::Transform(p, matInvert);
-	q = DirectX::SimpleMath::Vector3::Transform(q, matInvert);
-
-	for (int i = 0; i < static_cast<int>(m_triangles.size()); i++)
-	{
-		if (Collision::IntersectSegmentTriangle(p, q, m_triangles[i], hit_pos) == true)
-		{
-			*id = i;
-			return true;
-		}
-	}
-	return false;
+	return m_radius;
 }

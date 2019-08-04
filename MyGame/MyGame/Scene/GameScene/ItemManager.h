@@ -34,12 +34,6 @@ public:
 		return m_texture.Get();
 	}
 private:
-	// エフェクト
-	std::unique_ptr<DirectX::AlphaTestEffect> m_batchEffect;
-	// プリミティブバッチ
-	std::unique_ptr<DirectX::PrimitiveBatch<DirectX::VertexPositionTexture>> m_batch;
-	// 入力レイアウト
-	Microsoft::WRL::ComPtr<ID3D11InputLayout> m_inputLayout;
 
 	DirectX11& m_directX11 = DirectX11::Get();
 	
