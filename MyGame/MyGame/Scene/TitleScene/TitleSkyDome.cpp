@@ -4,22 +4,22 @@
 /// GS2 Ž›–{ Œ[Žu
 /// </summary>
 //----------------------------------------
-#include "SkyDome.h"
+#include "TitleSkyDome.h"
 
 
 
-SkyDome::SkyDome()
+TitleSkyDome::TitleSkyDome()
 {
 	
 	
 }
-SkyDome::~SkyDome()
+TitleSkyDome::~TitleSkyDome()
 {
 	m_model.reset();
 }
 
 
-void SkyDome::Initilize()
+void TitleSkyDome::Initilize()
 {
 	m_directX11.Get().GetEffect()->SetDirectory(L"Resources\\Model");
 
@@ -28,24 +28,24 @@ void SkyDome::Initilize()
 
 }
 
-void SkyDome::Update()
+void TitleSkyDome::Update()
 {
 	Teramoto::Object3D::Update();
 
 }
 
-void SkyDome::CreateResource()
+void TitleSkyDome::CreateResource()
 {
-	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\SkyDome.cmo", *m_directX11.Get().GetEffect());
+	m_model = DirectX::Model::CreateFromCMO(m_directX11.GetDevice().Get(), L"Resources\\Model\\TitleSkyDome.cmo", *m_directX11.Get().GetEffect());
 }
 
 
-void SkyDome::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
+void TitleSkyDome::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::Matrix proj)
 {
 	SetLight();
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
 }
-void SkyDome::SetLight()
+void TitleSkyDome::SetLight()
 {
 	auto SetLight = [&](DirectX::IEffect* effect)
 	{

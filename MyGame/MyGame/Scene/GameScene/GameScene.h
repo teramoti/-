@@ -97,7 +97,7 @@ private:
 	//カウントダウンクラスの定義
 	CountDown*						m_count;
 	//ゲームの時間クラスの定義
-	GameTime*						m_gameTime;
+	std::unique_ptr<GameTime>						m_gameTime;
 
 	std::vector<Item*>							m_item;
 
@@ -140,7 +140,7 @@ private:
 	//MyLibrary::ADX2Le* m_adx2le;	
 	// 音楽情報記憶用変数
 	//CriAtomExPlaybackId m_criAtomExPlaybackId;	
-
+	std::vector<DirectX::SimpleMath::Vector3> m_itemPosVector;
 	
 	//プレイヤーとメッシュのあたり判定で生まれる高さ取得変数
 	float m_playerHeight;

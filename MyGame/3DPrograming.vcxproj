@@ -192,6 +192,7 @@
     <ClInclude Include="MyGame\Scene\ResultScene\ResultTimeComma.h" />
     <ClInclude Include="MyGame\Scene\ResultScene\ResultWordTime.h" />
     <ClInclude Include="MyGame\Scene\SceneManager\SceneManager.h" />
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleAirPlane.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleAroow.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleBackGround.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleBackPicture.h" />
@@ -200,7 +201,8 @@
     <ClInclude Include="MyGame\Scene\TitleScene\TitleKeyDown.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleLogo.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleScene.h" />
-    <ClInclude Include="MyGame\Scene\TitleScene\TitleStarEffect.h" />
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleSkyDome.h" />
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleTpsCamera.h" />
     <ClInclude Include="MyGame\Utillity\DirectX11.h" />
     <ClInclude Include="MyGame\Utillity\dx.h" />
     <ClInclude Include="MyGame\Utillity\Flag.h" />
@@ -313,6 +315,7 @@
     <ClCompile Include="MyGame\Scene\SceneManager\SceneManager.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleAirPlane.cpp" />
     <ClCompile Include="MyGame\Scene\TitleScene\TitleAroow.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -345,10 +348,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="MyGame\Scene\TitleScene\TitleStarEffect.cpp">
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
-    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleSkyDome.cpp" />
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleTpsCamera.cpp" />
     <ClCompile Include="MyGame\Utillity\DirectX11.cpp" />
     <ClCompile Include="MyGame\Utillity\Math.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
@@ -390,6 +391,9 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\SkyDome.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\TitleSkyDome.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
   </ItemGroup>

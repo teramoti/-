@@ -12,7 +12,7 @@ Camera::Camera(float w, float h)
 	m_FovY = DirectX::XMConvertToRadians(60.0f);
 	m_Aspect = (float)w / h;
 	m_NearClip = 0.1f;
-	m_FarClip = 1800.0f;
+	m_FarClip = 2500.0f;
 }
 
 Camera::~Camera()

@@ -48,6 +48,6 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, 
 
 	//COMイニシャライズの終了処理(解放)
 	CoUninitialize();
-	return (int)msg.wParam;
 
+	return (int)msg.wParam;
 }

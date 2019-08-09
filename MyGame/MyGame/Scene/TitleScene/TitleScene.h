@@ -13,9 +13,9 @@
 #include "TitleAroow.h"
 #include "TitleBackGround.h"
 #include "TitleKeyDown.h"
-#include "TitleStarEffect.h"
-#include "../GameScene/TpsCamera.h"
-#include "../GameScene/MyAirPlane.h"
+#include "TitleTpsCamera.h"
+#include "TitleAirPlane.h"
+#include "TitleSkyDome.h"
 //#include "../..//ADX2/ADX2Le.h"
 
 class TitleScene : public SceneBase
@@ -44,22 +44,32 @@ public:
 private:
 	//シーンに追加するクラス
 	TitleLogo* m_TitleLogo;
+
 	TitleGoGame* m_GoGame;
+
 	TitleGoEnd* m_GoEnd;
+
 	TitleAroow* m_Aroow;
+
 	TitleBackGround* m_BackGround;
+
 	TitleKeyDown* m_KeyDown;
-	TitleStarEffect* m_Star;
-	MyAirPlane* m_myAirPlane;
-	TpsCamera* m_camera;
+
+	TitleTpsCamera* m_camera;
+
+	TitleAirPlane* m_airPlane;
+
+	TitleSkyDome* m_skyDome;
 private:
 	//シーンに入る変数
 	int m_num;
-	int m_StartFrame;
-	int m_EndFrame;
+	//シーンに移行用Frame
+	int m_transitionFrame;
 	//フレームの点滅bool値
 	bool m_StartframeB;
 	bool m_EndframeB;
+
+
 
 	// サウンド
 	//MyLibrary::ADX2Le* m_adx2le;

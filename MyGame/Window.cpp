@@ -9,6 +9,7 @@
 // 多重インクルードの防止 ==================================================
 
 #include "Window.h"
+#include "CheckMemory.h"
 
 // ウィンドウプロシージャ Windows procedure
 LRESULT CALLBACK Window::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

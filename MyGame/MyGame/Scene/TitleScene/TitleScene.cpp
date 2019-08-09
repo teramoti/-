@@ -26,8 +26,8 @@ extern void ExitGame();
 /// <param name="scenemaneger"></param>
 TitleScene::TitleScene(SceneManager* scenemaneger)
 	: SceneBase(scenemaneger,m_SceneFlag=false),m_num(0),
-	m_StartFrame(0), m_EndFrame(0),
 	m_StartframeB(true),m_EndframeB(true)
+	, m_transitionFrame(0)
 {	
 	//なにもしない
 }
@@ -37,15 +37,12 @@ TitleScene::TitleScene(SceneManager* scenemaneger)
 /// </summary>
 TitleScene::~TitleScene()
 {
-	delete m_Star;
 	delete m_TitleLogo;
 	delete m_GoGame;
 	delete m_GoEnd;
-	delete m_Aroow;
-	delete m_BackGround;
-	delete m_KeyDown;
-	delete m_myAirPlane;
+	delete m_airPlane;
 	delete m_camera;
+	delete m_skyDome;
 }
 
 /// <summary>
@@ -66,20 +63,14 @@ void TitleScene::Initialize()
 	m_Aroow = new TitleAroow();
 	m_Aroow->Initilize();
 
-	m_BackGround = new TitleBackGround();
-	m_BackGround->Initilize();
+	m_airPlane = new TitleAirPlane();
+	m_airPlane->Initilize();
 
-	m_KeyDown = new TitleKeyDown();
-	m_KeyDown->Initilize();
+	m_camera = new TitleTpsCamera(800, 600);
+	m_camera->SetObject3D(m_airPlane);
 
-	m_Star = new TitleStarEffect();
-	m_Star->Initilize();
-
-	m_myAirPlane = new MyAirPlane();
-	m_myAirPlane->Initilize(nullptr);
-
-	m_camera = new TpsCamera(800, 600);
-	m_camera->SetObject3D(m_myAirPlane);
+	m_skyDome = new TitleSkyDome();
+	m_skyDome->Initilize();
 	//m_adx2le = MyLibrary::ADX2Le::GetInstance();
 
 	//// サウンドの読み込み
@@ -98,38 +89,30 @@ void TitleScene::Initialize()
 /// <param name="stepTimer"></param>
 void TitleScene::Update(const DX::StepTimer& stepTimer)
 {
-	m_Star->Update();
-	m_StartFrame += 1;
-	m_EndFrame = 0;
 	m_EndframeB = true;
-
-	if (m_StartFrame > 30)
-	{
-		m_StartframeB = !m_StartframeB;
-		m_StartFrame = 0;
-	}
-
-	m_KeyDown->Update();
 	m_TitleLogo->Update();
 
-	if (m_EndFrame > 30)
-	{
-		m_EndframeB = !m_EndframeB;
-		m_EndFrame = 0;
-	}
 
 	if (System::InputManager::GetInstance().GetKeyboardTracker().pressed.Space)
 	{
-
 		m_SceneFlag = true;
+
+
+		
+
 		//何もなしに初期化する.
 		m_num = SERECT_ENUM::NONE;
 		// 効果音の再生
 		//m_criAtomExPlaybackId = m_adx2le->Play(1);
 	}
+	if (m_SceneFlag)
+	{
+		m_transitionFrame++;
+		m_airPlane->Update();
+	}
 
 
-	if (m_SceneFlag == true)
+	if (m_transitionFrame> 60)
 	{	
 		//m_adx2le->Stop();
 
@@ -137,26 +120,29 @@ void TitleScene::Update(const DX::StepTimer& stepTimer)
 		return;
 
 	}
+	m_skyDome->Update();
+		//カメラの更新	
+		m_camera->Update();
 
-	m_myAirPlane->Update(true);
+
 }
 /// <summary>
 /// 描画処理
 /// </summary>
 void TitleScene::Render()
-{
+{		
+	m_skyDome->Render(m_camera->GetView(), m_camera->GetProj());
+
+	m_airPlane->Render(m_camera->GetView(),m_camera->GetProj());
+
 	System::DrawManager::GetInstance().Begin();
 
-	m_BackGround->Draw();
-	m_Star->Draw();
-
 	m_TitleLogo->Draw();
-	//m_KeyDown->Draw();
 
-	if (m_StartframeB == true)m_GoGame->Draw();
 
 	System::DrawManager::GetInstance().End();
-	//m_myAirPlane->Render(m_camera->GetView(),m_camera->GetProj());
+
+
 }
 
 /// <summary>
@@ -168,13 +154,10 @@ void TitleScene::Finalize()
 	delete m_GoGame;
 	delete m_GoEnd;
 
-	delete m_Aroow;
-	delete m_BackGround;
-
 	delete m_KeyDown;
-	delete m_Star;
 
-	delete m_myAirPlane;
+	delete m_airPlane;
 	delete m_camera;
+
 
 }

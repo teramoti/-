@@ -127,9 +127,6 @@
     <ClInclude Include="MyGame\Scene\TitleScene\TitleScene.h">
       <Filter>Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="MyGame\Scene\TitleScene\TitleStarEffect.h">
-      <Filter>Scene\Title</Filter>
-    </ClInclude>
     <ClInclude Include="MyGame\Scene\GameScene\CountDown.h">
       <Filter>Scene\GameScene</Filter>
     </ClInclude>
@@ -235,6 +232,15 @@
     <ClInclude Include="CheckMemory.h">
       <Filter>GameMain</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleSkyDome.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleAirPlane.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TitleTpsCamera.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\Utillity\Math.cpp">
@@ -295,9 +301,6 @@
       <Filter>Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\TitleScene\TitleScene.cpp">
-      <Filter>Scene\Title</Filter>
-    </ClCompile>
-    <ClCompile Include="MyGame\Scene\TitleScene\TitleStarEffect.cpp">
       <Filter>Scene\Title</Filter>
     </ClCompile>
     <ClCompile Include="MyGame\Scene\GameScene\CountDown.cpp">
@@ -396,6 +399,15 @@
     <ClCompile Include="MyGame\Collison\DebugBox.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleSkyDome.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleAirPlane.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TitleTpsCamera.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
@@ -430,6 +442,9 @@
       <Filter>Resources</Filter>
     </MeshContentTask>
     <MeshContentTask Include="FBX\MyGameCource_01.FBX">
+      <Filter>Resources</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\TitleSkyDome.FBX">
       <Filter>Resources</Filter>
     </MeshContentTask>
   </ItemGroup>

@@ -59,12 +59,13 @@ GameScene::~GameScene()
 	m_cource.reset();
 
 	delete m_count;
-	delete m_gameTime;
+	 m_gameTime.reset();
 	delete m_itemManager;
 	//delete m_iobserver;
 	delete m_observer;
 	delete m_subject;
 	delete m_shadow;
+	for(int i=0;i<20;i++) delete m_item[i];
 }
 
 //----------------------------------------------------------------------
@@ -110,7 +111,7 @@ void GameScene::Initialize()
 	std::uniform_int_distribution<> randz(-480, 600);
 
 	//アイテムの数を設定
-	m_item.resize(30);
+	m_item.resize(20);
 
 	int size = 0;
 	 
@@ -120,41 +121,95 @@ void GameScene::Initialize()
 		m_item[i] = new Item();
 	}
 
-	//int x1;
-	//int z1;
 
-	//int rangeX1=  100;
-	//int rangeZ1= -100;
-	//int rangeX2= -100;
-	//int rangeZ2= -200;
 
+	int x1;
+	int z1;
+
+	int rangeX1=    0;
+
+	int rangeZ1= -100;
+
+	int rangeX2= -200;
+
+	int rangeZ2= -200;
+
+	m_itemPosVector.resize(20);
+
+	//範囲を指定して乱数の作成
+	for (int i = 0; i < 5; i++)
+	{
+		std::uniform_int_distribution<> randX1( rangeX2,rangeX1);//左
+		std::uniform_int_distribution<> randZ1(rangeZ2+(i*100), rangeZ1 + (i * 100));//上
+
+		x1 = randX1(mt);
+		z1 = randZ1(mt);
+
+		m_itemPosVector[i] = DirectX::SimpleMath::Vector3(static_cast<float>(x1), 3.0f, static_cast<float>( z1));
+	
+		rangeZ2 = randZ1.a();
+		rangeZ1 = randZ1.b();
+	}
+
+	int i=0;
+	//範囲指定して作る
+	for (int i =5; i < 10; i++)
+	{
+		std::uniform_int_distribution<> randX1(rangeX2 + (i * 100), rangeX1 + (i * 100));//左
+		std::uniform_int_distribution<> randZ1(rangeZ2, rangeZ1);//上
+
+		x1 = randX1(mt);
+		z1 = randZ1(mt);
+
+
+		m_itemPosVector[i] = DirectX::SimpleMath::Vector3(static_cast<float>(x1), 3.0f, static_cast<float>(z1));
+
+		rangeX2 = randX1.a();
+		rangeX1 = randX1.b();
+
+	}
+	//int xO = 0;
 	////範囲を指定して乱数の作成
-	//for (int i = 0; i < 5; i++)
+	//for (int i = 10; i < 15; i++)
 	//{
-	//	std::uniform_int_distribution<> randX1(rangeZ1 + (i*100),rangeX1);//左
-	//	std::uniform_int_distribution<> randZ1(rangeZ2 + (i*100),rangeX2);//上
+	//	std::uniform_int_distribution<> randX1(rangeX2, rangeX1);//左右
+	//	std::uniform_int_distribution<> randZ1(rangeZ2  - (i * 100), rangeZ1 - (i * 100));//上下
+
+	//	x1 = randX1(mt);
+	//	z1 = randZ1(mt);
+	//	rangeZ2 = randZ1.a();
+	//	rangeZ1 = randZ1.b();
+
+	//	m_itemPosVector[i] = DirectX::SimpleMath::Vector3(static_cast<float>(x1), 3.0f, static_cast<float>(z1));
+
+	//}
+
+	////範囲指定して作る
+	//for (int i = 15; i < 20; i++)
+	//{
+	//	std::uniform_int_distribution<> randX1(rangeX2 - (i * 100), rangeX1 - (i * 100));//左
+	//	std::uniform_int_distribution<> randZ1(rangeZ2, rangeZ1);//上
 
 	//	x1 = randX1(mt);
 	//	z1 = randZ1(mt);
 
-	//	int a = 0;
+	//	m_itemPosVector[i] = DirectX::SimpleMath::Vector3(static_cast<float>(x1), 3.0f, static_cast<float>(z1));
+
 	//}
-		int x=0;
-		int z=0;
-	for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
+	int x=0;
+	int z=0;
+
+	//for (std::vector<Item*>::iterator itr = m_item.begin(); itr != m_item.end(); itr++)
+	for(int i=0;i < 20;i++)
 	{
 		
 		x = randx(mt);
 		z = randz(mt);
 
-		//do {
-		//}
-		//while ((x < 950 && x > 0 && z < 400 && z > -280));
-
 		//ソートする
 		
 		//Itemクラスの初期化処理
-		(*itr)->Initilize(*m_itemManager, DirectX::SimpleMath::Vector3(static_cast<float>(x), 3.0f, static_cast<float>(z)));
+		m_item[i]->Initilize(*m_itemManager, DirectX::SimpleMath::Vector3(static_cast<float>(m_itemPosVector[i].x), 3.0f, static_cast<float>(m_itemPosVector[i].z)));
 		//numを1ずつ足す。
 		size += 1;
 	}
@@ -203,7 +258,7 @@ void GameScene::Initialize()
 	m_count->Initilize();
 
 	//ゲーム時間クラスの作成
-	m_gameTime = new GameTime();
+	m_gameTime = std::make_unique<GameTime>();
 	//ゲーム時間クラスの初期化
 	m_gameTime->Initilize();
 
