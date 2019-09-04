@@ -20,7 +20,7 @@ void TitleTpsCamera::Update()
 	DirectX::SimpleMath::Vector3 refpos, eyepos;
 	
 	SetTranslation(Object->GetTranslation());
-	SetAngle(-Object->GetAngle());
+	SetAngle(Object->GetAngle());
 	
 	DirectX::SimpleMath::Matrix world;
 
@@ -39,7 +39,7 @@ void TitleTpsCamera::Update()
 	//TPSÉJÉÅÉâ
 	refpos = m_targetPos + DirectX::SimpleMath::Vector3(0, 1, 0);
 
-	DirectX::SimpleMath::Vector3 cameraV(0.0f, 2.0f, 5.0f);
+	DirectX::SimpleMath::Vector3 cameraV(0.0f, 0.0f, -8.0f);
 
 	DirectX::SimpleMath::Matrix rot = world;
 	cameraV = DirectX::SimpleMath::Vector3::TransformNormal(cameraV, rot);

@@ -112,6 +112,7 @@ MSG Game::Tick()
 
 	// Gameオブジェクトを初期化する
 	Initialize();
+
 	// ゲームループ
 	while (WM_QUIT != msg.message)
 	{
@@ -128,8 +129,10 @@ MSG Game::Tick()
 			Render();
 		}
 	}
+
 	// 終了処理をおこなう
 	Finalize();
+	
 	return msg;
 }
 
@@ -158,10 +161,14 @@ void Game::Update(const DX::StepTimer& timer)
 
 	m_timer.SetFixedTimeStep(true);
 	m_timer.SetTargetElapsedSeconds(1.0 / 60);
+
+	//Spaceを押された場合
 	if (System::InputManager::GetInstance().GetKeyboardState().Escape)
 	{
+		//ゲームの終了させる処理
 		ExitGame();
 	}
+
 	//SceneManagerの更新用処理
 	m_sceneManager->UpdateActiveScene(timer);
 }
@@ -269,7 +276,7 @@ void Game::Present()
 //! @param なし
 //!
 //! @return なし
-//---------------------------------------------------------------------- 
+//------------------------fTI---------------------------------------------- 
 void Game::Finalize()
 {
 	// Graphicsオブジェクトをリセットする
@@ -285,6 +292,7 @@ void Game::Finalize()
 	
 	if (m_sceneManager != nullptr)
 	{
+		m_sceneManager->FinalizeActiveScene();
 		m_sceneManager.reset();
 		m_sceneManager = nullptr;
 	}

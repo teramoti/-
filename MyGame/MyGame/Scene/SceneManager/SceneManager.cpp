@@ -37,11 +37,17 @@ SceneManager::SceneManager()
 /// </summary>
 SceneManager::~SceneManager()
 {
+	// 活動中のシーンを終了させる
 	if (m_activeScene != nullptr)
 	{
-		delete m_activeScene;
+		m_activeScene->Finalize();
+		m_activeScene = nullptr;
 	}
-	m_activeScene    = nullptr;
+
+
+	// 要求されたシーンを活動中にする
+	m_activeScene = m_requestedScene;
+	m_requestedScene = nullptr;
 }
 /// <summary>
 /// 活動中のシーンの初期化処理

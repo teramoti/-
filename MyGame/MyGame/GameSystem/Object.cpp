@@ -12,16 +12,24 @@ Teramoto::Object3D::~Object3D()
 
 }
 
+/// <summary>
+/// ObjectクラスのUpdate関数
+/// </return> なし
+/// </summary>
 void Teramoto::Object3D::Update()
 {
-
+	//回転用行列
 	DirectX::SimpleMath::Matrix rotationMatrix;
+	//回転用行列に回転用変数を入れる
 	rotationMatrix = DirectX::SimpleMath::Matrix::CreateFromQuaternion(m_rotation);
+	//移動用行列
+	DirectX::SimpleMath::Matrix translationMatrix;
+	//移動用行列に移動用変数を入れる
+	translationMatrix=	DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
 
-	DirectX::SimpleMath::Matrix translationMatrix = 
-		DirectX::SimpleMath::Matrix::CreateTranslation(m_translation);
-
+	//ワールドの設定
 	m_world =  rotationMatrix * translationMatrix;
+
 }
 
 void Teramoto::Object3D::Draw()
@@ -61,6 +69,7 @@ void Teramoto::Object3D::SetLight()
 			//ピクセルシェーダーでライトの計算をする
 		}
 	};
+
 	m_modelData->UpdateEffects(SetLight);
 }
 

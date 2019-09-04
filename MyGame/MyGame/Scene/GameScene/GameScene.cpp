@@ -261,7 +261,9 @@ void GameScene::Initialize()
 	m_gameTime = std::make_unique<GameTime>();
 	//ゲーム時間クラスの初期化
 	m_gameTime->Initilize();
-
+	
+	m_goal = new GoalObject();
+	m_goal->Initilize();
 
 	//ゴール時の止める時間の初期化
 	m_goalNum = 0;
@@ -314,7 +316,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 			//時間の更新
 			m_time->Update(m_gameTimer);
 			//ゲームの時間をCountダウンする
-			//m_gameTime->SetTime(m_gameTimer);
+			m_gameTime->SetTime(m_gameTimer);
 			//初期化フラグをtrueにする
 			m_startFlag = true;
 		}	
@@ -369,6 +371,7 @@ void GameScene::Update(const DX::StepTimer& stepTimer)
 	
 	m_enemy->Update(stept);
 	
+	m_goal->Update();
 	//カメラの更新	
 	m_camera->Update();
 
@@ -407,6 +410,7 @@ void GameScene::Render()
 	m_player->Render(m_camera->GetView(),m_camera->GetProj());
 	//敵の描画
 	m_enemy->Render(m_camera->GetView(), m_camera->GetProj());
+	m_goal->Render(m_camera->GetView(), m_camera->GetProj());
 	//画像の描画
 	SpriteRender();	
 	//メッシュの描画

@@ -16,6 +16,12 @@
 #include "TitleTpsCamera.h"
 #include "TitleAirPlane.h"
 #include "TitleSkyDome.h"
+#include "TtileGoal.h"
+#include "TtileCource.h"
+
+//
+#include "../../Utillity/DirectX11.h"
+#include "../../Collison/CollisionMesh.h"
 //#include "../..//ADX2/ADX2Le.h"
 
 class TitleScene : public SceneBase
@@ -43,24 +49,21 @@ public:
 
 private:
 	//シーンに追加するクラス
-	TitleLogo* m_TitleLogo;
+	 std::unique_ptr<TitleLogo> m_TitleLogo;
+	 std::unique_ptr<TitleBackGround> m_BackGround;
+	 std::unique_ptr<TitleKeyDown> m_KeyDown;
+	 std::unique_ptr<TitleTpsCamera> m_camera;
+	 std::unique_ptr<TitleAirPlane> m_airPlane;
+	 std::unique_ptr<TitleSkyDome> m_skyDome;
+	 std::unique_ptr<TitleGoalObject> m_goalObj;
+	 std::unique_ptr<TitleCourceObject> m_courceObj;
 
-	TitleGoGame* m_GoGame;
-
-	TitleGoEnd* m_GoEnd;
-
-	TitleAroow* m_Aroow;
-
-	TitleBackGround* m_BackGround;
-
-	TitleKeyDown* m_KeyDown;
-
-	TitleTpsCamera* m_camera;
-
-	TitleAirPlane* m_airPlane;
-
-	TitleSkyDome* m_skyDome;
+	std::unique_ptr<CollisionMesh> m_stageMesh;
 private:
+
+	DirectX11& m_directX11 = DirectX11::Get();
+private:
+
 	//シーンに入る変数
 	int m_num;
 	//シーンに移行用Frame

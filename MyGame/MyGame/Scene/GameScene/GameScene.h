@@ -27,7 +27,7 @@
 #include "Item.h"
 
 #include "ItemManager.h"
-
+#include "Goal.h"
 class GameScene : public SceneBase
 {
 public:
@@ -64,7 +64,7 @@ private:
 	//DirectXGraphicsObjectへの参照
 	DirectX11& m_directX = DirectX11::Get();
 
-	const float PLAYER_HEIGHT = 0.3f;
+	const float PLAYER_HEIGHT = 0.6f;
 
 	//カメラクラスの作成
 	std::unique_ptr<TpsCamera> m_camera;
@@ -110,6 +110,7 @@ private:
 	//Subject
 	Subject* m_subject;
 
+	GoalObject* m_goal;
 	//影クラスの定義
 	Shadow* m_shadow;
 

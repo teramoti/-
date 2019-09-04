@@ -99,7 +99,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -173,6 +173,7 @@
     <ClInclude Include="MyGame\Scene\GameScene\GameScene.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameScore.h" />
     <ClInclude Include="MyGame\Scene\GameScene\GameTime.h" />
+    <ClInclude Include="MyGame\Scene\GameScene\Goal.h" />
     <ClInclude Include="MyGame\Scene\GameScene\Item.h" />
     <ClInclude Include="MyGame\Scene\GameScene\ItemManager.h" />
     <ClInclude Include="MyGame\Scene\GameScene\MyNeuralNetwork.h" />
@@ -203,6 +204,8 @@
     <ClInclude Include="MyGame\Scene\TitleScene\TitleScene.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleSkyDome.h" />
     <ClInclude Include="MyGame\Scene\TitleScene\TitleTpsCamera.h" />
+    <ClInclude Include="MyGame\Scene\TitleScene\TtileCource.h" />
+    <ClInclude Include="MyGame\Scene\TitleScene\TtileGoal.h" />
     <ClInclude Include="MyGame\Utillity\DirectX11.h" />
     <ClInclude Include="MyGame\Utillity\dx.h" />
     <ClInclude Include="MyGame\Utillity\Flag.h" />
@@ -267,6 +270,7 @@
     <ClCompile Include="MyGame\Scene\GameScene\GameTime.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Goal.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\Item.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\ItemManager.cpp" />
     <ClCompile Include="MyGame\Scene\GameScene\MyNeuralNetwork.cpp" />
@@ -350,6 +354,8 @@
     </ClCompile>
     <ClCompile Include="MyGame\Scene\TitleScene\TitleSkyDome.cpp" />
     <ClCompile Include="MyGame\Scene\TitleScene\TitleTpsCamera.cpp" />
+    <ClCompile Include="MyGame\Scene\TitleScene\TtileCource.cpp" />
+    <ClCompile Include="MyGame\Scene\TitleScene\TtileGoal.cpp" />
     <ClCompile Include="MyGame\Utillity\DirectX11.cpp" />
     <ClCompile Include="MyGame\Utillity\Math.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">../../../pch.h</PrecompiledHeaderFile>
@@ -378,6 +384,9 @@
     <MeshContentTask Include="FBX\Coin.fbx">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
+    <MeshContentTask Include="FBX\Goal.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
     <MeshContentTask Include="FBX\MyCource_01.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
@@ -391,6 +400,9 @@
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\SkyDome.FBX">
+      <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\TitleCource.FBX">
       <ContentOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Resources\Model\%(Filename).cmo</ContentOutput>
     </MeshContentTask>
     <MeshContentTask Include="FBX\TitleSkyDome.FBX">

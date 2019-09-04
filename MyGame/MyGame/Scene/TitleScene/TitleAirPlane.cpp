@@ -16,6 +16,8 @@ m_acceleration(0.0f)
 
 TitleAirPlane::~TitleAirPlane()
 {
+	m_model.reset();
+	delete  m_shadow;
 }
 
 void TitleAirPlane::Initilize()

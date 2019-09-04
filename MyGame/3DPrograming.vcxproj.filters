@@ -241,6 +241,15 @@
     <ClInclude Include="MyGame\Scene\TitleScene\TitleTpsCamera.h">
       <Filter>Scene\Title</Filter>
     </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TtileGoal.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\GameScene\Goal.h">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClInclude>
+    <ClInclude Include="MyGame\Scene\TitleScene\TtileCource.h">
+      <Filter>Scene\Title</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MyGame\Utillity\Math.cpp">
@@ -408,6 +417,15 @@
     <ClCompile Include="MyGame\Scene\TitleScene\TitleTpsCamera.cpp">
       <Filter>Scene\Title</Filter>
     </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TtileGoal.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\GameScene\Goal.cpp">
+      <Filter>Scene\GameScene\Cource</Filter>
+    </ClCompile>
+    <ClCompile Include="MyGame\Scene\TitleScene\TtileCource.cpp">
+      <Filter>Scene\Title</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico">
@@ -445,6 +463,12 @@
       <Filter>Resources</Filter>
     </MeshContentTask>
     <MeshContentTask Include="FBX\TitleSkyDome.FBX">
+      <Filter>Resources</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\Goal.FBX">
+      <Filter>Resources</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="FBX\TitleCource.FBX">
       <Filter>Resources</Filter>
     </MeshContentTask>
   </ItemGroup>

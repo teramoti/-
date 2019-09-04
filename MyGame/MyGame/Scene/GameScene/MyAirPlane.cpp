@@ -76,9 +76,9 @@ void MyAirPlane::Render(DirectX::SimpleMath::Matrix view, DirectX::SimpleMath::M
 {	
 	DebugBox* playerdebugbox = new DebugBox(m_directX.GetDevice().Get(), m_box->c, m_box->r);
 	playerdebugbox->Draw(m_directX.GetContext().Get(), *m_directX.Get().GetStates(), m_world, view, proj);
-
+	
+	m_shadow->Render(view, proj, this, 0.4f);
 	m_model->Draw(m_directX11.GetContext().Get(), *m_directX11.Get().GetStates(), m_world, view, proj);
-	m_shadow->Render(view, proj, this, 0.3f);
 }
 
 void MyAirPlane::Lost()
